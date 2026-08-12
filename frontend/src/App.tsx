@@ -56,8 +56,15 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRolePrefix?: 
   if (!user) {
     return <Navigate to="/login" replace />;
   }
-  if (allowedRolePrefix && !user.primaryRole.toLowerCase().includes(allowedRolePrefix.toLowerCase()) && user.primaryRole !== 'Platform Admin') {
-    return <Navigate to="/login" replace />;
+  if (allowedRolePrefix) {
+    const roleLower = user.primaryRole.toLowerCase();
+    const prefixLower = allowedRolePrefix.toLowerCase();
+    if (!roleLower.includes(prefixLower) && user.primaryRole !== 'Platform Admin') {
+      if (roleLower.includes('student')) return <Navigate to="/app/home" replace />;
+      if (roleLower.includes('platform')) return <Navigate to="/platform-admin/overview" replace />;
+      if (roleLower.includes('admin')) return <Navigate to="/admin/college/analytics" replace />;
+      return <Navigate to="/staff/canteen/orders" replace />;
+    }
   }
   return <>{children}</>;
 };

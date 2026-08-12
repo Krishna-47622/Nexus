@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../api/client';
-import { Building, Lock, User as UserIcon, ArrowRight, ShieldCheck, Key } from 'lucide-react';
+import { Building, Lock, User as UserIcon, ArrowRight, Key, RefreshCw, ShieldCheck } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -17,7 +17,7 @@ export const LoginPage: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [resetError, setResetError] = useState('');
 
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -27,7 +27,7 @@ export const LoginPage: React.FC = () => {
 
     try {
       const response = await api.post('/auth/login', {
-        username,
+        username: username.trim(),
         password,
       });
 
@@ -49,7 +49,7 @@ export const LoginPage: React.FC = () => {
         collegeName: data.collegeName,
         primaryRole: data.primaryRole,
         mustChangePassword: false,
-        permissions: data.permissions,
+        permissions: data.permissions || [],
       });
 
       redirectUserByRole(data.primaryRole);
@@ -76,7 +76,6 @@ export const LoginPage: React.FC = () => {
         { headers: { Authorization: `Bearer ${tempUserToken}` } }
       );
 
-      // Re-attempt login with new password
       const response = await api.post('/auth/login', { username, password: newPassword });
       const data = response.data;
 
@@ -89,10 +88,33 @@ export const LoginPage: React.FC = () => {
   };
 
   const redirectUserByRole = (role: string) => {
-    const r = role.toLowerCase();
-    if (r.includes('student')) navigate('/app/home');
-    else if (r.includes('admin')) navigate('/admin/college/analytics');
-    else navigate('/staff/canteen/orders');
+    const r = role ? role.toLowerCase() : '';
+    if (r.includes('platform')) {
+      navigate('/platform-admin/overview', { replace: true });
+    } else if (r.includes('student')) {
+      navigate('/app/home', { replace: true });
+    } else if (r.includes('admin')) {
+      navigate('/admin/college/analytics', { replace: true });
+    } else if (r.includes('sports')) {
+      navigate('/staff/sports/pending', { replace: true });
+    } else if (r.includes('print')) {
+      navigate('/staff/print/queue', { replace: true });
+    } else if (r.includes('warden')) {
+      navigate('/staff/warden/approvals', { replace: true });
+    } else {
+      navigate('/staff/canteen/orders', { replace: true });
+    }
+  };
+
+  const fillQuickCredentials = (u: string, p: string) => {
+    setUsername(u);
+    setPassword(p);
+    setError('');
+  };
+
+  const handleClearSession = () => {
+    logout();
+    setError('Saved session cleared. You can sign in now.');
   };
 
   return (
@@ -107,10 +129,41 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {error && (
-          <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-sm">
-            {error}
+          <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-sm flex items-center justify-between">
+            <span>{error}</span>
+            <button onClick={handleClearSession} className="underline text-[11px] font-bold text-red-900 hover:text-red-700">
+              Clear Session
+            </button>
           </div>
         )}
+
+        {/* Quick Credentials Buttons */}
+        <div className="p-3 bg-slate-50 border border-slate-200 rounded-sm space-y-2">
+          <div className="text-[11px] font-bold text-slate-700 uppercase tracking-wider">Quick Demo Logins</div>
+          <div className="grid grid-cols-2 gap-1.5 text-[11px]">
+            <button
+              type="button"
+              onClick={() => fillQuickCredentials('admin@mallareddyuniversity.ac.in', '1234')}
+              className="px-2 py-1 bg-white border border-slate-300 rounded-sm text-left hover:border-primary text-slate-800 font-medium truncate"
+            >
+              🔑 College Admin
+            </button>
+            <button
+              type="button"
+              onClick={() => fillQuickCredentials('admin', '1234')}
+              className="px-2 py-1 bg-white border border-slate-300 rounded-sm text-left hover:border-primary text-slate-800 font-medium truncate"
+            >
+              🛡️ Platform Admin
+            </button>
+            <button
+              type="button"
+              onClick={() => fillQuickCredentials('2511cs020633@mallareddyuniversity.ac.in', '123456')}
+              className="px-2 py-1 bg-white border border-slate-300 rounded-sm text-left hover:border-primary text-slate-800 font-medium truncate col-span-2"
+            >
+              🎓 Student (Veeram Reddy)
+            </button>
+          </div>
+        </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
@@ -152,6 +205,16 @@ export const LoginPage: React.FC = () => {
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
+
+        <div className="text-center pt-2">
+          <button
+            type="button"
+            onClick={handleClearSession}
+            className="text-[11px] text-slate-500 hover:text-slate-800 underline inline-flex items-center gap-1"
+          >
+            <RefreshCw className="w-3 h-3" /> Reset Local Browser Session
+          </button>
+        </div>
       </div>
 
       {/* Temporary Password Reset Modal */}

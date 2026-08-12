@@ -7,12 +7,14 @@ import com.campus.utility.repository.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
+@Transactional
 @RequestMapping("/api/v1/platform-admin")
 @PreAuthorize("hasAuthority('PLATFORM_MANAGE_COLLEGES') or hasAuthority('PLATFORM_MANAGE_IAM') or hasAuthority('PLATFORM_VIEW_GLOBAL_OVERVIEW')")
 public class PlatformAdminController {

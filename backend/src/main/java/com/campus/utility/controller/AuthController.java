@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@Transactional(readOnly = true)
 public class AuthController {
 
     private final UserRepository userRepository;
@@ -55,22 +57,39 @@ public class AuthController {
         String inputUser = request.getUsername() != null ? request.getUsername().trim() : "";
         Optional<User> userOpt = Optional.empty();
 
+        // 1. If collegeId was explicitly provided, try username + college
         if (request.getCollegeId() != null) {
             userOpt = userRepository.findByUsernameAndCollegeId(inputUser, request.getCollegeId());
+            if (userOpt.isEmpty()) {
+                userOpt = userRepository.findByEmailAndCollegeId(inputUser, request.getCollegeId());
+            }
         }
 
+        // 2. If input looks like an email, resolve college by domain and try
         if (userOpt.isEmpty() && inputUser.contains("@")) {
             String domain = inputUser.substring(inputUser.indexOf("@") + 1);
             Optional<College> collegeOpt = collegeRepository.findByDomain(domain);
             if (collegeOpt.isPresent()) {
-                userOpt = userRepository.findByUsernameAndCollegeId(inputUser, collegeOpt.get().getId());
+                Long cId = collegeOpt.get().getId();
+                // Try full email as username
+                userOpt = userRepository.findByUsernameAndCollegeId(inputUser, cId);
+                // Try email field
                 if (userOpt.isEmpty()) {
-                    String shortUser = inputUser.substring(0, inputUser.indexOf("@"));
-                    userOpt = userRepository.findByUsernameAndCollegeId(shortUser, collegeOpt.get().getId());
+                    userOpt = userRepository.findByEmailAndCollegeId(inputUser, cId);
                 }
+                // Try local part (e.g. "admin" from "admin@domain.com") as username
+                if (userOpt.isEmpty()) {
+                    String localPart = inputUser.substring(0, inputUser.indexOf("@"));
+                    userOpt = userRepository.findByUsernameAndCollegeId(localPart, cId);
+                }
+            }
+            // Also try email globally (no college filter)
+            if (userOpt.isEmpty()) {
+                userOpt = userRepository.findByEmail(inputUser);
             }
         }
 
+        // 3. Fallback: try as global username (for platform admin etc.)
         if (userOpt.isEmpty()) {
             userOpt = userRepository.findByUsername(inputUser);
         }

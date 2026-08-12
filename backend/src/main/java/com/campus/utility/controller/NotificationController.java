@@ -5,12 +5,14 @@ import com.campus.utility.repository.*;
 import com.campus.utility.security.TenantContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
+@Transactional
 @RequestMapping("/api/v1/notifications")
 public class NotificationController {
 

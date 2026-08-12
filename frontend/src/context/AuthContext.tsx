@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export interface User {
   userId: number;
@@ -25,8 +25,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('campus_user');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem('campus_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
   });
 
   const [token, setToken] = useState<string | null>(() => {
@@ -34,35 +38,44 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   const login = (newToken: string, newUser: User) => {
-    setToken(newToken);
-    setUser(newUser);
     localStorage.setItem('campus_jwt_token', newToken);
     localStorage.setItem('campus_user', JSON.stringify(newUser));
+    setToken(newToken);
+    setUser(newUser);
   };
 
   const logout = () => {
-    setToken(null);
-    setUser(null);
     localStorage.removeItem('campus_jwt_token');
     localStorage.removeItem('campus_user');
+    setToken(null);
+    setUser(null);
   };
 
+  const currentUser = user || (() => {
+    try {
+      const saved = localStorage.getItem('campus_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  })();
+
   const hasPermission = (permissionCode: string) => {
-    if (!user) return false;
-    if (user.primaryRole === 'Platform Admin') return true;
-    return user.permissions.includes(permissionCode);
+    if (!currentUser) return false;
+    if (currentUser.primaryRole === 'Platform Admin') return true;
+    return currentUser.permissions ? currentUser.permissions.includes(permissionCode) : false;
   };
 
   const updateUserPasswordState = (mustChange: boolean) => {
-    if (user) {
-      const updated = { ...user, mustChangePassword: mustChange };
-      setUser(updated);
+    if (currentUser) {
+      const updated = { ...currentUser, mustChangePassword: mustChange };
       localStorage.setItem('campus_user', JSON.stringify(updated));
+      setUser(updated);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, hasPermission, updateUserPasswordState }}>
+    <AuthContext.Provider value={{ user: currentUser, token, login, logout, hasPermission, updateUserPasswordState }}>
       {children}
     </AuthContext.Provider>
   );
