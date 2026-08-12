@@ -1,0 +1,257 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Sports Equipment - CampusHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "border-dark": "rgba(30, 58, 95, 0.1)",
+                        "on-secondary-container": "#fefcff",
+                        "on-primary-container": "#8aa4cf",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-container": "#2170e4",
+                        "on-error-container": "#93000a",
+                        "secondary": "#0058be",
+                        "surface-dim": "#cbdbf5",
+                        "surface": "#f8f9ff",
+                        "outline-variant": "#c4c6cf",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#edbf7f",
+                        "on-tertiary-fixed": "#291800",
+                        "tertiary-fixed": "#ffddb2",
+                        "outline": "#74777f",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-tertiary-container": "#c69b5f",
+                        "tertiary-container": "#503300",
+                        "background": "#f8f9ff",
+                        "on-background": "#0b1c30",
+                        "surface-container-high": "#dce9ff",
+                        "warning": "#F59E0B",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#60410c",
+                        "border-light": "rgba(255, 255, 255, 0.3)",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#0b1c30",
+                        "primary-container": "#1e3a5f",
+                        "surface-tint": "#455f87",
+                        "success": "#10B981",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary": "#341f00",
+                        "primary": "#022448",
+                        "surface-container": "#e5eeff",
+                        "on-primary-fixed": "#001c3b",
+                        "error": "#DC2626",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#43474e",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#adc8f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-desktop": "32px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); }
+        .glass-panel {
+            background-color: theme('colors.surface-glass');
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid theme('colors.border-dark');
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="text-on-background min-h-screen pb-24 md:pb-0 pt-16 font-sans">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface-glass backdrop-blur-[10px] border-b border-border-dark flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 transition-all duration-200">
+<div class="flex items-center gap-4">
+<img alt="Student Profile Photo" class="w-8 h-8 rounded-full border border-border-dark object-cover" data-alt="A clean, professional headshot of a university student in a bright, modern light-mode setting. The photo is crisp and high-resolution, suitable for an academic profile avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl9Nu9qXbyzGxEWPKqzPQ0-PLZ1AQQbHMRwTz-O6Fgocup3o5TdLgaIokRADoJlrxwM-UVaNQxBPlc7SwHBp_CRkCb7qnjTOpjV8DH2WFS1z6j5_QxBIE_KLxtt8kKwqnFfOqrFvMLWttxh2m5z_Jz-vCrdrOHeEObjmpk0doElWExZqoMDuJDf40PWDJO4oaJfMA0mNL1mP8y2Kb9GIKDCGuWIEYn9YCf-ZdlW5OsIfp33GQoTcxB">
+<span class="font-headline-md text-headline-md font-bold text-primary">Nexus</span>
+</div>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex gap-8 h-full items-center">
+<a class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-200 px-4 py-2 rounded-xl flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]">restaurant</span>
+                Canteen
+            </a>
+<a class="font-label-md text-label-md text-secondary bg-secondary-container/20 px-4 py-2 rounded-xl flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">sports_basketball</span>
+                Sports
+            </a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-200 px-4 py-2 rounded-xl flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]">print</span>
+                Print
+            </a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-200 px-4 py-2 rounded-xl flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[20px]">event_busy</span>
+                Leave
+            </a>
+</nav>
+<button class="w-10 h-10 flex items-center justify-center text-primary hover:bg-surface-variant/50 rounded-full transition-all duration-200 active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 flex flex-col gap-8">
+<!-- Search & Filter Header -->
+<section class="flex flex-col gap-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Equipment Hub</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Browse and borrow university sports equipment through Nexus.</p>
+</div>
+<div class="relative w-full md:w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface pl-10 pr-4 py-3 border border-outline-variant rounded-DEFAULT focus:border-secondary-container focus:ring-1 focus:ring-secondary-container outline-none font-body-md text-body-md transition-all" placeholder="Search equipment..." type="text">
+</div>
+</div>
+<!-- Categories -->
+<div class="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
+<button class="px-4 py-2 rounded-DEFAULT bg-secondary-container text-on-secondary-container font-label-md text-label-md whitespace-nowrap transition-colors border border-transparent">
+                    All
+                </button>
+<button class="px-4 py-2 rounded-DEFAULT bg-surface text-on-surface border border-border-dark hover:bg-surface-variant/30 font-label-md text-label-md whitespace-nowrap transition-colors">
+                    Ball Sports
+                </button>
+<button class="px-4 py-2 rounded-DEFAULT bg-surface text-on-surface border border-border-dark hover:bg-surface-variant/30 font-label-md text-label-md whitespace-nowrap transition-colors">
+                    Fitness
+                </button>
+<button class="px-4 py-2 rounded-DEFAULT bg-surface text-on-surface border border-border-dark hover:bg-surface-variant/30 font-label-md text-label-md whitespace-nowrap transition-colors">
+                    Outdoor
+                </button>
+</div>
+</section>
+<!-- Equipment Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Item 1: Available -->
+<article class="glass-panel rounded-DEFAULT p-4 flex flex-col gap-4 group">
+<div class="relative h-48 w-full bg-surface-variant rounded-DEFAULT overflow-hidden">
+<img class="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-300" data-alt="A professional product shot of a brand new, vibrant orange indoor basketball resting on a pristine, polished hardwood court. High-key lighting, minimalist sports aesthetic, clean white background reflections." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByt-V9FTp6G4ZzWTkduV4PzFTv2QZDVT67Z0t5z3ArFQUzowJebk6owgzUtNaSPf-xiwr6VMMcO9ITSs5HDe0lzw8cIX8GaJr0-TaHXSh7S1XRNG38OdfVR373KWat1lAO50fYlpTufLe_rmsIx6UgjnOERESBNPXvrfGHDMMtiMLoeE9XwPs49TSllT4NKcpcH8PUvSqfF-E9TA26dp93Q4mbTvRRpKKwt5pAH1aXzRcTGIF0I1Vp">
+<div class="absolute top-2 right-2 bg-success/10 border border-success/20 text-success px-2 py-1 rounded-DEFAULT font-caption text-caption backdrop-blur-md">
+                        5 Available
+                    </div>
+</div>
+<div class="flex flex-col gap-1 flex-grow">
+<h3 class="font-headline-md text-headline-md text-primary text-[18px]">Premium Basketball</h3>
+<p class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Ball Sports</p>
+</div>
+<button class="w-full bg-secondary-container text-on-secondary-container font-label-md text-label-md py-3 rounded-DEFAULT hover:bg-secondary-fixed-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+                    Borrow
+                </button>
+</article>
+<!-- Item 2: Low Stock -->
+<article class="glass-panel rounded-DEFAULT p-4 flex flex-col gap-4 group">
+<div class="relative h-48 w-full bg-surface-variant rounded-DEFAULT overflow-hidden">
+<img class="w-full h-full object-cover mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-300" data-alt="A tightly rolled, premium teal yoga mat placed on a clean, light-colored wooden floor in a bright studio environment. Soft natural light, minimalist composition, crisp details, light-mode institutional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLbf8_JEbYkdZ4Nqp3JE_HXj0r88hEydWIFEissK0lEUdc_xVU3FsJeAUH5YEaic9WFGuiXgZA9-6ABCNAgzVPFID-Mjc9M_ec1jfvDgIp6oD2n8utV7_wxeULCB87Loe5eBHdgk0UT-PJ_N3-KMw2Ts97--mOjs3V0SGfkSXTl73nw7b3dX2jmLshiVq7lOWdpva6NN-rvM29_xufY_JRTMQYfglSitMHuKSZX3YylsttV0IBa30I">
+<div class="absolute top-2 right-2 bg-warning/10 border border-warning/20 text-warning px-2 py-1 rounded-DEFAULT font-caption text-caption backdrop-blur-md">
+                        2 Available
+                    </div>
+</div>
+<div class="flex flex-col gap-1 flex-grow">
+<h3 class="font-headline-md text-headline-md text-primary text-[18px]">Pro Yoga Mat</h3>
+<p class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Fitness</p>
+</div>
+<button class="w-full bg-secondary-container text-on-secondary-container font-label-md text-label-md py-3 rounded-DEFAULT hover:bg-secondary-fixed-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+                    Borrow
+                </button>
+</article>
+<!-- Item 3: Out of Stock -->
+<article class="glass-panel rounded-DEFAULT p-4 flex flex-col gap-4 group opacity-75">
+<div class="relative h-48 w-full bg-surface-variant rounded-DEFAULT overflow-hidden grayscale">
+<img class="w-full h-full object-cover mix-blend-multiply opacity-70" data-alt="Two sleek badminton rackets with white shuttlecocks arranged neatly on a smooth, light grey surface. Bright overhead lighting, highly organized, minimalist sports equipment presentation, modern light-mode style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMqyfvt5QVtX9iaShJGygsxgPEvEnz59VDcrWBZTWywi2bvjYv1IDTOI7_zNwdZAegv2QFh85sLfMXNKj6mVGqbKEc2pFSmKBm_JosD95QNyP3mOy5ZMmBqn8LOmVDMHCba1_ao0MPZ_I0ymGSkPpoab5OO6-UcGnQOnUaTs6qN207tWs771l-XWYUKC4MR81k7ax_liSDwxysTuTRmbo2u1QXLdpgZnOteeST0zjaLEOj5v55Ei-Y">
+<div class="absolute top-2 right-2 bg-error/10 border border-error/20 text-error px-2 py-1 rounded-DEFAULT font-caption text-caption backdrop-blur-md">
+                        Out of Stock
+                    </div>
+</div>
+<div class="flex flex-col gap-1 flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface-variant text-[18px]">Badminton Set</h3>
+<p class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Ball Sports</p>
+</div>
+<button class="w-full bg-surface-dim text-on-surface-variant font-label-md text-label-md py-3 rounded-DEFAULT cursor-not-allowed border border-outline-variant flex items-center justify-center gap-2" disabled="">
+<span class="material-symbols-outlined text-[18px]">block</span>
+                    Unavailable
+                </button>
+</article>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-glass backdrop-blur-[10px] border-t border-border-dark flex justify-around items-center h-20 pb-safe px-2 transition-transform duration-200">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 transition-transform duration-200 active:scale-90 hover:bg-surface-variant/30 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1">restaurant</span>
+<span class="font-label-md text-label-md text-[11px]">Canteen</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl px-4 py-1 transition-transform duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">sports_basketball</span>
+<span class="font-label-md text-label-md text-[11px]">Sports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 transition-transform duration-200 active:scale-90 hover:bg-surface-variant/30 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1">print</span>
+<span class="font-label-md text-label-md text-[11px]">Print</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 transition-transform duration-200 active:scale-90 hover:bg-surface-variant/30 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1">event_busy</span>
+<span class="font-label-md text-label-md text-[11px]">Leave</span>
+</a>
+</nav>
+
+
+</body></html>

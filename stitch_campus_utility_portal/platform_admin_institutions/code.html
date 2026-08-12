@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus - Platform Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#0058be",
+                        "tertiary-fixed-dim": "#edbf7f",
+                        "border-dark": "rgba(30, 58, 95, 0.1)",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "outline": "#74777f",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#adc8f5",
+                        "warning": "#F59E0B",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "on-primary-container": "#8aa4cf",
+                        "on-tertiary-container": "#c69b5f",
+                        "surface": "#f8f9ff",
+                        "inverse-surface": "#213145",
+                        "surface-container-high": "#dce9ff",
+                        "on-tertiary": "#ffffff",
+                        "error": "#DC2626",
+                        "surface-tint": "#455f87",
+                        "on-secondary-fixed": "#001a42",
+                        "border-light": "rgba(255, 255, 255, 0.3)",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary": "#341f00",
+                        "on-surface-variant": "#43474e",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "tertiary-fixed": "#ffddb2",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#2170e4",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-tertiary-fixed-variant": "#60410c",
+                        "primary-fixed": "#d5e3ff",
+                        "on-primary": "#ffffff",
+                        "success": "#10B981",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c4c6cf",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#fefcff",
+                        "primary-container": "#1e3a5f",
+                        "surface-container": "#e5eeff",
+                        "tertiary-container": "#503300",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#004395",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-primary-fixed": "#001c3b",
+                        "on-tertiary-fixed": "#291800",
+                        "surface-container-low": "#eff4ff",
+                        "background": "#f8f9ff",
+                        "primary": "#022448",
+                        "on-background": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "surface-bright": "#f8f9ff",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+        }
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface bg-background flex min-h-screen antialiased">
+<!-- SideNavBar -->
+<nav class="hidden md:flex h-screen w-64 fixed left-0 top-0 flex-col py-margin-desktop bg-surface-container-lowest border-r border-border-dark z-40">
+<div class="px-6 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Nexus</h1>
+<p class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Utility Admin</p>
+</div>
+<div class="flex-1 flex flex-col gap-2 px-4">
+<a class="flex items-center gap-3 px-4 py-3 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined font-light">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined font-light">group</span>
+<span class="font-label-md text-label-md">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined font-light">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-DEFAULT text-secondary font-bold bg-secondary-container/10 border-r-4 border-secondary transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+<span class="font-label-md text-label-md">Institutions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined font-light">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+<div class="px-6 mt-auto flex flex-col gap-4">
+<button class="w-full py-2 px-4 rounded-DEFAULT border border-primary text-primary font-label-md text-label-md hover:bg-surface-container-low transition-colors">Support Portal</button>
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+<div class="flex items-center gap-3 mt-4 pt-4 border-t border-border-dark">
+<img alt="Nexus Admin Avatar" class="w-10 h-10 rounded-full object-cover border border-border-dark" data-alt="A small, professional headshot portrait of a system administrator in a brightly lit modern office setting, wearing a dark navy blazer, smiling subtly, institutional light mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAioE-OPO1L2ifS82iUKZeeUN52_By3ywcRDarHJDfcmWbcFH2MtcN0852KUC29h7OQysIkZ3XQGaENbD4TW14st5WhxWxfzHq0u46ynNxBgWRIe1wdcRlM8mPa4AyAJzP3JnO2QKRKIkm56Wkc3BojCdgPHqLlOUoJjeXyGdvx_169qHjAj9X2CGu0uFryb5wCOevzo8yt-B4CMs0l-_ULNWHwOFsAZmMGYQ4LRKOVpgv29tZyThWU"/>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Admin User</span>
+<span class="font-caption text-caption text-on-surface-variant">System</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-0 md:ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-50 flex items-center justify-between px-margin-desktop h-16 bg-surface-glass backdrop-blur-[10px] border-b border-border-dark transition-all duration-200 ease-in-out">
+<div class="flex items-center gap-4 w-1/3">
+<!-- Search on left as requested -->
+<div class="relative w-full max-w-md hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-border-dark rounded-DEFAULT font-body-md text-body-md focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-outline-variant" placeholder="Search institutions, users..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-secondary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<!-- Mobile Avatar -->
+<img alt="Administrator Profile" class="md:hidden w-8 h-8 rounded-full object-cover border border-border-dark" data-alt="A small, professional headshot portrait of a system administrator in a brightly lit modern office setting, wearing a dark navy blazer, smiling subtly, institutional light mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkATHI8etyi23RennvOubRpGrdIP7IRWghlfv-CcRAGB4DnnszgYu_P5O8mAbCbHnKNOhpZ0qhG8iq3T2wXiRiVYPXRzVXqQhbx9RDuMRspGIpolbOUNESTtumRwbf_dAkfjDNPJ9mKh9FgTb4zjIhz0MBhsBweVUGJOVQcPiWmcqcSxqLytMyJRxNuLkrObjXVa__FgIy6zyb_1-EUPa9W4x-Ov7SP0CDp6nekGn1VAuGHFAcM7W8"/>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop mt-16 overflow-y-auto">
+<div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">College Directory</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage partner institutions and system status.</p>
+</div>
+<button class="bg-secondary text-on-secondary px-6 py-2 rounded-DEFAULT font-label-md text-label-md hover:bg-secondary-container transition-colors flex items-center justify-center gap-2 w-full sm:w-auto">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    New Institution
+                </button>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Metrics Section (Top Span) -->
+<div class="lg:col-span-12 grid grid-cols-1 sm:grid-cols-3 gap-6">
+<div class="glass-card rounded-lg p-6 flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Total Institutions</span>
+<div class="flex items-end gap-3">
+<span class="font-display-lg text-display-lg text-primary">142</span>
+<span class="font-caption text-caption text-success flex items-center pb-2">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12% YTD
+                            </span>
+</div>
+</div>
+<div class="glass-card rounded-lg p-6 flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">System Uptime</span>
+<div class="flex items-end gap-3">
+<span class="font-display-lg text-display-lg text-primary">99.9%</span>
+<span class="font-caption text-caption text-success flex items-center pb-2">Operational</span>
+</div>
+</div>
+<div class="glass-card rounded-lg p-6 flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Total Platform Revenue</span>
+<div class="flex items-end gap-3">
+<span class="font-display-lg text-display-lg text-primary">$4.2M</span>
+<span class="font-caption text-caption text-success flex items-center pb-2">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> 5% MRR
+                            </span>
+</div>
+</div>
+</div>
+<!-- Main Directory Grid (Left 8 cols) -->
+<div class="lg:col-span-8 glass-card rounded-lg p-6 flex flex-col">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface">Active Deployments</h3>
+<div class="flex gap-2">
+<button class="p-1 text-on-surface-variant hover:text-secondary rounded"><span class="material-symbols-outlined">filter_list</span></button>
+<button class="p-1 text-secondary bg-secondary-container/10 rounded"><span class="material-symbols-outlined">grid_view</span></button>
+<button class="p-1 text-on-surface-variant hover:text-secondary rounded"><span class="material-symbols-outlined">view_list</span></button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Institution Card 1 -->
+<div class="bg-surface-container-lowest border border-border-dark rounded-DEFAULT p-4 hover:border-secondary transition-colors cursor-pointer group">
+<div class="flex items-start justify-between mb-4">
+<img alt="University Logo" class="w-12 h-12 rounded bg-surface-container-low object-contain p-1 border border-border-dark" data-alt="A clean, minimalist university logo featuring an abstract geometric shield in deep navy blue on a pure white background, corporate academic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0rZsyn0L_MfAotaZ_lJwf0iOzWp7_94ofpxAnvxzgT94ajL43VkMoTaKn5qhqcZBWeU5XKC1svFBxlbl9R3S1IDQm8aEMmx7qqoPuHZK3XZmQdrX1D74q2JWdGVs4aYscQt9Zpt4YeuRUshpuCrw2LMVqyIDzvljh24TC6R-k-V3Ax7jYVmcnG2zxaYk4PP44X6ZEhEYgcrAnUOvXsuE4kc1uI7LU6-qKQLmRIm62HfJXyNx8weK6"/>
+<span class="bg-[#d1fae5] text-[#065f46] font-caption text-caption px-2 py-1 rounded-[4px] border border-[#34d399]">Active</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1 group-hover:text-secondary transition-colors">University of Technology</h4>
+<p class="font-caption text-caption text-on-surface-variant mb-4">East Coast Region</p>
+<div class="flex justify-between items-center pt-3 border-t border-border-dark">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-outline">Students</span>
+<span class="font-label-md text-label-md text-on-surface">24,500</span>
+</div>
+<div class="flex flex-col text-right">
+<span class="font-caption text-caption text-outline">Plan</span>
+<span class="font-label-md text-label-md text-on-surface">Enterprise</span>
+</div>
+</div>
+</div>
+<!-- Institution Card 2 -->
+<div class="bg-surface-container-lowest border border-border-dark rounded-DEFAULT p-4 hover:border-secondary transition-colors cursor-pointer group">
+<div class="flex items-start justify-between mb-4">
+<img alt="University Logo" class="w-12 h-12 rounded bg-surface-container-low object-contain p-1 border border-border-dark" data-alt="A modern institutional crest logo, stylized open book morphing into a sunburst, gold and navy blue, crisp white background, minimalist design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAazEu0qm6-6BOdc_Wiy6RafSpAlL-hiq7IhFwFyKrZFF7YRjJlyeoA7gGxwtMlM6Otsow69E-3-M0aGro7UCEBz1P2CPyO52IxO6ZwJZvajLHOa5H5_fpHieVq8-odKIzIl6JjBp4Mgqaap8lppSh1YXu6kY1RCPShG1EiwNUvqwbw9STwsSWgVLafQH-DpSu5aQWthpbhUTOR28rqHdIK6cGJI_FZozN8m02kU3bNtJfqaQhVStH5"/>
+<span class="bg-[#fee2e2] text-[#991b1b] font-caption text-caption px-2 py-1 rounded-[4px] border border-[#f87171]">Suspended</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1 group-hover:text-secondary transition-colors">Northern Arts College</h4>
+<p class="font-caption text-caption text-on-surface-variant mb-4">Midwest Region</p>
+<div class="flex justify-between items-center pt-3 border-t border-border-dark">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-outline">Students</span>
+<span class="font-label-md text-label-md text-on-surface">8,200</span>
+</div>
+<div class="flex flex-col text-right">
+<span class="font-caption text-caption text-outline">Plan</span>
+<span class="font-label-md text-label-md text-on-surface">Standard</span>
+</div>
+</div>
+</div>
+<!-- Institution Card 3 -->
+<div class="bg-surface-container-lowest border border-border-dark rounded-DEFAULT p-4 hover:border-secondary transition-colors cursor-pointer group">
+<div class="flex items-start justify-between mb-4">
+<img alt="University Logo" class="w-12 h-12 rounded bg-surface-container-low object-contain p-1 border border-border-dark" data-alt="A contemporary typographic logo for a state university, strong serif 'S' intertwined with a leaf, deep green and navy, white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrIcXNBLoBsDxsNX2ReNoREkMh0Xd4kWB6eHpo8tRF5hB0bDDynNnTq_9i--v0sDhxRRlSQKSBFzVUMYOO-OaiXrcNAnrQZQRRPLtME7hunQUHSbsH1lTxnsOZg4FsCwccE8pWVfVc8ZVsNTXsBqx7HrEsGZdko4_oS18oUi9tLCenuTCC3GNUEsGVj92qEgfTWSD2kMn6XuovPEX8ySjT0XiwkODio-LBPckh5kfpJNZR-EBUNZPS"/>
+<span class="bg-[#d1fae5] text-[#065f46] font-caption text-caption px-2 py-1 rounded-[4px] border border-[#34d399]">Active</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1 group-hover:text-secondary transition-colors">State Polytechnic</h4>
+<p class="font-caption text-caption text-on-surface-variant mb-4">West Coast Region</p>
+<div class="flex justify-between items-center pt-3 border-t border-border-dark">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-outline">Students</span>
+<span class="font-label-md text-label-md text-on-surface">31,000</span>
+</div>
+<div class="flex flex-col text-right">
+<span class="font-caption text-caption text-outline">Plan</span>
+<span class="font-label-md text-label-md text-on-surface">Enterprise</span>
+</div>
+</div>
+</div>
+<!-- Institution Card 4 -->
+<div class="bg-surface-container-lowest border border-border-dark rounded-DEFAULT p-4 hover:border-secondary transition-colors cursor-pointer group">
+<div class="flex items-start justify-between mb-4">
+<div class="w-12 h-12 rounded bg-surface-container-highest flex items-center justify-center border border-border-dark">
+<span class="font-headline-md text-headline-md text-primary">OC</span>
+</div>
+<span class="bg-[#d1fae5] text-[#065f46] font-caption text-caption px-2 py-1 rounded-[4px] border border-[#34d399]">Active</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1 group-hover:text-secondary transition-colors">Oceanic College</h4>
+<p class="font-caption text-caption text-on-surface-variant mb-4">Island Territories</p>
+<div class="flex justify-between items-center pt-3 border-t border-border-dark">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-outline">Students</span>
+<span class="font-label-md text-label-md text-on-surface">4,500</span>
+</div>
+<div class="flex flex-col text-right">
+<span class="font-caption text-caption text-outline">Plan</span>
+<span class="font-label-md text-label-md text-on-surface">Basic</span>
+</div>
+</div>
+</div>
+</div>
+<button class="mt-6 w-full py-2 border border-border-dark rounded-DEFAULT text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-lowest hover:border-secondary transition-colors">View All Institutions</button>
+</div>
+<!-- Recent Activity Feed (Right 4 cols) -->
+<div class="lg:col-span-4 glass-card rounded-lg p-6 flex flex-col h-full max-h-[600px]">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">System Logs</h3>
+<div class="flex-1 overflow-y-auto pr-2 flex flex-col gap-4">
+<!-- Log Item 1 -->
+<div class="flex gap-4 border-b border-border-dark pb-4 last:border-0">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex-shrink-0 flex items-center justify-center text-primary mt-1">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface leading-tight">Data sync completed for <span class="font-semibold text-secondary">University of Technology</span></p>
+<span class="font-caption text-caption text-outline mt-1 block">10 mins ago • System</span>
+</div>
+</div>
+<!-- Log Item 2 -->
+<div class="flex gap-4 border-b border-border-dark pb-4 last:border-0">
+<div class="w-8 h-8 rounded-full bg-[#fee2e2] flex-shrink-0 flex items-center justify-center text-error mt-1">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface leading-tight">API quota exceeded for <span class="font-semibold text-secondary">Northern Arts College</span></p>
+<span class="font-caption text-caption text-outline mt-1 block">45 mins ago • API Gateway</span>
+</div>
+</div>
+<!-- Log Item 3 -->
+<div class="flex gap-4 border-b border-border-dark pb-4 last:border-0">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex-shrink-0 flex items-center justify-center text-primary mt-1">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface leading-tight">New admin account provisioned for <span class="font-semibold text-secondary">State Polytechnic</span></p>
+<span class="font-caption text-caption text-outline mt-1 block">2 hours ago • Admin: J.Doe</span>
+</div>
+</div>
+<!-- Log Item 4 -->
+<div class="flex gap-4 border-b border-border-dark pb-4 last:border-0">
+<div class="w-8 h-8 rounded-full bg-[#d1fae5] flex-shrink-0 flex items-center justify-center text-success mt-1">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface leading-tight">Billing processed for Q3</p>
+<span class="font-caption text-caption text-outline mt-1 block">5 hours ago • Finance Module</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

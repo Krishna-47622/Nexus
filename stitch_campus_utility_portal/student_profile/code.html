@@ -1,0 +1,286 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Student Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "warning": "#F59E0B",
+                            "on-surface-variant": "#43474e",
+                            "border-dark": "rgba(30, 58, 95, 0.1)",
+                            "surface-container": "#e5eeff",
+                            "primary-container": "#1e3a5f",
+                            "border-light": "rgba(255, 255, 255, 0.3)",
+                            "inverse-on-surface": "#eaf1ff",
+                            "surface-glass": "rgba(255, 255, 255, 0.7)",
+                            "primary": "#022448",
+                            "outline": "#74777f",
+                            "on-primary-container": "#8aa4cf",
+                            "on-error-container": "#93000a",
+                            "on-tertiary-container": "#c69b5f",
+                            "on-secondary-container": "#fefcff",
+                            "secondary-fixed-dim": "#adc6ff",
+                            "inverse-surface": "#213145",
+                            "secondary": "#0058be",
+                            "on-primary-fixed-variant": "#2d486d",
+                            "primary-fixed-dim": "#adc8f5",
+                            "on-primary-fixed": "#001c3b",
+                            "surface": "#f8f9ff",
+                            "on-secondary-fixed-variant": "#004395",
+                            "background": "#f8f9ff",
+                            "tertiary-fixed": "#ffddb2",
+                            "surface-variant": "#d3e4fe",
+                            "surface-container-low": "#eff4ff",
+                            "secondary-fixed": "#d8e2ff",
+                            "on-tertiary-fixed-variant": "#60410c",
+                            "surface-dim": "#cbdbf5",
+                            "secondary-container": "#2170e4",
+                            "surface-tint": "#455f87",
+                            "on-primary": "#ffffff",
+                            "surface-bright": "#f8f9ff",
+                            "on-tertiary": "#ffffff",
+                            "surface-container-lowest": "#ffffff",
+                            "success": "#10B981",
+                            "surface-container-high": "#dce9ff",
+                            "on-secondary-fixed": "#001a42",
+                            "on-background": "#0b1c30",
+                            "primary-fixed": "#d5e3ff",
+                            "tertiary": "#341f00",
+                            "outline-variant": "#c4c6cf",
+                            "tertiary-container": "#503300",
+                            "on-surface": "#0b1c30",
+                            "on-error": "#ffffff",
+                            "error": "#DC2626",
+                            "error-container": "#ffdad6",
+                            "on-tertiary-fixed": "#291800",
+                            "on-secondary": "#ffffff",
+                            "surface-container-highest": "#d3e4fe",
+                            "inverse-primary": "#adc8f5",
+                            "tertiary-fixed-dim": "#edbf7f"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.125rem",
+                            "lg": "0.25rem",
+                            "xl": "0.5rem",
+                            "full": "0.75rem"
+                    },
+                    "spacing": {
+                            "margin-desktop": "32px",
+                            "unit": "4px",
+                            "margin-mobile": "16px",
+                            "container-max": "1280px",
+                            "gutter": "16px"
+                    },
+                    "fontFamily": {
+                            "display-lg": ["Inter"],
+                            "label-md": ["Inter"],
+                            "body-lg": ["Inter"],
+                            "headline-md": ["Inter"],
+                            "body-md": ["Inter"],
+                            "headline-lg": ["Inter"],
+                            "caption": ["Inter"],
+                            "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                            "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                            "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                            "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                            "caption": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                            "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            /* Surface 0 Base */
+        }
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+        }
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 16px);
+        }
+    </style>
+</head>
+<body class="text-on-background font-body-md antialiased min-h-screen pb-24 md:pb-0 pt-16">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-margin-mobile h-16 bg-surface-glass dark:bg-surface-glass backdrop-blur-[10px] border-b border-border-dark dark:border-border-light flat no shadows md:px-margin-desktop transition-opacity duration-200">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-border-dark">
+<img alt="Student Profile Photo" class="w-full h-full object-cover" data-alt="A clean, professional headshot of a university student in a bright, modern academic setting. The student is smiling warmly, dressed in smart casual attire, set against a softly blurred background featuring architectural elements of a contemporary library. Lighting is natural and flattering, embodying a clear, accessible, and high-quality aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsga9bf0hY645Fh6tvs2g9qsn0SmFK3I_U6m9W0pY4199l4DgG8bbH9hfheVAIy1muyCnssuOeYylOUSUQ045olrfNyTt61JSDXVu95ksnhZvwBBvETAOaqLP_GMHoG4vtAiVTjJXvpy9kWmXfhga5KLFLkfB82WRcayaPUg7sJagsJPOXkt3_LcpfRk7_DzvtTcEB36FALEhUd6ncmMcNxQRtCjCJpB1_D71YtRLUrYssQntP85PS">
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary dark:text-primary-fixed md:font-headline-lg md:text-headline-lg font-bold tracking-tight">Nexus</h1>
+</div>
+<button aria-label="Notifications" class="p-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-primary-container/10 transition-opacity duration-200 active:opacity-70 rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6 flex flex-col gap-6">
+<!-- Profile Header (Glass Card) -->
+<section class="glass-card rounded-xl p-6 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left">
+<div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-primary shrink-0 relative">
+<img alt="Profile Picture" class="w-full h-full object-cover" data-alt="A high-resolution, professional portrait of a young adult student looking directly at the camera with a confident, welcoming expression. They are wearing clean, modern casual clothing. The background is a soft, defocused view of a bright, contemporary university campus building with ample natural light, aligning with a pristine, optimistic light-mode design language." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS6seEdJMQZhSnFX2evBrwbx9NXJZ9F1JjQcUma0V7qSkZqVGi8g33oSp9ST0a3K3NKKpdqqHlDe-HnLXqlaG40MT844CsdL2vbbrtglcIBQyxwwK6vHJSWreZVEo9BLdp1Pw-LvRQ8XcvFneRI1Xk0LskkWLelAxPtCLjaW8r6ZkSdpoyqxGSrZthJBKHgraj6u7hppvPPtBYxteHebxuMK3Z-v-_BAQpfqHe_l-dmf6ryhB1QOcC">
+<button class="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-[10px] py-1 font-caption backdrop-blur-sm hover:bg-black/70 transition-colors">EDIT</button>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">Alex Mercer</h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Computer Science Engineering</p>
+</div>
+<div class="flex flex-wrap justify-center md:justify-start gap-2 mt-2">
+<span class="px-2 py-1 bg-surface-container-high rounded text-primary font-caption text-caption border border-border-dark">Roll: CS21045</span>
+<span class="px-2 py-1 bg-surface-container-high rounded text-primary font-caption text-caption border border-border-dark">Batch: 2025</span>
+<span class="px-2 py-1 bg-surface-container-high rounded text-primary font-caption text-caption border border-border-dark">Hostel: Block B, Room 302</span>
+</div>
+</div>
+<div class="md:ml-auto">
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-success/10 text-success rounded-full font-label-md text-label-md border border-success/20">
+<span class="w-2 h-2 rounded-full bg-success"></span> Active Status
+                </span>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main Content Column -->
+<div class="lg:col-span-2 flex flex-col gap-6">
+<!-- Editable Information -->
+<section class="glass-card rounded-xl p-6 flex flex-col gap-4">
+<div class="flex justify-between items-center border-b border-border-dark pb-3">
+<h3 class="font-headline-md text-headline-md text-primary font-semibold">Contact Information</h3>
+<button class="text-secondary font-label-md text-label-md hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span> Edit
+                        </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Email Address</label>
+<input class="font-body-md text-body-md text-on-surface bg-surface-container-lowest border border-border-dark rounded-lg px-3 py-2 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors" readonly="" type="email" value="alex.mercer@student.edu">
+<p class="font-caption text-caption text-outline mt-1">*University email cannot be changed here.</p>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Phone Number</label>
+<input class="font-body-md text-body-md text-on-surface bg-surface-container-lowest border border-border-dark rounded-lg px-3 py-2 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors" type="tel" value="+1 (555) 123-4567">
+</div>
+<div class="flex flex-col gap-1 md:col-span-2">
+<label class="font-label-md text-label-md text-on-surface-variant">Emergency Contact</label>
+<input class="font-body-md text-body-md text-on-surface bg-surface-container-lowest border border-border-dark rounded-lg px-3 py-2 focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-colors" type="text" value="Jane Mercer (Mother) - +1 (555) 987-6543">
+</div>
+</div>
+<div class="flex justify-end mt-2">
+<button class="bg-[#3B82F6] hover:bg-secondary text-white font-label-md text-label-md px-6 py-2 rounded-lg transition-colors shadow-sm">Save Changes</button>
+</div>
+</section>
+<!-- Academic Records (Locked) -->
+<section class="glass-card rounded-xl p-6 flex flex-col gap-4">
+<div class="border-b border-border-dark pb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="lock">lock</span>
+<h3 class="font-headline-md text-headline-md text-primary font-semibold">Academic Records</h3>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-6">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Department</span>
+<span class="font-body-md text-body-md text-on-surface">Computer Science</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Program</span>
+<span class="font-body-md text-body-md text-on-surface">B.Tech (Hons)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">Current Semester</span>
+<span class="font-body-md text-body-md text-on-surface">6th Semester</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">CGPA</span>
+<span class="font-body-md text-body-md text-primary font-medium">3.84</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Side/Settings Column -->
+<div class="lg:col-span-1 flex flex-col gap-6">
+<section class="glass-card rounded-xl overflow-hidden">
+<ul class="flex flex-col divide-y divide-border-dark">
+<li class="">
+<button class="w-full flex items-center justify-between px-6 py-4 hover:bg-primary-container/5 transition-colors text-left group">
+<div class="flex items-center gap-3 text-on-surface group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="key">key</span>
+<span class="font-body-md text-body-md font-medium">Change Password</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+</li>
+<li class="">
+<button class="w-full flex items-center justify-between px-6 py-4 hover:bg-primary-container/5 transition-colors text-left group">
+<div class="flex items-center gap-3 text-on-surface group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-body-md text-body-md font-medium">Support &amp; FAQs</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+</li>
+<li class="">
+<button class="w-full flex items-center justify-between px-6 py-4 hover:bg-error/10 transition-colors text-left group">
+<div class="flex items-center gap-3 text-error">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body-md text-body-md font-medium">Logout</span>
+</div>
+</button>
+</li>
+</ul>
+</section>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface-glass dark:bg-surface-glass backdrop-blur-[10px] border-t border-border-dark dark:border-border-light flat no shadows md:hidden">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant/50 scale-95 transition-transform duration-150 rounded-lg group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="home">home</span>
+<span class="font-label-md text-label-md mt-1 group-hover:text-primary transition-colors text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant/50 scale-95 transition-transform duration-150 rounded-lg group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-md text-label-md mt-1 group-hover:text-primary transition-colors text-[10px]">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md mt-1 text-[10px]">Profile</span>
+</button>
+</nav>
+<!-- Desktop Side Nav Overlay for large screens (Hidden on mobile/tablet) - Representing the global nav state on web -->
+<div class="hidden md:flex fixed top-16 left-0 h-[calc(100vh-64px)] w-20 flex-col items-center py-6 gap-6 bg-surface-glass backdrop-blur-[10px] border-r border-border-dark z-40">
+<button aria-label="Home" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-variant/50 rounded-lg group transition-all w-14 h-14">
+<span class="material-symbols-outlined group-hover:text-primary" data-icon="home">home</span>
+</button>
+<button aria-label="Orders" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-variant/50 rounded-lg group transition-all w-14 h-14">
+<span class="material-symbols-outlined group-hover:text-primary" data-icon="receipt_long">receipt_long</span>
+</button>
+<button aria-label="Profile" class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-lg p-2 transition-all w-14 h-14">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</div>
+<!-- Adjust main content padding on desktop to account for side nav -->
+<style>
+        @media (min-width: 768px) {
+            main {
+                padding-left: calc(32px + 80px); /* Desktop margin + nav width */
+            }
+        }
+    </style>
+
+
+</body></html>

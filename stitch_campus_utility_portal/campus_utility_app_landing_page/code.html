@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Campus Utility App</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#989fa6",
+                        "on-secondary-fixed": "#111c2c",
+                        "surface": "#f7fafc",
+                        "surface-container-low": "#f1f4f6",
+                        "tertiary-fixed": "#dde3eb",
+                        "tertiary-fixed-dim": "#c1c7cf",
+                        "inverse-surface": "#2d3133",
+                        "primary-fixed-dim": "#adc7f7",
+                        "secondary-fixed": "#d8e3fa",
+                        "on-surface-variant": "#43474e",
+                        "outline-variant": "#c4c6cf",
+                        "tertiary": "#1b2127",
+                        "tertiary-container": "#30363c",
+                        "primary": "#002045",
+                        "secondary-container": "#d5e0f7",
+                        "on-primary-container": "#86a0cd",
+                        "on-surface": "#181c1e",
+                        "on-primary-fixed": "#001b3c",
+                        "inverse-primary": "#adc7f7",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#161c22",
+                        "primary-container": "#1a365d",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#545f72",
+                        "surface-container-high": "#e5e9eb",
+                        "on-tertiary-fixed-variant": "#41474e",
+                        "surface-tint": "#455f88",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "inverse-on-surface": "#eef1f3",
+                        "surface-variant": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#bcc7dd",
+                        "surface-bright": "#f7fafc",
+                        "on-secondary-container": "#586377",
+                        "on-background": "#181c1e",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d7dadc",
+                        "on-primary": "#ffffff",
+                        "outline": "#74777f",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#ebeef0",
+                        "background": "#f7fafc",
+                        "border-color": "#E2E8F0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "fontFamily": {
+                        "sans": ['Inter', 'Noto Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-sans overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-color px-6 py-2 bg-surface-container-lowest sticky top-0 z-50">
+<div class="flex items-center gap-4 text-on-surface">
+<div class="size-4">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-on-surface text-base font-bold leading-tight tracking-tight">Campus Utility App</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface text-sm font-medium hover:underline" href="#services">Services</a>
+<a class="text-on-surface text-sm font-medium hover:underline" href="#how-it-works">How it works</a>
+<a class="text-on-surface text-sm font-medium hover:underline" href="#payments">Payments</a>
+</nav>
+<button class="flex items-center justify-center bg-primary-container text-on-primary h-8 px-4 text-sm font-bold border border-primary-container hover:bg-primary transition-colors">
+<span>Get Started</span>
+</button>
+</div>
+</header>
+<main class="flex-1 flex flex-col mx-auto max-w-5xl w-full">
+<!-- Hero Section -->
+<section class="fade-in-up px-6 py-8 md:py-12 flex flex-col md:flex-row gap-8 items-start border-b border-border-color bg-surface-container-lowest">
+<div class="flex-1 flex flex-col gap-4">
+<span class="text-xs font-bold uppercase tracking-widest text-secondary">Institution Portal</span>
+<h1 class="text-3xl md:text-4xl font-bold leading-tight text-on-surface">Campus Utility App</h1>
+<p class="text-base text-on-surface-variant max-w-md">Everything on campus, one app.</p>
+<div class="pt-2">
+<button class="flex items-center justify-center bg-primary-container text-on-primary h-10 px-6 text-sm font-bold border border-primary-container hover:bg-primary transition-colors">
+                        Get Started
+                    </button>
+</div>
+</div>
+<div class="w-full md:w-[320px] border border-border-color bg-surface p-4 flex flex-col gap-3">
+<div class="text-sm font-bold border-b border-border-color pb-2 mb-1">Available Services</div>
+<div class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-lg" data-icon="local_laundry_service">local_laundry_service</span> Laundry</div>
+<div class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-lg" data-icon="restaurant">restaurant</span> Dining</div>
+<div class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-lg" data-icon="build">build</span> Maintenance</div>
+<div class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-lg" data-icon="directions_bus">directions_bus</span> Transport</div>
+</div>
+</section>
+<!-- Four Services -->
+<section class="fade-in-up px-6 py-8 border-b border-border-color bg-surface" id="services">
+<h2 class="text-xl font-bold mb-4">Four services</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="border border-border-color p-4 bg-surface-container-lowest flex flex-col gap-2">
+<span class="material-symbols-outlined text-on-surface" data-icon="local_laundry_service">local_laundry_service</span>
+<h3 class="text-sm font-bold">Laundry</h3>
+<p class="text-xs text-on-surface-variant">Check machine availability</p>
+</div>
+<div class="border border-border-color p-4 bg-surface-container-lowest flex flex-col gap-2">
+<span class="material-symbols-outlined text-on-surface" data-icon="restaurant">restaurant</span>
+<h3 class="text-sm font-bold">Dining</h3>
+<p class="text-xs text-on-surface-variant">View daily menus</p>
+</div>
+<div class="border border-border-color p-4 bg-surface-container-lowest flex flex-col gap-2">
+<span class="material-symbols-outlined text-on-surface" data-icon="build">build</span>
+<h3 class="text-sm font-bold">Maintenance</h3>
+<p class="text-xs text-on-surface-variant">Report issues quickly</p>
+</div>
+<div class="border border-border-color p-4 bg-surface-container-lowest flex flex-col gap-2">
+<span class="material-symbols-outlined text-on-surface" data-icon="directions_bus">directions_bus</span>
+<h3 class="text-sm font-bold">Transport</h3>
+<p class="text-xs text-on-surface-variant">Track campus shuttles</p>
+</div>
+</div>
+</section>
+<!-- How it works -->
+<section class="fade-in-up px-6 py-8 border-b border-border-color bg-surface-container-lowest" id="how-it-works">
+<h2 class="text-xl font-bold mb-4">How it works</h2>
+<div class="flex flex-col gap-4 max-w-2xl">
+<div class="flex gap-4">
+<div class="w-6 h-6 shrink-0 bg-outline text-surface-container-lowest flex items-center justify-center text-xs font-bold font-mono">1</div>
+<div>
+<h3 class="text-sm font-bold">Select a service</h3>
+<p class="text-xs text-on-surface-variant mt-1">Choose what you need from the dashboard</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-6 h-6 shrink-0 bg-outline text-surface-container-lowest flex items-center justify-center text-xs font-bold font-mono">2</div>
+<div>
+<h3 class="text-sm font-bold">Make UPI payment</h3>
+<p class="text-xs text-on-surface-variant mt-1">Instant payment on checkout with no stored balance</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-6 h-6 shrink-0 bg-outline text-surface-container-lowest flex items-center justify-center text-xs font-bold font-mono">3</div>
+<div>
+<h3 class="text-sm font-bold">Track request</h3>
+<p class="text-xs text-on-surface-variant mt-1">Full transaction history and progress tracking</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Pay your way -->
+<section class="fade-in-up px-6 py-8 border-b border-border-color bg-surface" id="payments">
+<div class="border border-border-color bg-surface-container-lowest p-6 max-w-3xl">
+<h2 class="text-xl font-bold mb-2">Pay your way</h2>
+<p class="text-sm text-on-surface-variant mb-4">Pay directly via UPI — GPay, PhonePe, Paytm supported.</p>
+<div class="flex gap-4 mb-6">
+<div class="border border-border-color p-2 flex items-center justify-center bg-surface w-12 h-12">
+<span class="text-xs font-bold">GP</span>
+</div>
+<div class="border border-border-color p-2 flex items-center justify-center bg-surface w-12 h-12">
+<span class="text-xs font-bold">PP</span>
+</div>
+<div class="border border-border-color p-2 flex items-center justify-center bg-surface w-12 h-12">
+<span class="text-xs font-bold">PT</span>
+</div>
+</div>
+<ul class="list-disc list-inside text-sm text-on-surface-variant space-y-1">
+<li>No stored balance</li>
+<li>Instant UPI payment on checkout</li>
+<li>Full transaction history per request</li>
+</ul>
+</div>
+</section>
+<!-- Built for colleges -->
+<section class="fade-in-up px-6 py-10 bg-primary-container text-on-primary">
+<h2 class="text-2xl font-bold mb-3">Built for institutions</h2>
+<p class="text-sm text-secondary-container max-w-2xl leading-snug mb-6">Designed specifically for the academic environment. Streamline campus operations and provide students with a unified utility portal. Highly secure, compliant, and easy to deploy.</p>
+<button class="flex items-center justify-center bg-surface-container-lowest text-primary-container h-8 px-4 text-sm font-bold border border-surface-container-lowest hover:bg-surface transition-colors">
+                Contact Sales
+            </button>
+</section>
+</main>
+<!-- Footer -->
+<footer class="border-t border-border-color bg-surface-container-lowest px-6 py-6 mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="text-sm font-bold text-on-surface">Campus Utility App</div>
+<div class="flex gap-4 text-xs text-on-surface-variant">
+<a class="hover:underline" href="#">Privacy Policy</a>
+<a class="hover:underline" href="#">Terms of Service</a>
+<a class="hover:underline" href="#">Support</a>
+</div>
+<div class="text-xs text-on-surface-variant">© 2024 Institution Systems</div>
+</div>
+</footer>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.fade-in-up').forEach((el) => {
+            observer.observe(el);
+        });
+    });
+</script>
+</body></html>

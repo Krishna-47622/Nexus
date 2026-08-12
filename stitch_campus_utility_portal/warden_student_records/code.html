@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Warden Student Records - Nexus</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-glass": "rgba(255, 255, 255, 0.7)",
+                    "on-secondary-fixed": "#001a42",
+                    "success": "#10B981",
+                    "primary-container": "#1e3a5f",
+                    "secondary-fixed": "#d8e2ff",
+                    "warning": "#F59E0B",
+                    "primary": "#022448",
+                    "tertiary-container": "#503300",
+                    "outline-variant": "#c4c6cf",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#d5e3ff",
+                    "surface-container-low": "#eff4ff",
+                    "inverse-surface": "#213145",
+                    "primary-fixed-dim": "#adc8f5",
+                    "on-surface": "#0b1c30",
+                    "error": "#DC2626",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#60410c",
+                    "surface-variant": "#d3e4fe",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "on-tertiary-container": "#c69b5f",
+                    "surface-bright": "#f8f9ff",
+                    "background": "#f8f9ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-tint": "#455f87",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#001c3b",
+                    "secondary": "#0058be",
+                    "tertiary-fixed": "#ffddb2",
+                    "surface-container": "#e5eeff",
+                    "on-surface-variant": "#43474e",
+                    "on-error-container": "#93000a",
+                    "secondary-container": "#2170e4",
+                    "outline": "#74777f",
+                    "on-secondary-fixed-variant": "#004395",
+                    "tertiary": "#341f00",
+                    "inverse-primary": "#adc8f5",
+                    "surface-dim": "#cbdbf5",
+                    "border-dark": "rgba(30, 58, 95, 0.1)",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#0b1c30",
+                    "surface-container-high": "#dce9ff",
+                    "tertiary-fixed-dim": "#edbf7f",
+                    "on-primary-fixed-variant": "#2d486d",
+                    "border-light": "rgba(255, 255, 255, 0.3)",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface": "#f8f9ff",
+                    "on-tertiary-fixed": "#291800",
+                    "on-secondary-container": "#fefcff",
+                    "on-primary-container": "#8aa4cf"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "unit": "4px",
+                    "margin-desktop": "32px",
+                    "gutter": "16px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "caption": [
+                            "Inter"
+                    ],
+                    "display-lg": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "caption": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+        }
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+          font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased h-full flex flex-col md:flex-row overflow-hidden">
+<!-- Mobile Top App Bar (Hidden on md) -->
+<header class="md:hidden flex justify-between items-center w-full px-margin-mobile h-16 bg-surface-glass border-b border-outline-variant backdrop-blur-[10px] z-50 fixed top-0">
+<div class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-surface">
+            Nexus Campus
+        </div>
+<div class="flex gap-4">
+<button class="text-primary hover:bg-surface-container-low rounded-full p-2 transition-opacity active:opacity-80">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="text-primary hover:bg-surface-container-low rounded-full p-2 transition-opacity active:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Desktop Side Nav -->
+<nav class="hidden md:flex w-64 h-screen fixed left-0 top-0 bg-surface-glass border-r border-outline-variant backdrop-blur-[10px] flex-col py-margin-desktop z-40">
+<div class="px-6 mb-8">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface">Nexus Campus</h1>
+<p class="font-caption text-caption text-on-surface-variant mt-1">Warden Console</p>
+</div>
+<button class="mx-6 mb-8 bg-secondary text-on-secondary py-3 px-4 rounded font-label-md text-label-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+            New Request
+        </button>
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-2 px-2">
+<li>
+<a class="text-on-surface-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="text-secondary border-l-4 border-secondary px-4 py-3 flex items-center gap-3 bg-surface-container-high rounded-r active:scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined fill" data-icon="inventory_2" data-weight="fill">inventory_2</span>
+<span class="font-label-md text-label-md font-semibold">Student Records</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined" data-icon="engineering">engineering</span>
+<span class="font-label-md text-label-md">Work Orders</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">Staff Directory</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-auto px-2 border-t border-outline-variant pt-4">
+<ul class="space-y-2">
+<li>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-variant transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-variant transition-colors duration-200 rounded" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Desktop Top App Bar -->
+<header class="hidden md:flex justify-between items-center w-full pl-72 pr-margin-desktop bg-surface-glass border-b border-outline-variant backdrop-blur-[10px] h-16 fixed top-0 z-30">
+<div class="font-headline-md text-headline-md font-extrabold text-primary">
+            Nexus Utility
+        </div>
+<div class="flex items-center gap-4">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded focus:border-secondary focus:ring-1 focus:ring-secondary outline-none font-body-md text-body-md text-on-surface placeholder:text-outline transition-colors" placeholder="Search..." type="text"/>
+</div>
+<button class="text-primary hover:bg-surface-container-low rounded-full p-2 transition-opacity active:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-primary hover:bg-surface-container-low rounded-full p-2 transition-opacity active:opacity-80">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<button class="text-primary hover:bg-surface-container-low rounded-full p-2 transition-opacity active:opacity-80">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<img alt="Warden Profile Picture" class="w-8 h-8 rounded-full object-cover ml-2 border border-outline-variant" data-alt="A small circular profile picture of an academic warden in a professional setting, well-lit and formal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQYzgpeyGX-HpYxmQDM4qQZUd78KhB7_i50aUbnpaRydhipvCFdzkohbzb1yK8kqAXAXcbkHNaZfktkPeqQCE_IfTtx1uyHLTufJylxcDdrMJ53kuYMIhi6gkQETi5XjodRjx18tinOFsZR7rnrhEAFXvPS0kfwn99wq2iJckuFi8qCAFlwfmsVjOkL_np7nmX7iOsNNfmWvwpR2UjULKQfNnORLeybu6xGSA32dwQfFEnyZxQJ9Wi"/>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full pt-16 md:pl-64 h-full overflow-y-auto bg-surface-bright">
+<div class="p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto space-y-6">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface">Student Records</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Directory of all hostel residents and leave history.</p>
+</div>
+<div class="flex gap-3 w-full md:w-auto">
+<button class="glass-card flex-1 md:flex-none px-4 py-2 flex items-center justify-center gap-2 font-label-md text-label-md text-primary hover:bg-surface-container-low transition-colors rounded">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                        Filters
+                    </button>
+<button class="glass-card flex-1 md:flex-none px-4 py-2 flex items-center justify-center gap-2 font-label-md text-label-md text-primary hover:bg-surface-container-low transition-colors rounded">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                        Export
+                    </button>
+</div>
+</div>
+<!-- Stats/Summary Bento -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="glass-card p-4 rounded flex flex-col justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Total Students</span>
+<span class="font-headline-lg text-headline-lg text-on-surface mt-2">1,248</span>
+</div>
+<div class="glass-card p-4 rounded flex flex-col justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Currently on Leave</span>
+<span class="font-headline-lg text-headline-lg text-warning mt-2">42</span>
+</div>
+<div class="glass-card p-4 rounded flex flex-col justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Pending Requests</span>
+<span class="font-headline-lg text-headline-lg text-primary mt-2">15</span>
+</div>
+<div class="glass-card p-4 rounded flex flex-col justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Overstayed</span>
+<span class="font-headline-lg text-headline-lg text-error mt-2">3</span>
+</div>
+</div>
+<!-- Main Data Table area (Glass Card) -->
+<div class="glass-card rounded overflow-hidden flex flex-col">
+<!-- Search/Toolbar within card -->
+<div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-white border border-outline-variant rounded focus:border-secondary focus:ring-1 focus:ring-secondary outline-none font-body-md text-body-md text-on-surface placeholder:text-outline transition-colors" placeholder="Search by Name, Roll No, or Block..." type="text"/>
+</div>
+</div>
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 bg-surface-container-low border-b border-outline-variant font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+<div class="col-span-5 md:col-span-4">Student Name</div>
+<div class="col-span-3 md:col-span-3">Roll No</div>
+<div class="hidden md:block md:col-span-2">Block</div>
+<div class="col-span-4 md:col-span-2 text-right">Leaves Taken</div>
+<div class="hidden md:block md:col-span-1"></div>
+</div>
+<!-- Table Body -->
+<div class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest cursor-pointer transition-colors group">
+<div class="col-span-5 md:col-span-4 flex items-center gap-3">
+<img alt="Student Photo" class="w-10 h-10 rounded object-cover border border-outline-variant hidden sm:block" data-alt="A small square portrait of a male college student, neat appearance, plain light background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNCPxG6kKQLx3ZQu_VhlW2xc-fBys3P-d9VAz1W5Zd6wqKoN3WsfW2YyR9auu0FN5FdPzbFtgHcn9KdJ31MM129te-ahppMOf9qGftpEG1Y09SmcC5SVHCb9ojFvXKL642Jzygi4KNRz41-mTbQn2vwH3BGNct-TjyIZ0rSLpb5pC60V2OKsRXL9Uy31FhWdOOtTD3I5ENVz4bXcZt0037vGkJCpt3p5OGwzjEARWWkTlNOM2mlmBg"/>
+<div>
+<div class="font-headline-md text-body-md font-medium text-on-surface group-hover:text-secondary transition-colors">Arjun Sharma</div>
+<div class="font-caption text-caption text-on-surface-variant sm:hidden">Block A, 102</div>
+</div>
+</div>
+<div class="col-span-3 md:col-span-3 font-body-md text-body-md text-on-surface">21BCS1042</div>
+<div class="hidden md:flex md:col-span-2 items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span class="font-body-md text-body-md text-on-surface">Block A, 102</span>
+</div>
+<div class="col-span-4 md:col-span-2 text-right">
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-container-highest text-on-surface font-label-md text-label-md border border-outline-variant">
+                                4 Days
+                            </span>
+</div>
+<div class="hidden md:flex md:col-span-1 justify-end text-outline group-hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest cursor-pointer transition-colors group">
+<div class="col-span-5 md:col-span-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-lg hidden sm:flex">PK</div>
+<div>
+<div class="font-headline-md text-body-md font-medium text-on-surface group-hover:text-secondary transition-colors">Priya Kapoor</div>
+<div class="font-caption text-caption text-on-surface-variant sm:hidden">Block C, 305</div>
+</div>
+</div>
+<div class="col-span-3 md:col-span-3 font-body-md text-body-md text-on-surface">21BME2011</div>
+<div class="hidden md:flex md:col-span-2 items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-warning"></span>
+<span class="font-body-md text-body-md text-on-surface">Block C, 305</span>
+</div>
+<div class="col-span-4 md:col-span-2 text-right">
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-container-highest text-on-surface font-label-md text-label-md border border-outline-variant">
+                                12 Days
+                            </span>
+</div>
+<div class="hidden md:flex md:col-span-1 justify-end text-outline group-hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Row 3 (Expanded State Example) -->
+<div class="bg-surface-container-lowest border-y-2 border-secondary">
+<div class="grid grid-cols-12 gap-4 px-6 py-4 items-center cursor-pointer">
+<div class="col-span-5 md:col-span-4 flex items-center gap-3">
+<img alt="Student Photo" class="w-10 h-10 rounded object-cover border border-outline-variant hidden sm:block" data-alt="A small square portrait of a female college student, wearing glasses, plain light background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC66EwB3gk01iQuZLXcM0nAG0F3ELvwG4REOhEaiwhPMY9Ps5KUWqAZQys2iTRHM4NwxqIhFU7eLv2uOxze1WNeBjM1QVYm_YwLh5YzIoQblYRv6vXML3Z9D7AWChsiJelU_Or6VBjyd-_iVRAYJK-lA102vNyKu5Utbm2R-X8uUyhWUxaolHZCOG2jVLC6zII07ARZq2fTQJfZV_tVthV46NUJZ0fMaxCCben0bzaCyuQGUXT2kjmH"/>
+<div>
+<div class="font-headline-md text-body-md font-bold text-secondary">Rohan Desai</div>
+<div class="font-caption text-caption text-on-surface-variant sm:hidden">Block B, 210</div>
+</div>
+</div>
+<div class="col-span-3 md:col-span-3 font-body-md text-body-md text-on-surface font-medium">22BEE1005</div>
+<div class="hidden md:flex md:col-span-2 items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-body-md text-body-md text-on-surface">Block B, 210</span>
+</div>
+<div class="col-span-4 md:col-span-2 text-right">
+<span class="inline-flex items-center px-2 py-1 rounded bg-error-container text-on-error-container font-label-md text-label-md border border-error/20">
+                                    25 Days
+                                </span>
+</div>
+<div class="hidden md:flex md:col-span-1 justify-end text-secondary">
+<span class="material-symbols-outlined" data-icon="expand_less">expand_less</span>
+</div>
+</div>
+<!-- Expanded Details Pane -->
+<div class="px-6 pb-6 pt-2">
+<div class="p-4 bg-surface rounded border border-outline-variant">
+<h4 class="font-label-md text-label-md text-on-surface mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="history">history</span>
+                                    Recent Leave History
+                                </h4>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-sm">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Medical Leave</span>
+<span class="text-on-surface-variant text-xs mt-0.5">Approved by Warden Singh</span>
+</div>
+<div class="text-right">
+<div class="text-on-surface">Oct 12 - Oct 18</div>
+<div class="text-on-surface-variant text-xs mt-0.5">6 Days</div>
+</div>
+</div>
+<div class="h-px bg-outline-variant w-full opacity-50"></div>
+<div class="flex justify-between items-center text-sm">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Home Visit</span>
+<span class="text-on-surface-variant text-xs mt-0.5">Self-Declared</span>
+</div>
+<div class="text-right">
+<div class="text-on-surface">Sep 01 - Sep 04</div>
+<div class="text-on-surface-variant text-xs mt-0.5">3 Days</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant flex justify-end">
+<button class="text-secondary font-label-md text-label-md hover:underline flex items-center gap-1">
+                                        View Full Profile
+                                        <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-surface-container-lowest cursor-pointer transition-colors group">
+<div class="col-span-5 md:col-span-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-bold text-lg hidden sm:flex">SM</div>
+<div>
+<div class="font-headline-md text-body-md font-medium text-on-surface group-hover:text-secondary transition-colors">Sneha Menon</div>
+<div class="font-caption text-caption text-on-surface-variant sm:hidden">Block D, 412</div>
+</div>
+</div>
+<div class="col-span-3 md:col-span-3 font-body-md text-body-md text-on-surface">20BCE3022</div>
+<div class="hidden md:flex md:col-span-2 items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span class="font-body-md text-body-md text-on-surface">Block D, 412</span>
+</div>
+<div class="col-span-4 md:col-span-2 text-right">
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-container-highest text-on-surface font-label-md text-label-md border border-outline-variant">
+                                0 Days
+                            </span>
+</div>
+<div class="hidden md:flex md:col-span-1 justify-end text-outline group-hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="p-4 border-t border-outline-variant bg-surface-container-lowest flex justify-between items-center text-sm text-on-surface-variant">
+<div>Showing 1 to 10 of 1,248 students</div>
+<div class="flex gap-2">
+<button class="p-1 rounded hover:bg-surface-container-high disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-high">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

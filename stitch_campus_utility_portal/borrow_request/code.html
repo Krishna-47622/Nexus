@@ -1,0 +1,253 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Sports Borrow Request</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "border-dark": "rgba(30, 58, 95, 0.1)",
+                    "on-secondary-container": "#fefcff",
+                    "on-primary-container": "#8aa4cf",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary-container": "#2170e4",
+                    "on-error-container": "#93000a",
+                    "secondary": "#0058be",
+                    "surface-dim": "#cbdbf5",
+                    "surface": "#f8f9ff",
+                    "outline-variant": "#c4c6cf",
+                    "surface-variant": "#d3e4fe",
+                    "on-primary-fixed-variant": "#2d486d",
+                    "inverse-surface": "#213145",
+                    "on-secondary-fixed-variant": "#004395",
+                    "surface-glass": "rgba(255, 255, 255, 0.7)",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#edbf7f",
+                    "on-tertiary-fixed": "#291800",
+                    "tertiary-fixed": "#ffddb2",
+                    "outline": "#74777f",
+                    "primary-fixed-dim": "#adc8f5",
+                    "on-tertiary-container": "#c69b5f",
+                    "tertiary-container": "#503300",
+                    "background": "#f8f9ff",
+                    "on-background": "#0b1c30",
+                    "surface-container-high": "#dce9ff",
+                    "warning": "#F59E0B",
+                    "surface-bright": "#f8f9ff",
+                    "secondary-fixed": "#d8e2ff",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#60410c",
+                    "border-light": "rgba(255, 255, 255, 0.3)",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-low": "#eff4ff",
+                    "error-container": "#ffdad6",
+                    "on-surface": "#0b1c30",
+                    "primary-container": "#1e3a5f",
+                    "surface-tint": "#455f87",
+                    "success": "#10B981",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed": "#001a42",
+                    "tertiary": "#341f00",
+                    "primary": "#022448",
+                    "surface-container": "#e5eeff",
+                    "on-primary-fixed": "#001c3b",
+                    "error": "#DC2626",
+                    "primary-fixed": "#d5e3ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#43474e",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#adc8f5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "margin-desktop": "32px",
+                    "gutter": "16px",
+                    "unit": "4px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "caption": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #f8f9ff; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-on-surface antialiased flex flex-col min-h-screen bg-background relative overflow-x-hidden">
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 w-full z-50 bg-surface-glass dark:bg-surface-glass backdrop-blur-[10px] border-b border-border-dark dark:border-border-light flat no shadows transition-all duration-200 active:scale-95">
+<div class="flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 max-w-container-max mx-auto w-full">
+<div class="flex items-center gap-4">
+<button aria-label="Go back" class="text-on-surface hover:bg-surface-variant/50 rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Nexus</span>
+</div>
+<div class="flex items-center gap-4">
+<!-- Desktop Nav Cluster -->
+<nav class="hidden md:flex items-center gap-2">
+<a class="px-4 py-2 rounded-xl text-on-surface-variant hover:bg-surface-variant/50 transition-colors" href="#">
+<span class="font-label-md text-label-md">Canteen</span>
+</a>
+<a class="px-4 py-2 rounded-xl text-secondary bg-secondary-container/20 hover:bg-surface-variant/50 transition-colors" href="#">
+<span class="font-label-md text-label-md">Sports</span>
+</a>
+<a class="px-4 py-2 rounded-xl text-on-surface-variant hover:bg-surface-variant/50 transition-colors" href="#">
+<span class="font-label-md text-label-md">Print</span>
+</a>
+<a class="px-4 py-2 rounded-xl text-on-surface-variant hover:bg-surface-variant/50 transition-colors" href="#">
+<span class="font-label-md text-label-md">Leave</span>
+</a>
+</nav>
+<button aria-label="Notifications" class="hover:bg-surface-variant/50 p-2 rounded-full transition-colors text-primary">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-border-dark">
+<img alt="Student Profile Photo" class="w-full h-full object-cover" data-alt="A professional headshot of a university student looking directly at the camera with a neutral, pleasant expression. The lighting is soft and studio-quality, emphasizing clarity. The background is a solid, subtle light slate color (#cbdbf5) that perfectly matches the clean, modern glassmorphism aesthetic of the UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMMnw_J3N22fEWFpY_NHF6SJHw8xlleqrVXNPWIpazRmKmxEpn40q4GN8_FdMZ5w0ttsUCO4cS7qkyLuglp6Ji_aDYwZUvOP4KB-4aCCbKLXqYCmFCt-2I6UXwDsd1v84L9HbXnGGrGbHnIXg-LC22qExzRyzaUsc-Pk9uJ_CEs1x6JYMwxfzzYgU7muF0OqaWApVczWbLj4SPoovHbVs7uee1NRPmlhtdmOoIMBSxW0SgVs3gAo2M">
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-24 pb-32 md:pb-24">
+<div class="max-w-2xl mx-auto space-y-6">
+<!-- Page Header -->
+<div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">Borrow Request</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Review your selection and specify the expected return time.</p>
+</div>
+<!-- Selection Summary (Bento/Glass) -->
+<div class="glass-card rounded-xl p-6 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-surface-variant/30 to-transparent pointer-events-none"></div>
+<div class="flex items-start gap-4 relative z-10">
+<div class="w-20 h-20 rounded-lg bg-surface flex items-center justify-center border border-border-dark shrink-0">
+<span class="material-symbols-outlined text-4xl text-secondary" data-icon="sports_basketball" style="font-variation-settings: 'FILL' 1;">sports_basketball</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<h2 class="font-headline-md text-headline-md text-on-surface">Premium Basketball</h2>
+<span class="px-2 py-1 rounded bg-success/20 text-success font-caption text-caption">Available</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-2">Item ID: SP-BB-042</p>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-surface-dim font-caption text-caption text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]" data-icon="location_on">location_on</span>
+                                Main Gym Equipment Room
+                            </span>
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-surface-dim font-caption text-caption text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]" data-icon="timer">timer</span>
+                                Max 24h Borrow
+                            </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Configuration / Input -->
+<div class="space-y-4">
+<h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Expected Return Details</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Date Picker -->
+<div class="glass-card rounded-xl p-4">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2" for="return-date">Return Date</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="calendar_today">calendar_today</span>
+<input class="w-full bg-surface border-border-dark rounded-lg pl-10 pr-4 py-2 font-body-md text-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="return-date" type="date" value="2023-10-27">
+</div>
+</div>
+<!-- Time Picker -->
+<div class="glass-card rounded-xl p-4">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2" for="return-time">Return Time</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="schedule">schedule</span>
+<input class="w-full bg-surface border-border-dark rounded-lg pl-10 pr-4 py-2 font-body-md text-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="return-time" type="time" value="17:00">
+</div>
+</div>
+</div>
+</div>
+<!-- Policy Warning -->
+<div class="bg-warning/10 border border-warning/30 rounded-xl p-4 flex gap-3 items-start">
+<span class="material-symbols-outlined text-warning shrink-0" data-icon="info">info</span>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1">Late Return Policy</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Please ensure the equipment is returned by the expected time. A fine of <strong class="text-on-surface font-semibold">₹50 per day</strong> will be applied automatically for late returns.</p>
+</div>
+</div>
+<!-- Action Area -->
+<div class="pt-6 border-t border-border-dark flex flex-col gap-4">
+<button class="w-full py-4 rounded-xl bg-[#3B82F6] hover:bg-secondary-container text-white font-label-md text-label-md transition-all duration-200 active:scale-[0.98] shadow-sm flex justify-center items-center gap-2">
+                    Confirm Borrow Request
+                    <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-full py-3 rounded-xl border border-primary text-primary font-label-md text-label-md hover:bg-surface-variant/30 transition-colors">
+                    Cancel
+                </button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Shell (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-glass dark:bg-surface-glass backdrop-blur-[10px] border-t border-border-dark dark:border-border-light flat no shadows flex justify-around items-center h-20 pb-safe px-2 transition-transform duration-200 active:scale-90">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-variant/30 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="font-label-md text-label-md text-[10px] mt-1">Canteen</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary-container text-on-secondary-container dark:text-on-secondary-container rounded-xl px-4 py-1 hover:bg-surface-variant/30 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="sports_basketball" style="font-variation-settings: 'FILL' 1;">sports_basketball</span>
+<span class="font-label-md text-label-md text-[10px] mt-1">Sports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-variant/30 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="print">print</span>
+<span class="font-label-md text-label-md text-[10px] mt-1">Print</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:bg-surface-variant/30 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="event_busy">event_busy</span>
+<span class="font-label-md text-label-md text-[10px] mt-1">Leave</span>
+</a>
+</nav>
+<!-- Add space for safe area on mobile devices with notches -->
+<style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+
+
+</body></html>

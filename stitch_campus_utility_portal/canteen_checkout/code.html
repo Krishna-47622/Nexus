@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Canteen Checkout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "border-dark": "rgba(30, 58, 95, 0.1)",
+                        "on-secondary-container": "#fefcff",
+                        "on-primary-container": "#8aa4cf",
+                        "inverse-on-surface": "#eaf1ff",
+                        "secondary-container": "#2170e4",
+                        "on-error-container": "#93000a",
+                        "secondary": "#0058be",
+                        "surface-dim": "#cbdbf5",
+                        "surface": "#f8f9ff",
+                        "outline-variant": "#c4c6cf",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "inverse-surface": "#213145",
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#edbf7f",
+                        "on-tertiary-fixed": "#291800",
+                        "tertiary-fixed": "#ffddb2",
+                        "outline": "#74777f",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-tertiary-container": "#c69b5f",
+                        "tertiary-container": "#503300",
+                        "background": "#f8f9ff",
+                        "on-background": "#0b1c30",
+                        "surface-container-high": "#dce9ff",
+                        "warning": "#F59E0B",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#60410c",
+                        "border-light": "rgba(255, 255, 255, 0.3)",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#0b1c30",
+                        "primary-container": "#1e3a5f",
+                        "surface-tint": "#455f87",
+                        "success": "#10B981",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#001a42",
+                        "tertiary": "#341f00",
+                        "primary": "#022448",
+                        "surface-container": "#e5eeff",
+                        "on-primary-fixed": "#001c3b",
+                        "error": "#DC2626",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#43474e",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#adc8f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-desktop": "32px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            background-image: 
+                radial-gradient(at 40% 20%, hsla(220,100%,74%,0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, hsla(189,100%,56%,0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(355,100%,93%,0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+        }
+    </style>
+</head>
+<body class="text-on-background min-h-screen flex flex-col font-body-md antialiased pb-24 md:pb-0 pt-16">
+<!-- Top App Bar (Suppress Nav shell because it's a transactional screen, but keep a simplified back-header) -->
+<header class="fixed top-0 w-full z-50 bg-surface-glass backdrop-blur-[10px] border-b border-border-dark flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 transition-all duration-200">
+<div class="flex items-center gap-4">
+<button aria-label="Go back" class="p-2 rounded-full hover:bg-surface-variant/50 transition-colors text-primary">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Nexus</h1>
+</div>
+</header>
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-6 flex flex-col gap-6 md:grid md:grid-cols-12 md:gap-8 items-start">
+<!-- Main Cart Area -->
+<div class="w-full md:col-span-7 lg:col-span-8 flex flex-col gap-6">
+<!-- Order Summary Section -->
+<section class="glass-panel rounded-lg p-6 flex flex-col gap-4">
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-2">Order Summary</h2>
+<!-- Item 1 -->
+<div class="flex items-center justify-between py-3 border-b border-border-dark last:border-0">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded bg-surface-variant flex-shrink-0 overflow-hidden relative">
+<img alt="Club Sandwich" class="w-full h-full object-cover absolute inset-0" data-alt="A close up, high resolution photo of a beautifully constructed club sandwich on a white ceramic plate. The sandwich features perfectly toasted bread, layers of fresh green lettuce, sliced red tomatoes, turkey, and crisp bacon. The lighting is bright and appetizing, reflecting a modern, clean light-mode aesthetic with soft shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgqHaT8JzXWuGJiyZnhsQ2wrK1Suxeh9yLX2NDJcgX5-WcMcgaYGOlrXhyhd2W-MzMZBHTBLRFka6b6UGr9jkHL2qL-czihnCAcDSfVStrPnI1SXVN2yuEew4aGP3FxFmm1Fndpowk26Kg6rOsSTKRBXUvHlG_xT-AwqgMl624xT0Dc78RKKAxmE89gH8Mko1CMA7HJPFY0YxgT0adQFwH4H-p1TaxizmqsikVIULp3bSeXWseNo3H">
+</div>
+<div class="flex flex-col">
+<span class="font-body-lg text-body-lg text-on-surface font-medium">Club Sandwich</span>
+<span class="font-body-md text-body-md text-secondary">$6.50</span>
+</div>
+</div>
+<div class="flex items-center gap-3 bg-surface rounded-full border border-border-dark p-1">
+<button aria-label="Decrease quantity" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-variant text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="font-label-md text-label-md w-4 text-center">1</span>
+<button aria-label="Increase quantity" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-variant text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center justify-between py-3 border-b border-border-dark last:border-0">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded bg-surface-variant flex-shrink-0 overflow-hidden relative">
+<img alt="Artisanal Latte" class="w-full h-full object-cover absolute inset-0" data-alt="A top-down view of an artisanal latte in a minimalist white ceramic cup, featuring intricate rosetta latte art on the crema. The cup sits on a light wooden saucer next to a silver spoon. The environment is bright and modern, bathed in soft, diffused natural light suitable for a clean light-mode UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY4Jr38PkoKSjaEd8QTgXwxWRyHHxJrkyRBkP1I7OF3qbe4W59Kk53JYuusI5FpgU20iy3INMKAKXvNhbCpBBARsuqDcBJ2Z-7nDouTbZA8dG9b33L0HI_PJO_wfYtrYTW0K9kvsydKR5NmjqIoLGXCI9lw5RvFjAu8oAfKdFrVvMIYwdotXsW-TyYQzx7-NPv52hAIJsEj8q3uCPMkezM-3Sg3Jx1S1lv_wfF3p6d2vybL9TVlect">
+</div>
+<div class="flex flex-col">
+<span class="font-body-lg text-body-lg text-on-surface font-medium">Artisanal Latte</span>
+<span class="font-body-md text-body-md text-secondary">₹80</span>
+</div>
+</div>
+<div class="flex items-center gap-3 bg-surface rounded-full border border-border-dark p-1">
+<button aria-label="Decrease quantity" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-variant text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="font-label-md text-label-md w-4 text-center">1</span>
+<button aria-label="Increase quantity" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-variant text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Pickup/Delivery Options -->
+<section class="glass-panel rounded-lg p-6 flex flex-col gap-4">
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-2">Fulfillment Details</h2>
+<div class="grid grid-cols-2 gap-4 mb-4">
+<label class="cursor-pointer relative">
+<input checked="" class="peer sr-only" name="fulfillment" type="radio" value="pickup">
+<div class="rounded-lg border border-border-dark p-4 flex flex-col items-center gap-2 peer-checked:border-secondary peer-checked:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-secondary" data-icon="storefront">storefront</span>
+<span class="font-label-md text-label-md">Pickup</span>
+</div>
+</label>
+<label class="cursor-pointer relative opacity-50">
+<input class="peer sr-only" disabled="" name="fulfillment" type="radio" value="delivery">
+<div class="rounded-lg border border-border-dark p-4 flex flex-col items-center gap-2 transition-all bg-surface-dim">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="directions_bike">directions_bike</span>
+<span class="font-label-md text-label-md">Delivery (Unavailable)</span>
+</div>
+</label>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="pickup-time">Estimated Pickup Time</label>
+<select class="w-full bg-surface border border-border-dark rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors appearance-none" id="pickup-time">
+<option>ASAP (10-15 mins)</option>
+<option>12:00 PM</option>
+<option>12:30 PM</option>
+<option>1:00 PM</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 mt-8 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Sidebar / Payment Area -->
+<div class="w-full md:col-span-5 lg:col-span-4 flex flex-col gap-6 sticky top-24">
+<section class="glass-panel rounded-lg p-6 flex flex-col gap-6">
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Payment</h2>
+<div class="flex flex-col gap-3 pb-4 border-b border-border-dark">
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span class="">Subtotal</span>
+<span class="">₹200</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span class="">Tax</span>
+<span class="">₹0.00</span>
+</div>
+</div>
+<div class="flex justify-between items-center pb-2">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">Total</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">₹200.00</span>
+</div>
+<button class="w-full bg-primary hover:bg-primary-fixed-variant text-on-primary font-label-md text-label-md py-4 rounded-lg flex items-center justify-center gap-2 transition-all duration-200 active:scale-95 shadow-sm">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+                    Pay with Wallet
+                </button>
+<p class="font-caption text-caption text-on-surface-variant text-center mt-2">Current Wallet Balance: ₹4,520</p>
+</section>
+</div>
+</main>
+
+
+</body></html>

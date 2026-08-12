@@ -1,0 +1,38 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: campus-utility-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:campusdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER:org.h2.Driver}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: ${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:9a8f7e6d5c4b3a2f1e0d9c8b7a6f5e4d3c2b1a0987654321fedcba9876543210}
+    expiration-ms: 86400000 # 24 hours
+  supabase:
+    url: ${SUPABASE_URL:https://xyzcompany.supabase.co}
+    key: ${SUPABASE_KEY:dummy_key}
+    storage-bucket: ${SUPABASE_STORAGE_BUCKET:campus-utility}

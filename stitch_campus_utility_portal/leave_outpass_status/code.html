@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Student Leave &amp; Outpass</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "on-secondary-fixed-variant": "#004395",
+                            "surface-tint": "#455f87",
+                            "inverse-surface": "#213145",
+                            "on-tertiary-fixed": "#291800",
+                            "outline": "#74777f",
+                            "surface-container-high": "#dce9ff",
+                            "inverse-on-surface": "#eaf1ff",
+                            "surface-variant": "#d3e4fe",
+                            "surface-container-low": "#eff4ff",
+                            "on-secondary": "#ffffff",
+                            "border-light": "rgba(255, 255, 255, 0.3)",
+                            "surface-glass": "rgba(255, 255, 255, 0.7)",
+                            "outline-variant": "#c4c6cf",
+                            "on-tertiary-container": "#c69b5f",
+                            "surface-dim": "#cbdbf5",
+                            "on-tertiary": "#ffffff",
+                            "on-background": "#0b1c30",
+                            "primary": "#022448",
+                            "tertiary": "#341f00",
+                            "secondary-container": "#2170e4",
+                            "success": "#10B981",
+                            "surface": "#f8f9ff",
+                            "primary-fixed": "#d5e3ff",
+                            "surface-container": "#e5eeff",
+                            "inverse-primary": "#adc8f5",
+                            "primary-container": "#1e3a5f",
+                            "error": "#DC2626",
+                            "on-secondary-fixed": "#001a42",
+                            "on-secondary-container": "#fefcff",
+                            "secondary-fixed": "#d8e2ff",
+                            "surface-bright": "#f8f9ff",
+                            "error-container": "#ffdad6",
+                            "on-error": "#ffffff",
+                            "on-error-container": "#93000a",
+                            "on-primary-fixed": "#001c3b",
+                            "on-primary-container": "#8aa4cf",
+                            "on-primary-fixed-variant": "#2d486d",
+                            "tertiary-container": "#503300",
+                            "on-primary": "#ffffff",
+                            "surface-container-highest": "#d3e4fe",
+                            "background": "#f8f9ff",
+                            "secondary-fixed-dim": "#adc6ff",
+                            "surface-container-lowest": "#ffffff",
+                            "border-dark": "rgba(30, 58, 95, 0.1)",
+                            "on-tertiary-fixed-variant": "#60410c",
+                            "warning": "#F59E0B",
+                            "tertiary-fixed": "#ffddb2",
+                            "primary-fixed-dim": "#adc8f5",
+                            "secondary": "#0058be",
+                            "on-surface": "#0b1c30",
+                            "on-surface-variant": "#43474e",
+                            "tertiary-fixed-dim": "#edbf7f"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.125rem",
+                            "lg": "0.25rem",
+                            "xl": "0.5rem",
+                            "full": "0.75rem"
+                    },
+                    "spacing": {
+                            "margin-desktop": "32px",
+                            "gutter": "16px",
+                            "unit": "4px",
+                            "container-max": "1280px",
+                            "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                            "body-md": ["Inter"],
+                            "body-lg": ["Inter"],
+                            "headline-md": ["Inter"],
+                            "display-lg": ["Inter"],
+                            "caption": ["Inter"],
+                            "headline-lg-mobile": ["Inter"],
+                            "label-md": ["Inter"],
+                            "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                            "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                            "caption": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                            "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                            "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                            "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 backdrop-blur-[10px] border-b border-border-dark dark:border-border-light flat no shadows bg-surface-glass dark:bg-surface-container-high/70 z-40">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-unit h-16 w-full max-w-[1280px] mx-auto">
+<div class="flex items-center gap-4">
+<img class="w-10 h-10 rounded-full object-cover border border-border-dark" data-alt="A small, professional headshot of a student in academic attire, clean light background, bright clear lighting, minimal aesthetic, high resolution, suitable for a profile avatar in a digital portal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVlRfsyx4vI34Xah3HzZGW6xjRqACkt8_dqjGwWXaHfLsoJN_MScUjaBZUmi78UQZbSfgDt7b4q2h1MmPOGWmTYpJie1P2SHlq-lfRvBDRi5iu2AtOSnzglAipeco9MsXJ9DBmIIHqhKSV63hxTSUxiWQcO6udzUN15f5Y84AKKIGW8--OpvNmIhcGcYHQk9ds-YuqNwtcOlnHGCGjRdNi5Zzl6K88JbTTw3AP5bbts8wFX8372CO8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary tracking-tight">Nexus</h1>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:bg-primary-fixed/20 transition-colors p-2 rounded-DEFAULT active:scale-95 duration-150" href="#">Canteen</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:bg-primary-fixed/20 transition-colors p-2 rounded-DEFAULT active:scale-95 duration-150" href="#">Sports</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-label-md text-label-md hover:bg-primary-fixed/20 transition-colors p-2 rounded-DEFAULT active:scale-95 duration-150" href="#">Print</a>
+<a class="text-secondary dark:text-secondary-fixed font-label-md text-label-md hover:bg-primary-fixed/20 transition-colors p-2 rounded-DEFAULT active:scale-95 duration-150" href="#">Leave</a>
+<button class="text-primary dark:text-inverse-primary hover:bg-primary-fixed/20 transition-colors p-2 rounded-DEFAULT active:scale-95 duration-150 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</nav>
+<button class="md:hidden text-primary dark:text-inverse-primary hover:bg-primary-fixed/20 transition-colors p-2 rounded-DEFAULT active:scale-95 duration-150 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-6">
+<!-- Action Row -->
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Recent Requests</h2>
+<button class="bg-secondary-container text-on-secondary-container px-4 py-2 rounded-DEFAULT font-label-md text-label-md flex items-center gap-2 hover:bg-secondary transition-colors active:scale-95 shadow-sm border border-border-dark">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Request
+            </button>
+</div>
+<!-- High Density List Container (Glass) -->
+<div class="bg-surface-glass backdrop-blur-[10px] border border-border-dark rounded-xl overflow-hidden flex flex-col gap-[1px] bg-border-dark">
+<!-- List Item: Pending Leave -->
+<button class="w-full text-left bg-surface hover:bg-surface-container transition-colors p-4 flex items-center justify-between group active:scale-[0.99] duration-150">
+<div class="flex items-center gap-4 flex-1">
+<div class="w-12 h-12 rounded-DEFAULT bg-surface-container flex flex-col items-center justify-center border border-border-dark shrink-0 text-on-surface">
+<span class="font-label-md text-label-md leading-tight text-primary">OCT</span>
+<span class="font-headline-md text-headline-md leading-none">24</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface">Medical Leave</span>
+<span class="bg-warning/10 text-warning px-2 py-0.5 rounded-DEFAULT font-caption text-caption border border-warning/20">Pending</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant line-clamp-1">24 Oct 2023 - 26 Oct 2023 • Going home for dental surgery.</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors ml-4 shrink-0">chevron_right</span>
+</button>
+<!-- List Item: Approved Outpass -->
+<button class="w-full text-left bg-surface hover:bg-surface-container transition-colors p-4 flex items-center justify-between group active:scale-[0.99] duration-150">
+<div class="flex items-center gap-4 flex-1">
+<div class="w-12 h-12 rounded-DEFAULT bg-surface-container flex flex-col items-center justify-center border border-border-dark shrink-0 text-on-surface">
+<span class="font-label-md text-label-md leading-tight text-primary">OCT</span>
+<span class="font-headline-md text-headline-md leading-none">18</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface">City Outpass</span>
+<span class="bg-success/10 text-success px-2 py-0.5 rounded-DEFAULT font-caption text-caption border border-success/20">Approved</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant line-clamp-1">18 Oct 2023, 14:00 - 20:00 • Shopping for supplies.</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors ml-4 shrink-0">chevron_right</span>
+</button>
+<!-- List Item: Currently Out -->
+<button class="w-full text-left bg-surface hover:bg-surface-container transition-colors p-4 flex items-center justify-between group active:scale-[0.99] duration-150">
+<div class="flex items-center gap-4 flex-1">
+<div class="w-12 h-12 rounded-DEFAULT bg-surface-container flex flex-col items-center justify-center border border-border-dark shrink-0 text-on-surface">
+<span class="font-label-md text-label-md leading-tight text-primary">OCT</span>
+<span class="font-headline-md text-headline-md leading-none">15</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface">Weekend Leave</span>
+<span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded-DEFAULT font-caption text-caption border border-secondary/20 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                                Currently Out
+                            </span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant line-clamp-1">15 Oct 2023 - 17 Oct 2023 • Visiting family.</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors ml-4 shrink-0">chevron_right</span>
+</button>
+<!-- List Item: Rejected -->
+<button class="w-full text-left bg-surface hover:bg-surface-container transition-colors p-4 flex items-center justify-between group active:scale-[0.99] duration-150">
+<div class="flex items-center gap-4 flex-1">
+<div class="w-12 h-12 rounded-DEFAULT bg-surface-container flex flex-col items-center justify-center border border-border-dark shrink-0 text-on-surface opacity-70">
+<span class="font-label-md text-label-md leading-tight text-primary">OCT</span>
+<span class="font-headline-md text-headline-md leading-none">10</span>
+</div>
+<div class="flex flex-col gap-1 opacity-70">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface line-through">Event Outpass</span>
+<span class="bg-error/10 text-error px-2 py-0.5 rounded-DEFAULT font-caption text-caption border border-error/20">Rejected</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant line-clamp-1">10 Oct 2023, 18:00 - 23:00 • Concert in city.</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors ml-4 shrink-0">chevron_right</span>
+</button>
+<!-- List Item: Returned -->
+<button class="w-full text-left bg-surface hover:bg-surface-container transition-colors p-4 flex items-center justify-between group active:scale-[0.99] duration-150">
+<div class="flex items-center gap-4 flex-1">
+<div class="w-12 h-12 rounded-DEFAULT bg-surface-container flex flex-col items-center justify-center border border-border-dark shrink-0 text-on-surface opacity-60">
+<span class="font-label-md text-label-md leading-tight text-primary">SEP</span>
+<span class="font-headline-md text-headline-md leading-none">28</span>
+</div>
+<div class="flex flex-col gap-1 opacity-60">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface">City Outpass</span>
+<span class="bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded-DEFAULT font-caption text-caption border border-border-dark">Returned</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant line-clamp-1">28 Sep 2023, 10:00 - 15:00 • Grocery run.</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors ml-4 shrink-0">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full backdrop-blur-[10px] border-t border-border-dark dark:border-border-light flat no shadows bg-surface-glass dark:bg-surface-container-high/70 fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-2 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-primary-fixed/10 active:scale-95 duration-150 w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="restaurant">restaurant</span>
+<span class="font-label-md text-[10px] leading-tight">Canteen</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-primary-fixed/10 active:scale-95 duration-150 w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="sports_basketball">sports_basketball</span>
+<span class="font-label-md text-[10px] leading-tight">Sports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-primary-fixed/10 active:scale-95 duration-150 w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="print">print</span>
+<span class="font-label-md text-[10px] leading-tight">Print</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-DEFAULT p-2 hover:bg-primary-fixed/10 active:scale-95 duration-150 w-16" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="exit_to_app">exit_to_app</span>
+<span class="font-label-md text-[10px] leading-tight">Leave</span>
+</a>
+</nav>
+
+
+</body></html>

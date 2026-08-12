@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus - Roles &amp; Permissions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#0058be",
+                        "tertiary-fixed-dim": "#edbf7f",
+                        "border-dark": "rgba(30, 58, 95, 0.1)",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "outline": "#74777f",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#adc8f5",
+                        "warning": "#F59E0B",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "on-primary-container": "#8aa4cf",
+                        "on-tertiary-container": "#c69b5f",
+                        "surface": "#f8f9ff",
+                        "inverse-surface": "#213145",
+                        "surface-container-high": "#dce9ff",
+                        "on-tertiary": "#ffffff",
+                        "error": "#DC2626",
+                        "surface-tint": "#455f87",
+                        "on-secondary-fixed": "#001a42",
+                        "border-light": "rgba(255, 255, 255, 0.3)",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary": "#341f00",
+                        "on-surface-variant": "#43474e",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "tertiary-fixed": "#ffddb2",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#2170e4",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-tertiary-fixed-variant": "#60410c",
+                        "primary-fixed": "#d5e3ff",
+                        "on-primary": "#ffffff",
+                        "success": "#10B981",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c4c6cf",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#fefcff",
+                        "primary-container": "#1e3a5f",
+                        "surface-container": "#e5eeff",
+                        "tertiary-container": "#503300",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#004395",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-primary-fixed": "#001c3b",
+                        "on-tertiary-fixed": "#291800",
+                        "surface-container-low": "#eff4ff",
+                        "background": "#f8f9ff",
+                        "primary": "#022448",
+                        "on-background": "#0b1c30",
+                        "surface-variant": "#d3e4fe",
+                        "surface-bright": "#f8f9ff",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #f8f9ff; color: #0b1c30; font-family: 'Inter', sans-serif; }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(30, 58, 95, 0.1); }
+        
+        /* Toggle Switch CSS */
+        .toggle-checkbox:checked { right: 0; border-color: #0058be; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #0058be; }
+        .toggle-checkbox:checked + .toggle-label:after { transform: translateX(100%); border-color: white; }
+        .toggle-label { width: 40px; height: 24px; background-color: #c4c6cf; border-radius: 9999px; position: relative; cursor: pointer; transition: background-color 0.2s ease-in-out; }
+        .toggle-label:after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background-color: white; border-radius: 50%; transition: transform 0.2s ease-in-out; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex font-body-md">
+<!-- SideNavBar (Shared Component) -->
+<nav class="hidden md:flex flex-col h-full py-margin-desktop bg-surface-container-lowest dark:bg-inverse-surface h-screen w-64 fixed left-0 top-0 border-r border-border-dark dark:border-border-light z-40">
+<div class="px-6 mb-8 flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold">N</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary leading-tight">Nexus</h1>
+<p class="font-caption text-caption text-on-surface-variant">Utility Admin</p>
+</div>
+</div>
+<div class="flex-1 px-4 space-y-1">
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-secondary hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-secondary hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>User Management</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-secondary hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-secondary hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span>Institutions</span>
+</a>
+<!-- Active State Navigation -->
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-secondary font-bold bg-secondary-container/10 border-r-4 border-secondary cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<div class="px-6 mt-auto space-y-4">
+<button class="w-full py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-secondary transition-colors">Support Portal</button>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-surface-variant hover:text-secondary hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors duration-200 cursor-pointer active:scale-95 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar (Shared Component) -->
+<header class="flex items-center justify-between px-margin-desktop h-16 bg-surface-glass dark:bg-surface-glass backdrop-blur-[10px] fixed top-0 right-0 w-full md:w-[calc(100%-16rem)] z-50 border-b border-border-dark dark:border-border-light transition-all duration-200 ease-in-out">
+<div class="flex items-center">
+<!-- Mobile Menu Button (Hidden on Desktop) -->
+<button class="md:hidden mr-4 text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-headline-md text-headline-md font-extrabold text-primary dark:text-inverse-primary hidden md:block">
+                    Nexus
+                </div>
+</div>
+<div class="flex items-center space-x-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface rounded-full border border-border-dark focus:border-secondary focus:ring-1 focus:ring-secondary text-body-md font-body-md w-64 outline-none" placeholder="Search settings..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-all duration-200 ease-in-out">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary dark:hover:text-secondary-fixed transition-all duration-200 ease-in-out">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-border-dark">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a corporate administrator, neutral background, soft professional lighting, clear and approachable, representing a generic user profile image in a modern UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNDLyy-CTfK3DKslTdzBEz--pWRZApKnpcR35mkQuFYUayToNjR1OUyzr9sMjDkUwtLCNw3FPa5yTl0M6FXtsGVfLjXR3ee2sNyYhqjq5RBNnuoG0rbc-k-Gt3j7mg39N09V328LbblneTg9KVSMQmqZ6t4-xKvSRC6kaTB2sOOcs9lk4sf-_056JI4YiOpuXjjZFXm1S-TwD6J1-O5LFj1pNO2uyruU3Z_xUTQKA0q4t3Owhj-tVE"/>
+</div>
+</div>
+</header>
+<!-- Page Content Canvas -->
+<div class="pt-24 px-margin-mobile md:px-margin-desktop pb-margin-desktop max-w-container-max mx-auto w-full">
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary">Roles &amp; Permissions</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2">Manage access control across the Nexus institutional platform.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-primary text-primary rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors">Discard Changes</button>
+<button class="px-4 py-2 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md hover:bg-primary transition-colors shadow-sm">Save Configuration</button>
+</div>
+</div>
+<!-- Main Matrix Container -->
+<div class="glass-panel rounded-xl overflow-hidden shadow-sm">
+<!-- Table Header Row -->
+<div class="grid grid-cols-6 border-b border-border-dark bg-surface/50">
+<div class="col-span-2 p-4 flex items-end">
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Role</span>
+</div>
+<div class="col-span-1 p-4 text-center">
+<span class="material-symbols-outlined text-outline mb-1 block">visibility</span>
+<span class="font-label-md text-label-md text-on-surface">Read</span>
+</div>
+<div class="col-span-1 p-4 text-center border-l border-border-dark/50">
+<span class="material-symbols-outlined text-outline mb-1 block">edit</span>
+<span class="font-label-md text-label-md text-on-surface">Write</span>
+</div>
+<div class="col-span-1 p-4 text-center border-l border-border-dark/50">
+<span class="material-symbols-outlined text-outline mb-1 block">verified</span>
+<span class="font-label-md text-label-md text-on-surface">Approve</span>
+</div>
+<div class="col-span-1 p-4 text-center border-l border-border-dark/50">
+<span class="material-symbols-outlined text-outline mb-1 block">delete</span>
+<span class="font-label-md text-label-md text-on-surface">Delete</span>
+</div>
+</div>
+<!-- Role Row: Super Admin -->
+<div class="grid grid-cols-6 border-b border-border-dark hover:bg-surface-container-lowest transition-colors">
+<div class="col-span-2 p-4 flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary text-[18px] leading-tight">Super Admin</h3>
+<p class="font-caption text-caption text-on-surface-variant">Full system access</p>
+</div>
+</div>
+<!-- Toggles -->
+<div class="col-span-1 p-4 flex items-center justify-center">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" disabled="" id="sa-read" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-secondary cursor-not-allowed opacity-50" for="sa-read"></label>
+</div>
+</div>
+<div class="col-span-1 p-4 flex items-center justify-center border-l border-border-dark/30">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" disabled="" id="sa-write" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-secondary cursor-not-allowed opacity-50" for="sa-write"></label>
+</div>
+</div>
+<div class="col-span-1 p-4 flex items-center justify-center border-l border-border-dark/30">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" disabled="" id="sa-approve" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-secondary cursor-not-allowed opacity-50" for="sa-approve"></label>
+</div>
+</div>
+<div class="col-span-1 p-4 flex items-center justify-center border-l border-border-dark/30">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" disabled="" id="sa-delete" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-secondary cursor-not-allowed opacity-50" for="sa-delete"></label>
+</div>
+</div>
+</div>
+<!-- Role Row: College Admin -->
+<div class="grid grid-cols-6 border-b border-border-dark hover:bg-surface-container-lowest transition-colors">
+<div class="col-span-2 p-4 flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-warning"></div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary text-[18px] leading-tight">College Admin</h3>
+<p class="font-caption text-caption text-on-surface-variant">Institution level management</p>
+</div>
+</div>
+<!-- Toggles -->
+<div class="col-span-1 p-4 flex items-center justify-center">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" id="ca-read" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-outline-variant" for="ca-read"></label>
+</div>
+</div>
+<div class="col-span-1 p-4 flex items-center justify-center border-l border-border-dark/30">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" id="ca-write" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-outline-variant" for="ca-write"></label>
+</div>
+</div>
+<div class="col-span-1 p-4 flex items-center justify-center border-l border-border-dark/30">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" id="ca-approve" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-outline-variant" for="ca-approve"></label>
+</div>
+</div>
+<div class="col-span-1 p-4 flex items-center justify-center border-l border-border-dark/30">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" id="ca-delete" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-outline-variant" for="ca-delete"></label>
+</div>
+</div>
+</div>
+<!-- Role Row: Staff -->
+<div class="grid grid-cols-6 hover:bg-surface-container-lowest transition-colors">
+<div class="col-span-2 p-4 flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<div>
+<h3 class="font-headline-md text-headline-md text-primary text-[18px] leading-tight">Staff</h3>
+<p class="font-caption text-caption text-on-surface-variant">General operations</p>
+</div>
+</div>
+<!-- Toggles -->
+<div class="col-span-1 p-4 flex items-center justify-center">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" id="st-read" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-outline-variant" for="st-read"></label>
+</div>
+</div>
+<div class="col-span-1 p-4 flex items-center justify-center border-l border-border-dark/30">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" id="st-write" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-outline-variant" for="st-write"></label>
+</div>
+</div>
+<div class="col-span-1 p-4 flex items-center justify-center border-l border-border-dark/30">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" id="st-approve" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-outline-variant" for="st-approve"></label>
+</div>
+</div>
+<div class="col-span-1 p-4 flex items-center justify-center border-l border-border-dark/30">
+<div class="relative inline-block w-10 mr-2 align-middle select-none">
+<input class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" id="st-delete" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-outline-variant" for="st-delete"></label>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 text-right">
+<span class="font-caption text-caption text-on-surface-variant flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                    Changes auto-save locally before final confirmation.
+                </span>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>New Print Job - Student Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-tint": "#455f87",
+                        "inverse-surface": "#213145",
+                        "on-tertiary-fixed": "#291800",
+                        "outline": "#74777f",
+                        "surface-container-high": "#dce9ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "on-secondary": "#ffffff",
+                        "border-light": "rgba(255, 255, 255, 0.3)",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "outline-variant": "#c4c6cf",
+                        "on-tertiary-container": "#c69b5f",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "primary": "#022448",
+                        "tertiary": "#341f00",
+                        "secondary-container": "#2170e4",
+                        "success": "#10B981",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-container": "#e5eeff",
+                        "inverse-primary": "#adc8f5",
+                        "primary-container": "#1e3a5f",
+                        "error": "#DC2626",
+                        "on-secondary-fixed": "#001a42",
+                        "on-secondary-container": "#fefcff",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-bright": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#001c3b",
+                        "on-primary-container": "#8aa4cf",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "tertiary-container": "#503300",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#d3e4fe",
+                        "background": "#f8f9ff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "surface-container-lowest": "#ffffff",
+                        "border-dark": "rgba(30, 58, 95, 0.1)",
+                        "on-tertiary-fixed-variant": "#60410c",
+                        "warning": "#F59E0B",
+                        "tertiary-fixed": "#ffddb2",
+                        "primary-fixed-dim": "#adc8f5",
+                        "secondary": "#0058be",
+                        "on-surface": "#0b1c30",
+                        "on-surface-variant": "#43474e",
+                        "tertiary-fixed-dim": "#edbf7f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "caption": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                },
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md bg-background text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 backdrop-blur-[10px] bg-surface-glass border-b border-border-dark flex justify-between items-center px-margin-mobile md:px-margin-desktop py-unit h-16 z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="account_circle">account_circle</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Nexus</h1>
+</div>
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined hover:bg-primary-fixed/20 transition-colors p-1 rounded-full cursor-pointer" data-icon="notifications">notifications</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6">
+<div class="mb-6">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">New Print Job</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Configure your print settings and upload your document.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Left Column: Upload & Settings -->
+<div class="md:col-span-8 flex flex-col gap-6">
+<!-- File Upload Area -->
+<section class="glass-card rounded-DEFAULT p-6 border-dashed border-2 border-outline-variant hover:border-primary-container transition-colors cursor-pointer text-center flex flex-col items-center justify-center min-h-[200px]" id="upload-area">
+<span class="material-symbols-outlined text-display-lg text-outline mb-4" data-icon="upload_file" style="font-size: 48px;">upload_file</span>
+<h3 class="font-label-md text-label-md text-on-surface mb-1">Drag or tap to upload PDF/DOCX/Image</h3>
+<p class="font-caption text-caption text-on-surface-variant">Max file size: 50MB</p>
+<input accept=".pdf,.docx,.png,.jpg,.jpeg" class="hidden" id="file-input" type="file">
+</section>
+<!-- Print Settings Panel -->
+<section class="glass-card rounded-DEFAULT p-6">
+<h3 class="font-headline-md text-headline-md text-primary mb-4 border-b border-border-dark pb-2">Print Settings</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Copies -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface">Copies</label>
+<div class="flex items-center border border-outline-variant rounded-DEFAULT overflow-hidden bg-surface-container-lowest w-32">
+<button class="p-2 hover:bg-surface-variant text-primary transition-colors flex-1 flex justify-center items-center" id="btn-minus"><span class="material-symbols-outlined" data-icon="remove">remove</span></button>
+<input class="w-12 text-center border-none font-body-md text-body-md focus:ring-0 bg-transparent" id="copies-input" min="1" readonly="" type="number" value="1">
+<button class="p-2 hover:bg-surface-variant text-primary transition-colors flex-1 flex justify-center items-center" id="btn-plus"><span class="material-symbols-outlined" data-icon="add">add</span></button>
+</div>
+</div>
+<!-- Paper Size -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="paper-size">Paper Size</label>
+<select class="border border-outline-variant rounded-DEFAULT p-2 font-body-md text-body-md bg-surface-container-lowest focus:border-primary-container focus:ring-1 focus:ring-primary-container" id="paper-size">
+<option value="A4">A4</option>
+<option value="Letter">Letter</option>
+<option value="A3">A3</option>
+</select>
+</div>
+<!-- Color Toggle -->
+<div class="flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface">Color Options</span>
+<div class="flex border border-outline-variant rounded-DEFAULT overflow-hidden bg-surface-container-lowest">
+<button class="flex-1 p-2 font-label-md text-label-md transition-colors bg-primary-container text-on-primary" id="btn-bw">B&amp;W</button>
+<button class="flex-1 p-2 font-label-md text-label-md transition-colors text-on-surface-variant hover:bg-surface-variant" id="btn-color">Color</button>
+</div>
+</div>
+<!-- Sided Toggle -->
+<div class="flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface">Print Sides</span>
+<div class="flex border border-outline-variant rounded-DEFAULT overflow-hidden bg-surface-container-lowest">
+<button class="flex-1 p-2 font-label-md text-label-md transition-colors bg-primary-container text-on-primary" id="btn-double">Double-Sided</button>
+<button class="flex-1 p-2 font-label-md text-label-md transition-colors text-on-surface-variant hover:bg-surface-variant" id="btn-single">Single-Sided</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Cost Summary & CTA -->
+<div class="md:col-span-4 flex flex-col gap-6">
+<!-- Cost Summary Card -->
+<section class="glass-card rounded-DEFAULT p-6 sticky top-24">
+<h3 class="font-headline-md text-headline-md text-primary mb-4 border-b border-border-dark pb-2">Cost Summary</h3>
+<div class="flex flex-col gap-3 mb-6">
+<div class="flex justify-between font-body-md text-body-md text-on-surface">
+<span class="">Base Rate (B&amp;W)</span>
+<span class="">₹5.00 / pg</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface">
+<span class="">Pages Estimated</span>
+<span id="pages-est" class="">1</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface">
+<span class="">Copies</span>
+<span id="copies-display" class="">1</span>
+</div>
+<hr class="border-border-dark">
+<div class="flex justify-between font-headline-md text-headline-md text-primary mt-2">
+<span class="">Total Estimated</span>
+<span id="total-cost" class="">₹5.00</span>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-3 rounded-DEFAULT hover:bg-on-primary-fixed-variant transition-colors active:scale-95 duration-150 flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" data-icon="payment">payment</span>
+                        Submit &amp; Pay
+                    </button>
+</section>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-2 pb-safe bg-surface-glass border-t border-border-dark backdrop-blur-[10px] md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed/10 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="font-label-md text-label-md mt-1">Canteen</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed/10 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined" data-icon="sports_basketball">sports_basketball</span>
+<span class="font-label-md text-label-md mt-1">Sports</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container p-2 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined" data-icon="print">print</span>
+<span class="font-label-md text-label-md mt-1">Print</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-primary-fixed/10 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined" data-icon="exit_to_app">exit_to_app</span>
+<span class="font-label-md text-label-md mt-1">Leave</span>
+</a>
+</nav>
+<script>
+        // Simple interactions for settings
+        document.addEventListener('DOMContentLoaded', () => {
+            const copiesInput = document.getElementById('copies-input');
+            const copiesDisplay = document.getElementById('copies-display');
+            const totalCostDisplay = document.getElementById('total-cost');
+            const baseRate = 0.05;
+
+            function updateTotal() {
+                const copies = parseInt(copiesInput.value) || 1;
+                copiesDisplay.textContent = copies;
+                totalCostDisplay.textContent = '$' + (copies * baseRate).toFixed(2);
+            }
+
+            document.getElementById('btn-plus').addEventListener('click', () => {
+                copiesInput.value = parseInt(copiesInput.value) + 1;
+                updateTotal();
+            });
+
+            document.getElementById('btn-minus').addEventListener('click', () => {
+                if (parseInt(copiesInput.value) > 1) {
+                    copiesInput.value = parseInt(copiesInput.value) - 1;
+                    updateTotal();
+                }
+            });
+
+            // Toggle logic for buttons
+            const toggleGroup = (btn1, btn2) => {
+                btn1.addEventListener('click', () => {
+                    btn1.classList.replace('text-on-surface-variant', 'bg-primary-container');
+                    btn1.classList.replace('hover:bg-surface-variant', 'text-on-primary');
+                    btn2.classList.replace('bg-primary-container', 'text-on-surface-variant');
+                    btn2.classList.replace('text-on-primary', 'hover:bg-surface-variant');
+                });
+                btn2.addEventListener('click', () => {
+                    btn2.classList.replace('text-on-surface-variant', 'bg-primary-container');
+                    btn2.classList.replace('hover:bg-surface-variant', 'text-on-primary');
+                    btn1.classList.replace('bg-primary-container', 'text-on-surface-variant');
+                    btn1.classList.replace('text-on-primary', 'hover:bg-surface-variant');
+                });
+            };
+
+            const btnBw = document.getElementById('btn-bw');
+            const btnColor = document.getElementById('btn-color');
+            const btnDouble = document.getElementById('btn-double');
+            const btnSingle = document.getElementById('btn-single');
+
+            // Simplified toggle visualization for prototype
+            btnBw.addEventListener('click', () => { btnBw.classList.add('bg-primary-container', 'text-on-primary'); btnBw.classList.remove('text-on-surface-variant'); btnColor.classList.remove('bg-primary-container', 'text-on-primary'); btnColor.classList.add('text-on-surface-variant');});
+            btnColor.addEventListener('click', () => { btnColor.classList.add('bg-primary-container', 'text-on-primary'); btnColor.classList.remove('text-on-surface-variant'); btnBw.classList.remove('bg-primary-container', 'text-on-primary'); btnBw.classList.add('text-on-surface-variant');});
+            
+            btnDouble.addEventListener('click', () => { btnDouble.classList.add('bg-primary-container', 'text-on-primary'); btnDouble.classList.remove('text-on-surface-variant'); btnSingle.classList.remove('bg-primary-container', 'text-on-primary'); btnSingle.classList.add('text-on-surface-variant');});
+            btnSingle.addEventListener('click', () => { btnSingle.classList.add('bg-primary-container', 'text-on-primary'); btnSingle.classList.remove('text-on-surface-variant'); btnDouble.classList.remove('bg-primary-container', 'text-on-primary'); btnDouble.classList.add('text-on-surface-variant');});
+
+            // Upload area click
+            const uploadArea = document.getElementById('upload-area');
+            const fileInput = document.getElementById('file-input');
+            uploadArea.addEventListener('click', () => fileInput.click());
+        });
+    </script>
+
+
+</body></html>

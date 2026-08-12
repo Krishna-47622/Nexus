@@ -1,0 +1,303 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Canteen Menu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "warning": "#F59E0B",
+                        "on-surface-variant": "#43474e",
+                        "border-dark": "rgba(30, 58, 95, 0.1)",
+                        "surface-container": "#e5eeff",
+                        "primary-container": "#1e3a5f",
+                        "border-light": "rgba(255, 255, 255, 0.3)",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "primary": "#022448",
+                        "outline": "#74777f",
+                        "on-primary-container": "#8aa4cf",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#c69b5f",
+                        "on-secondary-container": "#fefcff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "inverse-surface": "#213145",
+                        "secondary": "#0058be",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-primary-fixed": "#001c3b",
+                        "surface": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#004395",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#ffddb2",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed-variant": "#60410c",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#2170e4",
+                        "surface-tint": "#455f87",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "success": "#10B981",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-fixed": "#001a42",
+                        "on-background": "#0b1c30",
+                        "primary-fixed": "#d5e3ff",
+                        "tertiary": "#341f00",
+                        "outline-variant": "#c4c6cf",
+                        "tertiary-container": "#503300",
+                        "on-surface": "#0b1c30",
+                        "on-error": "#ffffff",
+                        "error": "#DC2626",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#291800",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-primary": "#adc8f5",
+                        "tertiary-fixed-dim": "#edbf7f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "caption": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                },
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom scrollbar for horizontal categories */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-[90px] pt-[130px] font-body-md antialiased md:pt-24 md:pb-8 md:px-margin-desktop px-margin-mobile">
+<!-- Top App Bar (Shared Component) -->
+<header class="fixed top-0 left-0 w-full z-50 flex flex-col px-margin-mobile md:px-margin-desktop py-3 bg-surface-glass dark:bg-surface-glass backdrop-blur-[10px] border-b border-border-dark dark:border-border-light flat no shadows md:h-auto h-auto transition-opacity duration-200 active:opacity-70">
+<div class="flex items-center justify-between w-full h-12 md:h-16">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container flex-shrink-0 border border-border-dark">
+<img alt="Student Profile Photo" class="w-full h-full object-cover" data-alt="A professional headshot of a university student in a bright, modern setting with soft lighting and a light slate background. The aesthetic is clean, sharp, and minimalist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY6X2K3HMQfeRj7H2jPIKsvFG-5eT7Ec8M_6TlnqoOBDHYd6Muqyr-EF3HfZhGcj4mPyWbf5smqm8p7VVSFgT1T5CF4XxoBIm6J0rIJNHfLRb1GyNQBZoEiMm5vRI5CSgNDxgqyj-kjVNBUf9GdfnL5gpmlTF-_0v39UGVzX7_sdsR9uTx0BT9Ozm1HU3wu9krZfL3RqASgTdRYVqoqafCUMfVWeQg0eYIV4qQnMgd0064lgafmtx7">
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary dark:text-primary-fixed md:font-headline-md md:text-headline-md font-bold tracking-tight">Nexus</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full text-on-surface-variant dark:text-on-surface-variant hover:bg-primary-container/10 transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 rounded-full text-on-surface-variant dark:text-on-surface-variant hover:bg-primary-container/10 transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-error rounded-full border border-surface"></span>
+</button>
+</div>
+</div>
+<!-- Search & Categories (Mobile Integrated into Header Glass, Desktop separate) -->
+<div class="md:hidden mt-2 pb-2 flex flex-col gap-3">
+<!-- Mobile Search Input -->
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full bg-surface-container-lowest border border-border-dark rounded-xl py-2.5 pl-10 pr-4 font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Search menu items..." type="text">
+</div>
+<!-- Mobile Category Tabs -->
+<div class="flex gap-2 overflow-x-auto no-scrollbar -mx-margin-mobile px-margin-mobile">
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md border border-transparent flex-shrink-0 transition-all shadow-sm">All</button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface-variant border border-border-dark font-label-md text-label-md flex-shrink-0 hover:bg-surface-variant/50 transition-all">Snacks</button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface-variant border border-border-dark font-label-md text-label-md flex-shrink-0 hover:bg-surface-variant/50 transition-all">Meals</button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface-variant border border-border-dark font-label-md text-label-md flex-shrink-0 hover:bg-surface-variant/50 transition-all">Beverages</button>
+</div>
+</div>
+</header>
+<!-- Desktop Search & Categories -->
+<div class="hidden md:flex flex-col gap-6 mb-8 max-w-container-max mx-auto">
+<div class="flex justify-between items-center">
+<h2 class="font-headline-lg text-headline-lg text-primary">Canteen Menu</h2>
+<div class="relative w-72">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full bg-surface-container-lowest border border-border-dark rounded-xl py-2 pl-10 pr-4 font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Search menu items..." type="text">
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md border border-transparent transition-all shadow-sm hover:opacity-90">All Items</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-glass backdrop-blur-[10px] text-on-surface-variant border border-border-dark font-label-md text-label-md hover:bg-surface-variant/50 transition-all">Snacks</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-glass backdrop-blur-[10px] text-on-surface-variant border border-border-dark font-label-md text-label-md hover:bg-surface-variant/50 transition-all">Meals</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-glass backdrop-blur-[10px] text-on-surface-variant border border-border-dark font-label-md text-label-md hover:bg-surface-variant/50 transition-all">Beverages</button>
+</div>
+</div>
+<!-- Main Content Grid -->
+<main class="max-w-container-max mx-auto w-full">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+<!-- Item Card 1 -->
+<div class="flex flex-col bg-[rgba(255,255,255,0.7)] backdrop-blur-[10px] border border-border-dark rounded-xl overflow-hidden group">
+<div class="w-full aspect-[4/3] bg-surface-container relative overflow-hidden">
+<img alt="Club Sandwich" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A delicious looking chicken clubhouse sandwich cut in half, revealing layers of fresh lettuce, tomato, bacon, and grilled chicken, served on a white plate in a bright, modern cafeteria setting with a clean, light aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALUvpwXFWcoTs_ChP3foRhgPcafSLpsBrSR1_03E0fgBZ21VfkX3nka2Y0L2tqFaPVc1khW9P1cL6Jgiv4fgtZ4DWEHUG6vz-D8p4uPa8JYrumYrHSDEo03bQGU0LGN4FVuUqrNLCue-MaQU9Zy86UZ-FP-qXpKhek6_FBBB698PweOxpZdU3xlNxQs48B9tkZZXRgk3k6tyH7dsxc2efVNJfJ9CfJRPz1o3Uw8Z1BzPE55iWQ8gmS">
+<div class="absolute top-2 left-2 bg-[rgba(255,255,255,0.9)] backdrop-blur-[10px] border border-border-dark p-1 rounded-md flex items-center justify-center shadow-sm">
+<span class="w-3 h-3 rounded-sm border border-error flex items-center justify-center">
+<span class="w-1.5 h-1.5 bg-error rounded-full"></span>
+</span>
+</div>
+</div>
+<div class="p-3 md:p-4 flex flex-col flex-grow justify-between gap-3">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface truncate">Club Sandwich</h3>
+<p class="font-caption text-caption text-on-surface-variant mt-1 line-clamp-2">Grilled chicken, bacon, lettuce, tomato.</p>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-headline-md text-body-lg text-primary font-bold">₹120</span>
+<button class="w-8 h-8 rounded-full bg-[#3B82F6] text-on-primary flex items-center justify-center hover:bg-secondary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item Card 2 -->
+<div class="flex flex-col bg-[rgba(255,255,255,0.7)] backdrop-blur-[10px] border border-border-dark rounded-xl overflow-hidden group">
+<div class="w-full aspect-[4/3] bg-surface-container relative overflow-hidden">
+<img alt="Veggie Power Bowl" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A fresh, vibrant vegetarian salad bowl containing quinoa, roasted sweet potatoes, avocado, spinach, and a light dressing. The bowl is set against a clean, minimalist light-mode background with soft natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBch325nCxXPZR5VrXHyXCCL2zpwz8WgT1yqUpbTH3ec25--cTqKVDPQO1nrbscNCVYnSv6AzuW04fTsRTVLUFq7ih721Eb5WR2C0IHf1rZRdek7biSteyxwVSf8AA40sEI7BzVuaOMpvay-SpjfiN7AnaBJbMVv9b1jl1rOqT925CifEJBhs7ziFsG1Pcmdzl-_TtfSZ3MAeEka32EsHvsk7R6G72N9oT9pNrCQoLnFBWyix0B2qFt">
+<div class="absolute top-2 left-2 bg-[rgba(255,255,255,0.9)] backdrop-blur-[10px] border border-border-dark p-1 rounded-md flex items-center justify-center shadow-sm">
+<span class="w-3 h-3 rounded-sm border border-success flex items-center justify-center">
+<span class="w-1.5 h-1.5 bg-success rounded-full"></span>
+</span>
+</div>
+</div>
+<div class="p-3 md:p-4 flex flex-col flex-grow justify-between gap-3">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface truncate">Veggie Power Bowl</h3>
+<p class="font-caption text-caption text-on-surface-variant mt-1 line-clamp-2">Quinoa, avocado, roasted sweet potato.</p>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-headline-md text-body-lg text-primary font-bold">₹150</span>
+<button class="w-8 h-8 rounded-full bg-[#3B82F6] text-on-primary flex items-center justify-center hover:bg-secondary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item Card 3 -->
+<div class="flex flex-col bg-[rgba(255,255,255,0.7)] backdrop-blur-[10px] border border-border-dark rounded-xl overflow-hidden group">
+<div class="w-full aspect-[4/3] bg-surface-container relative overflow-hidden">
+<img alt="Artisanal Latte" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A steaming cup of artisanal latte art coffee in a sleek white ceramic mug, placed on a modern, clean light wood surface. The lighting is bright and inviting, fitting a modern high-end cafeteria aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_1hCQ_hy4UJ3JrNKMkN8g8rPmzRPa2qpXwVEOsQIDNwVdOxDpQywVMDzr-XhHa56yxQXLcjnjXnuteS7PC-RE2xPj0urtVp3xiJZ8SIvQLKyi44LCUReJT1DVYRJpRUZn6lPWaIh9WPUhpO0jzw4yn36xCvrQdfSuFqisvY--oq1giRT1P69IdK2HumVc4ZMRmeJN1Mk8XlL2MmrIsjNZ5QQ_Bf29XGavvvubV1Sj_SirOim_1ydU">
+<div class="absolute top-2 left-2 bg-[rgba(255,255,255,0.9)] backdrop-blur-[10px] border border-border-dark p-1 rounded-md flex items-center justify-center shadow-sm">
+<span class="w-3 h-3 rounded-sm border border-success flex items-center justify-center">
+<span class="w-1.5 h-1.5 bg-success rounded-full"></span>
+</span>
+</div>
+</div>
+<div class="p-3 md:p-4 flex flex-col flex-grow justify-between gap-3">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface truncate">Artisanal Latte</h3>
+<p class="font-caption text-caption text-on-surface-variant mt-1 line-clamp-2">Locally roasted beans, choice of milk.</p>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-headline-md text-body-lg text-primary font-bold">₹80</span>
+<button class="w-8 h-8 rounded-full bg-[#3B82F6] text-on-primary flex items-center justify-center hover:bg-secondary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item Card 4 -->
+<div class="flex flex-col bg-[rgba(255,255,255,0.7)] backdrop-blur-[10px] border border-border-dark rounded-xl overflow-hidden group">
+<div class="w-full aspect-[4/3] bg-surface-container relative overflow-hidden">
+<img alt="Grilled Salmon Plate" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A beautifully plated portion of grilled salmon with a side of steamed asparagus and lemon wedge. The presentation is sharp, clean, and minimalist, emphasizing the freshness of the meal in a high-tech academic environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9uo-neEjQJfw-zoWzLRIUluN6EIfzBPmunErj3m_dftRfMRDxrXXdBY-0I5VAbh5-X6CPeZa5X0fFxOd_j5Zkq494P2xc3NMr7mqLZWvJBLbjN3WKoeAHlBHk4f6YtvjRILHTauUDd-bW3IkkZMFfK3h8b99Efc6dAX8Z6neu7Xkgnv-4G1Hz0vxBTtoN15wGOtFtSiriOdPVktp4LeF1Og0XrkDnkttvZg8MC6fFtam1-zQgLeTT">
+<div class="absolute top-2 left-2 bg-[rgba(255,255,255,0.9)] backdrop-blur-[10px] border border-border-dark p-1 rounded-md flex items-center justify-center shadow-sm">
+<span class="w-3 h-3 rounded-sm border border-error flex items-center justify-center">
+<span class="w-1.5 h-1.5 bg-error rounded-full"></span>
+</span>
+</div>
+</div>
+<div class="p-3 md:p-4 flex flex-col flex-grow justify-between gap-3">
+<div>
+<h3 class="font-label-md text-label-md text-on-surface truncate">Grilled Salmon</h3>
+<p class="font-caption text-caption text-on-surface-variant mt-1 line-clamp-2">Wild caught salmon, asparagus, lemon.</p>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-headline-md text-body-lg text-primary font-bold">₹220</span>
+<button class="w-8 h-8 rounded-full bg-surface-container-lowest text-primary border border-primary flex items-center justify-center opacity-50 cursor-not-allowed">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+<div class="absolute inset-0 bg-surface-glass backdrop-blur-[2px] flex items-center justify-center pointer-events-none opacity-0 transition-opacity">
+<span class="bg-surface-container-lowest px-3 py-1 rounded-full text-caption font-label-md text-error border border-error">Out of Stock</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (Cart) -->
+<button class="fixed right-margin-mobile bottom-20 md:right-margin-desktop md:bottom-24 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:bg-secondary-container transition-transform active:scale-95 z-40">
+<span class="material-symbols-outlined text-[24px]">shopping_cart</span>
+<span class="absolute top-0 right-0 w-6 h-6 bg-error text-on-error rounded-full font-label-md text-[12px] flex items-center justify-center transform translate-x-1/4 -translate-y-1/4 border-2 border-background shadow-sm">3</span>
+</button>
+<!-- Bottom Navigation Bar (Shared Component) - Visible on Mobile Only -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface-glass dark:bg-surface-glass backdrop-blur-[10px] border-t border-border-dark dark:border-border-light flat no shadows h-16">
+<!-- Tab 1: Home -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-label-md mt-1 text-[10px]">Home</span>
+</a>
+<!-- Tab 2: Orders (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant/50 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px]">receipt_long</span>
+<span class="font-label-md text-label-md mt-1 text-[10px]">Orders</span>
+</a>
+<!-- Tab 3: Profile (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant/50 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined text-[24px]">person</span>
+<span class="font-label-md text-label-md mt-1 text-[10px]">Profile</span>
+</a>
+</nav>
+<!-- Safe area padding for mobile bottom nav -->
+<style>
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+    </style>
+
+
+</body></html>

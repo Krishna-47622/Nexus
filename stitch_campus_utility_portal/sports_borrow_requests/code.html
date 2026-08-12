@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus Campus - Sports Room Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "on-secondary-fixed": "#001a42",
+                        "success": "#10B981",
+                        "primary-container": "#1e3a5f",
+                        "secondary-fixed": "#d8e2ff",
+                        "warning": "#F59E0B",
+                        "primary": "#022448",
+                        "tertiary-container": "#503300",
+                        "outline-variant": "#c4c6cf",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-surface": "#213145",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-surface": "#0b1c30",
+                        "error": "#DC2626",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#60410c",
+                        "surface-variant": "#d3e4fe",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-tertiary-container": "#c69b5f",
+                        "surface-bright": "#f8f9ff",
+                        "background": "#f8f9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-tint": "#455f87",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#001c3b",
+                        "secondary": "#0058be",
+                        "tertiary-fixed": "#ffddb2",
+                        "surface-container": "#e5eeff",
+                        "on-surface-variant": "#43474e",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#2170e4",
+                        "outline": "#74777f",
+                        "on-secondary-fixed-variant": "#004395",
+                        "tertiary": "#341f00",
+                        "inverse-primary": "#adc8f5",
+                        "surface-dim": "#cbdbf5",
+                        "border-dark": "rgba(30, 58, 95, 0.1)",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary-fixed-dim": "#edbf7f",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "border-light": "rgba(255, 255, 255, 0.3)",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "on-tertiary-fixed": "#291800",
+                        "on-secondary-container": "#fefcff",
+                        "on-primary-container": "#8aa4cf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "unit": "4px",
+                        "margin-desktop": "32px",
+                        "gutter": "16px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md bg-background text-on-background flex min-h-screen relative">
+<!-- Background Pattern -->
+<div class="fixed inset-0 z-[-1] opacity-20 pointer-events-none" style="background-image: radial-gradient(#022448 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- Side Navigation Shell -->
+<aside class="w-64 h-screen fixed left-0 top-0 border-r border-outline-variant backdrop-blur-[10px] bg-surface-glass dark:bg-primary z-50 flex flex-col h-full py-margin-desktop hidden md:flex">
+<div class="px-6 mb-8">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface dark:text-on-primary-fixed">Nexus Campus</h1>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">Warden Console</p>
+</div>
+<nav class="flex-1 flex flex-col gap-2 px-2">
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="engineering">engineering</span>
+<span class="font-label-md text-label-md">Work Orders</span>
+</a>
+<a class="text-secondary dark:text-secondary-fixed-dim border-r-4 border-secondary px-4 py-3 flex items-center gap-3 bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-md text-label-md font-bold">Inventory</span>
+</a>
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-md text-label-md">Staff Directory</span>
+</a>
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-secondary text-on-secondary font-label-md text-label-md py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+                New Request
+            </button>
+<div class="mt-6 flex flex-col gap-2">
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-variant transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 hover:bg-surface-variant transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col min-h-screen">
+<!-- Top App Bar -->
+<header class="docked full-width top-0 h-16 border-b border-outline-variant backdrop-blur-[10px] bg-surface-glass dark:bg-surface-container-lowest flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop z-40 sticky">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-extrabold text-primary dark:text-primary-fixed-dim">Nexus Utility</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-4 border border-outline-variant">
+<img alt="Warden Profile Picture" class="w-full h-full object-cover" data-alt="A close-up, professional portrait of a university staff member in a bright, modern light-mode office setting. The lighting is soft and natural, emphasizing clarity and transparency. The mood is approachable and efficient." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByuPvmb0wV7Jyp1L_wQcLagcL_VPVITLMOpsm2ZrKpJd6aLoGFXgx1sElyaGHJPTPxfqIMHWqa0FrFsvxp3wMsMKGsYrjFUTeRZCHDP9_vJZZansjy9-XX-SwkIaqAbfInSbM4G2-B4o-dJB6defmSYIEukmkTl1wwZYeLJOY9Ci1Snqp-zxcNizN7HAX-TumqwB1bir6kZJzc1ZpWRSCZ6a1OYM58Tvy58IC3RuXZ7ZS0AMK5EG2i"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="p-margin-mobile md:p-margin-desktop flex-1">
+<div class="mb-8">
+<h2 class="font-headline-md text-headline-md text-on-surface">Sports Equipment Management</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Review pending requests and track issued items.</p>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Pending Borrow Requests (Spans 2 columns on extra large screens) -->
+<section class="xl:col-span-2 glass-card rounded-xl p-6 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">pending_actions</span>
+                            Pending Requests
+                        </h3>
+<span class="bg-secondary-container text-on-secondary-container font-caption text-caption px-2 py-1 rounded">3 New</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant">
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant">Student</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant">Roll No</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant">Equipment</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant">Duration</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-primary font-label-md">AR</div>
+<span class="font-body-md text-body-md font-medium text-on-surface">Aarav Reddy</span>
+</div>
+</td>
+<td class="py-4 px-4 font-body-md text-body-md text-on-surface-variant">CS21B045</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-outline">sports_basketball</span>
+<span class="font-body-md text-body-md text-on-surface">Premium Basketball (Spalding)</span>
+</div>
+</td>
+<td class="py-4 px-4 font-body-md text-body-md text-on-surface-variant">2 Hours</td>
+<td class="py-4 px-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="w-8 h-8 rounded-full bg-error-container text-on-error-container hover:bg-error hover:text-on-error flex items-center justify-center transition-colors" title="Reject">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-success/20 text-success hover:bg-success hover:text-white flex items-center justify-center transition-colors" title="Approve">
+<span class="material-symbols-outlined text-sm">check</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-primary font-label-md">SM</div>
+<span class="font-body-md text-body-md font-medium text-on-surface">Priya Sharma</span>
+</div>
+</td>
+<td class="py-4 px-4 font-body-md text-body-md text-on-surface-variant">EE22B112</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-outline">sports_tennis</span>
+<span class="font-body-md text-body-md text-on-surface">Tennis Racket x2</span>
+</div>
+</td>
+<td class="py-4 px-4 font-body-md text-body-md text-on-surface-variant">4 Hours</td>
+<td class="py-4 px-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="w-8 h-8 rounded-full bg-error-container text-on-error-container hover:bg-error hover:text-on-error flex items-center justify-center transition-colors" title="Reject">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-success/20 text-success hover:bg-success hover:text-white flex items-center justify-center transition-colors" title="Approve">
+<span class="material-symbols-outlined text-sm">check</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-primary font-label-md">NK</div>
+<span class="font-body-md text-body-md font-medium text-on-surface">Nikhil Kumar</span>
+</div>
+</td>
+<td class="py-4 px-4 font-body-md text-body-md text-on-surface-variant">ME20B089</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-outline">sports_cricket</span>
+<span class="font-body-md text-body-md text-on-surface">Cricket Kit (Full)</span>
+</div>
+</td>
+<td class="py-4 px-4 font-body-md text-body-md text-on-surface-variant">1 Day</td>
+<td class="py-4 px-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="w-8 h-8 rounded-full bg-error-container text-on-error-container hover:bg-error hover:text-on-error flex items-center justify-center transition-colors" title="Reject">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-success/20 text-success hover:bg-success hover:text-white flex items-center justify-center transition-colors" title="Approve">
+<span class="material-symbols-outlined text-sm">check</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Currently Out (Spans 1 column on extra large screens) -->
+<section class="glass-card rounded-xl p-6 flex flex-col h-full">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">outbound</span>
+                        Currently Out
+                    </h3>
+<div class="flex flex-col gap-4 overflow-y-auto pr-2" style="max-height: 400px;">
+<!-- Item: Overdue -->
+<div class="border border-error/30 bg-error/5 rounded-lg p-4 flex flex-col gap-3 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface">Volleyball Net</h4>
+<p class="font-caption text-caption text-on-surface-variant mt-1">Issued to: Rahul Verma (CE22)</p>
+</div>
+<div class="flex items-center gap-1 text-error font-label-md text-label-md bg-error-container px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm">warning</span>
+                                    Overdue
+                                </div>
+</div>
+<div class="flex justify-between items-end mt-2">
+<div>
+<span class="font-caption text-caption text-on-surface-variant block">Fine Accrued:</span>
+<span class="font-body-md text-body-md font-bold text-error">₹ 150</span>
+</div>
+<button class="font-label-md text-label-md text-primary border border-primary hover:bg-primary hover:text-on-primary px-3 py-1.5 rounded transition-colors">
+                                    Mark Returned
+                                </button>
+</div>
+</div>
+<!-- Item: Due Soon (Warning) -->
+<div class="border border-warning/30 bg-warning/5 rounded-lg p-4 flex flex-col gap-3 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-warning"></div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface">Badminton Shuttlecocks (Box)</h4>
+<p class="font-caption text-caption text-on-surface-variant mt-1">Issued to: Sneha P (EC21)</p>
+</div>
+<div class="flex items-center gap-1 text-warning font-label-md text-label-md bg-warning/20 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                    Due in 15m
+                                </div>
+</div>
+<div class="flex justify-between items-end mt-2">
+<div>
+<span class="font-caption text-caption text-on-surface-variant block">Fine Accrued:</span>
+<span class="font-body-md text-body-md font-medium text-on-surface-variant">₹ 0</span>
+</div>
+<button class="font-label-md text-label-md text-primary border border-primary hover:bg-primary hover:text-on-primary px-3 py-1.5 rounded transition-colors">
+                                    Mark Returned
+                                </button>
+</div>
+</div>
+<!-- Item: On Track (Success) -->
+<div class="border border-success/30 bg-success/5 rounded-lg p-4 flex flex-col gap-3 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-success"></div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface">Chess Board Set</h4>
+<p class="font-caption text-caption text-on-surface-variant mt-1">Issued to: Amit J (CS23)</p>
+</div>
+<div class="flex items-center gap-1 text-success font-label-md text-label-md bg-success/20 px-2 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                                    On Track
+                                </div>
+</div>
+<div class="flex justify-between items-end mt-2">
+<div>
+<span class="font-caption text-caption text-on-surface-variant block">Due:</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Today, 6:00 PM</span>
+</div>
+<button class="font-label-md text-label-md text-primary border border-primary hover:bg-primary hover:text-on-primary px-3 py-1.5 rounded transition-colors">
+                                    Mark Returned
+                                </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html><html class="h-full" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Student Login | Institutional Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "warning": "#F59E0B",
+                        "on-surface-variant": "#43474e",
+                        "border-dark": "rgba(30, 58, 95, 0.1)",
+                        "surface-container": "#e5eeff",
+                        "primary-container": "#1e3a5f",
+                        "border-light": "rgba(255, 255, 255, 0.3)",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "primary": "#022448",
+                        "outline": "#74777f",
+                        "on-primary-container": "#8aa4cf",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#c69b5f",
+                        "on-secondary-container": "#fefcff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "inverse-surface": "#213145",
+                        "secondary": "#0058be",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-primary-fixed": "#001c3b",
+                        "surface": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#004395",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#ffddb2",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed-variant": "#60410c",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#2170e4",
+                        "surface-tint": "#455f87",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "success": "#10B981",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-fixed": "#001a42",
+                        "on-background": "#0b1c30",
+                        "primary-fixed": "#d5e3ff",
+                        "tertiary": "#341f00",
+                        "outline-variant": "#c4c6cf",
+                        "tertiary-container": "#503300",
+                        "on-surface": "#0b1c30",
+                        "on-error": "#ffffff",
+                        "error": "#DC2626",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#291800",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-primary": "#adc8f5",
+                        "tertiary-fixed-dim": "#edbf7f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "caption": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(213, 227, 255, 0.4) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(216, 226, 255, 0.4) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+        }
+    </style>
+</head>
+<body class="h-full flex items-center justify-center p-margin-mobile md:p-margin-desktop antialiased font-body-md text-on-surface">
+<main class="w-full max-w-md mx-auto">
+<div class="glass-card rounded-xl p-8 shadow-sm">
+<!-- Header -->
+<div class="text-center mb-8">
+<div class="w-16 h-16 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="material-symbols-outlined text-4xl" data-icon="school" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-2 hidden md:block">Nexus</h1>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2 md:hidden">Nexus</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Access your academic resources</p>
+</div>
+<!-- Login Form -->
+<form action="#" class="space-y-6" method="POST">
+<!-- College Selector -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="college">Institution</label>
+<div class="relative">
+<select class="w-full bg-white border border-border-dark rounded-lg py-3 px-4 pl-10 appearance-none focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-colors font-body-md text-body-md text-on-surface" id="college" name="college">
+<option disabled="" selected="" value="">Select your college</option>
+<option value="eng">College of Engineering</option>
+<option value="sci">College of Sciences</option>
+<option value="art">College of Arts &amp; Humanities</option>
+<option value="bus">School of Business</option>
+</select>
+<span class="material-symbols-outlined absolute left-3 top-3.5 text-on-surface-variant pointer-events-none" data-icon="account_balance">account_balance</span>
+<span class="material-symbols-outlined absolute right-3 top-3.5 text-on-surface-variant pointer-events-none" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Username -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="username">Roll Number / Username</label>
+<div class="relative">
+<input class="w-full bg-white border border-border-dark rounded-lg py-3 px-4 pl-10 focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-colors font-body-md text-body-md text-on-surface" id="username" name="username" placeholder="e.g. 2024CS101" required="" type="text">
+<span class="material-symbols-outlined absolute left-3 top-3.5 text-on-surface-variant pointer-events-none" data-icon="person">person</span>
+</div>
+</div>
+<!-- Password -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="block font-label-md text-label-md text-on-surface" for="password">Password</label>
+<a class="font-caption text-caption text-secondary hover:text-primary transition-colors" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<input class="w-full bg-white border border-border-dark rounded-lg py-3 px-4 pl-10 focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-colors font-body-md text-body-md text-on-surface" id="password" name="password" placeholder="••••••••" required="" type="password">
+<span class="material-symbols-outlined absolute left-3 top-3.5 text-on-surface-variant pointer-events-none" data-icon="lock">lock</span>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-primary hover:bg-inverse-surface text-on-primary font-label-md text-label-md py-3 px-4 rounded-lg transition-colors flex justify-center items-center gap-2 mt-8" type="submit">
+                    Login
+                    <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+<!-- Footer Links -->
+<div class="mt-8 pt-6 border-t border-border-dark text-center">
+<a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors" href="#">First time login? Set new password</a>
+</div>
+</div>
+<div class="mt-8 text-center text-on-surface-variant font-caption text-caption">
+            © 2024 Institutional Portal System. All rights reserved.
+        </div>
+</main>
+
+
+</body></html>

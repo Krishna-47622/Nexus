@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nexus Staff Portal - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "on-secondary-fixed": "#001a42",
+                        "success": "#10B981",
+                        "primary-container": "#1e3a5f",
+                        "secondary-fixed": "#d8e2ff",
+                        "warning": "#F59E0B",
+                        "primary": "#022448",
+                        "tertiary-container": "#503300",
+                        "outline-variant": "#c4c6cf",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-surface": "#213145",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-surface": "#0b1c30",
+                        "error": "#DC2626",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#60410c",
+                        "surface-variant": "#d3e4fe",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-tertiary-container": "#c69b5f",
+                        "surface-bright": "#f8f9ff",
+                        "background": "#f8f9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-tint": "#455f87",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#001c3b",
+                        "secondary": "#0058be",
+                        "tertiary-fixed": "#ffddb2",
+                        "surface-container": "#e5eeff",
+                        "on-surface-variant": "#43474e",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#2170e4",
+                        "outline": "#74777f",
+                        "on-secondary-fixed-variant": "#004395",
+                        "tertiary": "#341f00",
+                        "inverse-primary": "#adc8f5",
+                        "surface-dim": "#cbdbf5",
+                        "border-dark": "rgba(30, 58, 95, 0.1)",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary-fixed-dim": "#edbf7f",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "border-light": "rgba(255, 255, 255, 0.3)",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "on-tertiary-fixed": "#291800",
+                        "on-secondary-container": "#fefcff",
+                        "on-primary-container": "#8aa4cf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "unit": "4px",
+                        "margin-desktop": "32px",
+                        "gutter": "16px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9ff;
+        }
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+        }
+        
+        /* Subtle background organic shapes for the 'Glass Reveal' effect */
+        .bg-shape-1 {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(213, 227, 255, 0.6) 0%, rgba(248, 249, 255, 0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .bg-shape-2 {
+            position: absolute;
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(216, 226, 255, 0.5) 0%, rgba(248, 249, 255, 0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen w-full flex items-center justify-center relative overflow-hidden bg-background">
+<!-- Decorative Background -->
+<div class="bg-shape-1"></div>
+<div class="bg-shape-2"></div>
+<!-- Main Container -->
+<main class="relative z-10 w-full max-w-md px-margin-mobile md:px-0">
+<!-- Glassmorphism Login Card -->
+<div class="glass-card rounded-xl p-8 flex flex-col gap-8 w-full">
+<!-- Branding Header -->
+<div class="flex flex-col items-center justify-center text-center gap-2">
+<div class="h-16 w-16 bg-primary-container rounded-full flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-on-primary text-3xl" style="font-variation-settings: 'FILL' 1;">
+                        domain
+                    </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Nexus Staff Portal</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Authorized Institutional Access</p>
+</div>
+<!-- Login Form -->
+<form class="flex flex-col gap-6" onsubmit="event.preventDefault();">
+<!-- Department / Role Selection -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="department">Department Role</label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary appearance-none transition-colors" id="department">
+<option disabled="" selected="" value="">Select your department</option>
+<option value="admin">Central Administration</option>
+<option value="warden">Hostel Warden</option>
+<option value="canteen">Canteen &amp; Mess</option>
+<option value="sports">Sports &amp; Recreation</option>
+<option value="print">Print &amp; Resource Center</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none">
+                            keyboard_arrow_down
+                        </span>
+</div>
+</div>
+<!-- Staff ID -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="staff-id">Staff ID</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="staff-id" placeholder="e.g. EMP-2049" type="text"/>
+</div>
+<!-- Password -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="password" placeholder="Enter your password" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]">
+                                visibility_off
+                            </span>
+</button>
+</div>
+</div>
+<!-- Actions -->
+<div class="pt-2 flex flex-col gap-4">
+<button class="w-full bg-secondary text-on-secondary font-label-md text-label-md py-3 rounded-lg hover:bg-secondary-container transition-colors flex items-center justify-center gap-2" type="submit">
+                        Authenticate
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<div class="flex items-center justify-between mt-2">
+<a class="font-caption text-caption text-secondary hover:underline" href="#">Reset Credentials</a>
+<a class="font-caption text-caption text-outline hover:text-on-surface transition-colors" href="#">IT Support</a>
+</div>
+</div>
+</form>
+</div>
+<!-- Footer Info -->
+<div class="mt-8 text-center">
+<p class="font-caption text-caption text-outline">
+                © 2024 Nexus Institutional Systems. Restricted Access.
+            </p>
+</div>
+</main>
+</body></html>

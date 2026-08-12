@@ -1,0 +1,281 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Leave Request - StudentPortal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#004395",
+                        "surface-tint": "#455f87",
+                        "inverse-surface": "#213145",
+                        "on-tertiary-fixed": "#291800",
+                        "outline": "#74777f",
+                        "surface-container-high": "#dce9ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "on-secondary": "#ffffff",
+                        "border-light": "rgba(255, 255, 255, 0.3)",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "outline-variant": "#c4c6cf",
+                        "on-tertiary-container": "#c69b5f",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "primary": "#022448",
+                        "tertiary": "#341f00",
+                        "secondary-container": "#2170e4",
+                        "success": "#10B981",
+                        "surface": "#f8f9ff",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-container": "#e5eeff",
+                        "inverse-primary": "#adc8f5",
+                        "primary-container": "#1e3a5f",
+                        "error": "#DC2626",
+                        "on-secondary-fixed": "#001a42",
+                        "on-secondary-container": "#fefcff",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-bright": "#f8f9ff",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#001c3b",
+                        "on-primary-container": "#8aa4cf",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "tertiary-container": "#503300",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#d3e4fe",
+                        "background": "#f8f9ff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "surface-container-lowest": "#ffffff",
+                        "border-dark": "rgba(30, 58, 95, 0.1)",
+                        "on-tertiary-fixed-variant": "#60410c",
+                        "warning": "#F59E0B",
+                        "tertiary-fixed": "#ffddb2",
+                        "primary-fixed-dim": "#adc8f5",
+                        "secondary": "#0058be",
+                        "on-surface": "#0b1c30",
+                        "on-surface-variant": "#43474e",
+                        "tertiary-fixed-dim": "#edbf7f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "safe": "env(safe-area-inset-bottom)"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "caption": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.surface');
+            color: theme('colors.on-surface');
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .glass-panel {
+            background-color: theme('colors.surface-glass');
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid theme('colors.border-dark');
+        }
+        .form-input {
+            background-color: theme('colors.surface-container-lowest');
+            border: 1px solid theme('colors.border-dark');
+            border-radius: theme('borderRadius.DEFAULT');
+            padding: 8px 12px;
+            font-family: theme('fontFamily.body-md');
+            font-size: 16px;
+            line-height: 24px;
+            color: theme('colors.on-surface');
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: theme('colors.secondary-container');
+            box-shadow: 0 0 0 1px theme('colors.secondary-container');
+        }
+        .form-label {
+            font-family: theme('fontFamily.label-md');
+            font-size: 14px;
+            font-weight: 600;
+            color: theme('colors.on-surface-variant');
+            margin-bottom: 4px;
+            display: block;
+        }
+        /* Custom File Input Styling */
+        input[type="file"]::file-selector-button {
+            border: 1px solid theme('colors.primary-container');
+            padding: 4px 12px;
+            border-radius: theme('borderRadius.DEFAULT');
+            background-color: theme('colors.surface-container-lowest');
+            color: theme('colors.primary-container');
+            font-family: theme('fontFamily.label-md');
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-right: 12px;
+        }
+        input[type="file"]::file-selector-button:hover {
+            background-color: theme('colors.primary-fixed');
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 backdrop-blur-[10px] bg-surface-glass dark:bg-surface-container-high/70 border-b border-border-dark dark:border-border-light z-40">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-unit h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<button class="text-primary dark:text-inverse-primary hover:bg-primary-fixed/20 transition-colors p-2 rounded-DEFAULT active:scale-95 duration-150 md:hidden flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<div class="flex items-center gap-3">
+<img alt="Student Profile Avatar" class="w-8 h-8 rounded-full object-cover border border-border-dark" data-alt="A small, professional 32x32 pixel student profile avatar. A realistic photographic portrait of a young adult looking forward with a neutral expression, set against a solid, light blue background. The aesthetic is clean, well-lit, and suitable for an academic ID photo, adhering to the high-density Institutional Modern style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCSxhQXgySwJsq8V35lfzK7j8AOfrE_rku6EjC03fBCcJFAvJ8abUTCnGMH6u_5nSLJIC4b7EJoCtMshougeyQMyETxAj4b0E9qnozx92KnlMR-71Dy17FKH4_Heh7S0RQEauke3bdIshMoJaMM1fYrEuN_3mW0oB78CmAIM7S1CEoUNIfwz4_kQJ6BoAbFkB389bvvfZ_iDvZdG5_VjGlht0bQ-Z7fPCB6KPajlwV37CEKzNWBzlc">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary hidden md:block">Nexus</h1>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary md:hidden">Leave Request</h1>
+</div>
+</div>
+<div class="hidden md:flex flex-1 justify-center gap-8 px-4">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant hover:bg-primary-fixed/20 transition-colors px-4 py-2 rounded-DEFAULT flex items-center gap-2 active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">restaurant</span>
+                    Canteen
+                </a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant hover:bg-primary-fixed/20 transition-colors px-4 py-2 rounded-DEFAULT flex items-center gap-2 active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">sports_basketball</span>
+                    Sports
+                </a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant hover:bg-primary-fixed/20 transition-colors px-4 py-2 rounded-DEFAULT flex items-center gap-2 active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">print</span>
+                    Print
+                </a>
+<a class="font-label-md text-label-md text-secondary dark:text-secondary-fixed bg-primary-fixed/10 hover:bg-primary-fixed/20 transition-colors px-4 py-2 rounded-DEFAULT flex items-center gap-2 active:scale-95 duration-150 border-b-2 border-secondary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">exit_to_app</span>
+                    Leave
+                </a>
+</div>
+<button class="text-primary dark:text-inverse-primary hover:bg-primary-fixed/20 transition-colors p-2 rounded-DEFAULT active:scale-95 duration-150 flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-6 flex flex-col items-center">
+<div class="w-full max-w-3xl glass-panel p-6 rounded-DEFAULT mb-8 shadow-sm">
+<div class="mb-6 pb-4 border-b border-border-dark hidden md:block">
+<h2 class="font-headline-md text-headline-md text-on-surface">New Leave Request</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Please provide accurate details for your absence to expedite the approval process.</p>
+</div>
+<form class="flex flex-col gap-6">
+<!-- Date Range (Bento-style row) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="form-label" for="fromDate">From Date</label>
+<div class="relative">
+<input class="form-input" id="fromDate" name="fromDate" required="" type="date">
+</div>
+</div>
+<div>
+<label class="form-label" for="toDate">To Date</label>
+<div class="relative">
+<input class="form-input" id="toDate" name="toDate" required="" type="date">
+</div>
+</div>
+</div>
+<!-- Destination -->
+<div>
+<label class="form-label" for="destination">Destination</label>
+<input class="form-input" id="destination" name="destination" placeholder="City, State, or Event Name" required="" type="text">
+</div>
+<!-- Reason (Multiline) -->
+<div>
+<label class="form-label" for="reason">Reason</label>
+<textarea class="form-input resize-none" id="reason" name="reason" placeholder="Provide a detailed explanation for your leave request..." required="" rows="4"></textarea>
+</div>
+<!-- Attach Document -->
+<div>
+<label class="form-label">Attach Document (Optional)</label>
+<div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-border-dark border-dashed rounded-DEFAULT bg-surface-container-lowest hover:bg-surface-container-low transition-colors relative group">
+<div class="space-y-1 text-center">
+<span class="material-symbols-outlined text-outline-variant text-4xl mb-2 group-hover:text-primary-container transition-colors" style="font-variation-settings: 'FILL' 0;">upload_file</span>
+<div class="flex font-body-md text-body-md text-on-surface-variant justify-center">
+<label class="relative cursor-pointer bg-transparent rounded-DEFAULT font-label-md text-label-md text-primary-container hover:text-secondary-container focus-within:outline-none" for="file-upload">
+<span class="">Upload a file</span>
+<input class="sr-only" id="file-upload" name="file-upload" type="file">
+</label>
+<p class="pl-1">or drag and drop</p>
+</div>
+<p class="font-caption text-caption text-outline">Upload medical certificates or permission letters (PNG, JPG, PDF up to 5MB)</p>
+</div>
+</div>
+</div>
+<!-- Primary CTA -->
+<div class="pt-4 border-t border-border-dark flex justify-end">
+<button class="bg-primary-container hover:bg-[#152a46] text-white font-label-md text-label-md py-3 px-6 rounded-DEFAULT shadow-sm active:scale-95 duration-150 transition-all flex items-center gap-2" type="submit">
+<span class="material-symbols-outlined text-[18px]">send</span>
+                        Submit Request
+                    </button>
+</div>
+</form>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-2 pb-safe bg-surface-glass dark:bg-surface-container-high/70 backdrop-blur-[10px] border-t border-border-dark dark:border-border-light md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-primary-fixed/10 active:scale-95 duration-150 rounded-DEFAULT w-16" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">restaurant</span>
+<span class="font-label-md text-[10px] leading-tight font-medium">Canteen</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-primary-fixed/10 active:scale-95 duration-150 rounded-DEFAULT w-16" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">sports_basketball</span>
+<span class="font-label-md text-[10px] leading-tight font-medium">Sports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant p-2 hover:bg-primary-fixed/10 active:scale-95 duration-150 rounded-DEFAULT w-16" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">print</span>
+<span class="font-label-md text-[10px] leading-tight font-medium">Print</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-DEFAULT p-2 hover:bg-primary-fixed/10 active:scale-95 duration-150 w-16" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">exit_to_app</span>
+<span class="font-label-md text-[10px] leading-tight font-medium">Leave</span>
+</a>
+</nav>
+
+
+</body></html>

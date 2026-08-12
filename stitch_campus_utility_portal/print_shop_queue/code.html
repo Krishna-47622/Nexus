@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Print Shop Dashboard - Nexus Campus</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-glass": "rgba(255, 255, 255, 0.7)",
+                      "on-secondary-fixed": "#001a42",
+                      "success": "#10B981",
+                      "primary-container": "#1e3a5f",
+                      "secondary-fixed": "#d8e2ff",
+                      "warning": "#F59E0B",
+                      "primary": "#022448",
+                      "tertiary-container": "#503300",
+                      "outline-variant": "#c4c6cf",
+                      "error-container": "#ffdad6",
+                      "primary-fixed": "#d5e3ff",
+                      "surface-container-low": "#eff4ff",
+                      "inverse-surface": "#213145",
+                      "primary-fixed-dim": "#adc8f5",
+                      "on-surface": "#0b1c30",
+                      "error": "#DC2626",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#60410c",
+                      "surface-variant": "#d3e4fe",
+                      "secondary-fixed-dim": "#adc6ff",
+                      "on-tertiary-container": "#c69b5f",
+                      "surface-bright": "#f8f9ff",
+                      "background": "#f8f9ff",
+                      "surface-container-highest": "#d3e4fe",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface-tint": "#455f87",
+                      "on-error": "#ffffff",
+                      "on-primary-fixed": "#001c3b",
+                      "secondary": "#0058be",
+                      "tertiary-fixed": "#ffddb2",
+                      "surface-container": "#e5eeff",
+                      "on-surface-variant": "#43474e",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#2170e4",
+                      "outline": "#74777f",
+                      "on-secondary-fixed-variant": "#004395",
+                      "tertiary": "#341f00",
+                      "inverse-primary": "#adc8f5",
+                      "surface-dim": "#cbdbf5",
+                      "border-dark": "rgba(30, 58, 95, 0.1)",
+                      "on-secondary": "#ffffff",
+                      "on-background": "#0b1c30",
+                      "surface-container-high": "#dce9ff",
+                      "tertiary-fixed-dim": "#edbf7f",
+                      "on-primary-fixed-variant": "#2d486d",
+                      "border-light": "rgba(255, 255, 255, 0.3)",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "surface": "#f8f9ff",
+                      "on-tertiary-fixed": "#291800",
+                      "on-secondary-container": "#fefcff",
+                      "on-primary-container": "#8aa4cf"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "unit": "4px",
+                      "margin-desktop": "32px",
+                      "gutter": "16px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "caption": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "caption": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface h-full flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-margin-desktop w-64 h-screen fixed left-0 top-0 border-r border-outline-variant backdrop-blur-[10px] bg-surface-glass dark:bg-primary z-20">
+<div class="px-6 mb-8 flex items-center gap-4">
+<img class="w-10 h-10 object-contain rounded" data-alt="A small, modern, geometric logo representing a high-tech academic institution, utilizing sharp lines and a color palette of deep navy and vibrant blue on a white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi5Yg0JwZRgO2YRbx4bh8eNThm4pj5BE80S287vmKZbiy5-MJvDRJLmluXJB6NIVJRzAEKwfifUvSODa1dARSECGIvLfxowplCDn3ZeCxdqAWUwBpaQNKntubEc_LrN_jml1t34q-pnsHiB9ZJdkjBTE7GF5NBIL9BGFphjvPn9CgpSMnAcX7BAodOdyNlFXEzzf76YD9fh_mmhBKyuAjeoZptC5NqVJbrz4bav7hHR0rI9JuSpjnc"/>
+<div>
+<div class="font-headline-lg text-headline-lg font-bold text-on-surface dark:text-on-primary-fixed leading-tight">Nexus Campus</div>
+<div class="font-label-md text-label-md text-on-surface-variant">Warden Console</div>
+</div>
+</div>
+<button class="mx-6 mb-6 bg-[#3B82F6] hover:bg-secondary-container text-white font-label-md text-label-md rounded px-4 py-2 flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+            New Request
+        </button>
+<div class="flex-1 overflow-y-auto">
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="text-secondary dark:text-secondary-fixed-dim border-r-4 border-secondary px-4 py-3 flex items-center gap-3 bg-surface-container-high font-label-md text-label-md scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">print</span>
+                Print Jobs
+            </a>
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                Inventory
+            </a>
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">groups</span>
+                Staff Directory
+            </a>
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+                Analytics
+            </a>
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</div>
+<div class="mt-auto px-4 pb-4">
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">help</span>
+                Support
+            </a>
+<a class="text-on-surface-variant dark:text-outline-variant px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-primary-container transition-colors duration-200 font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Sign Out
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col h-screen overflow-hidden">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-margin-desktop py-4 bg-surface-glass dark:bg-surface-container-lowest border-b border-outline-variant backdrop-blur-[10px] z-10 h-16 shrink-0">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-extrabold text-primary dark:text-primary-fixed-dim">Nexus Utility</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center bg-surface-container-low rounded-full px-4 py-2 border border-border-dark focus-within:border-secondary transition-colors">
+<span class="material-symbols-outlined text-outline mr-2 text-[20px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md font-body-md text-on-surface w-64 placeholder:text-outline" placeholder="Search jobs, students..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-secondary-container border border-border-dark overflow-hidden flex items-center justify-center shrink-0">
+<img alt="Warden Profile Picture" class="w-full h-full object-cover" data-alt="A professional headshot of a campus warden, wearing a dark navy blazer, smiling subtly, with a light blurred background typical of a modern academic office setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOaVst1ey_2L77v-OhcgjYHaZEL5aAKUxeGPLtEKw6PcwhyItaXvpHaFmm6pFoHrv978ESO2giH0r5yEvHPPluELNEWLmFABXxE3M0tvsSI8PBX6o4DbkGbBRD-NEucT13vT_xRs7Gn17rYYc2GP-txDmYtP_CRjkgNliICCQtE1sSGpabKTvK3BFGZA3C1nfoOvctIo330_aC1Mrz9YXcVCBCUgiTZd9ANs-edqVNhI2_hNp35hKd"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-bright">
+<div class="max-w-container-max mx-auto">
+<!-- Metrics Bento -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-8">
+<div class="glass-card rounded-xl p-6 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-md text-label-md text-on-surface-variant">Pages Printed Today</span>
+<span class="material-symbols-outlined text-secondary">description</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface">3,492</div>
+<div class="font-caption text-caption text-success flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                            +12% vs yesterday
+                        </div>
+</div>
+<div class="glass-card rounded-xl p-6 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-md text-label-md text-on-surface-variant">Active Printers</span>
+<span class="material-symbols-outlined text-success">print</span>
+</div>
+<div class="flex items-baseline gap-2">
+<div class="font-display-lg text-display-lg text-on-surface">4</div>
+<div class="font-headline-md text-headline-md text-outline">/ 5</div>
+</div>
+<div class="font-caption text-caption text-warning flex items-center gap-1 mt-2">
+<span class="status-dot bg-warning mr-1"></span>
+                            Printer B offline for maintenance
+                        </div>
+</div>
+<div class="glass-card rounded-xl p-6 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-md text-label-md text-on-surface-variant">Queue Load</span>
+<span class="material-symbols-outlined text-primary">pending_actions</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface">18</div>
+<div class="w-full bg-surface-container-high rounded-full h-2 mt-4 overflow-hidden border border-border-dark">
+<div class="bg-secondary h-2 rounded-full" style="width: 65%"></div>
+</div>
+</div>
+</div>
+<!-- Print Jobs List -->
+<div class="glass-card rounded-xl overflow-hidden flex flex-col">
+<div class="p-6 border-b border-border-dark flex justify-between items-center bg-surface-glass">
+<h2 class="font-headline-md text-headline-md text-on-surface">Incoming Print Jobs</h2>
+<div class="flex gap-2">
+<button class="font-label-md text-label-md text-on-surface-variant border border-border-dark rounded px-3 py-1 bg-surface-glass hover:bg-surface-container-low transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                                Filter
+                            </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="bg-surface-container-low border-b border-border-dark">
+<th class="font-label-md text-label-md text-on-surface-variant py-3 px-6">Job ID / Student</th>
+<th class="font-label-md text-label-md text-on-surface-variant py-3 px-6">File Details</th>
+<th class="font-label-md text-label-md text-on-surface-variant py-3 px-6">Settings</th>
+<th class="font-label-md text-label-md text-on-surface-variant py-3 px-6">Payment</th>
+<th class="font-label-md text-label-md text-on-surface-variant py-3 px-6">Status</th>
+<th class="font-label-md text-label-md text-on-surface-variant py-3 px-6 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface divide-y divide-border-dark bg-surface-glass">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6">
+<div class="font-label-md text-label-md text-primary">#PRN-8842</div>
+<div class="text-on-surface-variant text-sm mt-1">Sarah Jenkins</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-error-container text-on-error-container flex items-center justify-center shrink-0 border border-border-dark">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div>
+<div class="font-medium truncate max-w-[150px]" title="Final_Thesis_v3.pdf">Final_Thesis_v3.pdf</div>
+<div class="font-caption text-caption text-on-surface-variant">42 Pages • 2.4 MB</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-wrap gap-1">
+<span class="font-caption text-caption bg-surface-container px-2 py-1 rounded border border-border-dark text-on-surface">B&amp;W</span>
+<span class="font-caption text-caption bg-surface-container px-2 py-1 rounded border border-border-dark text-on-surface">Double-sided</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-success text-[18px]">check_circle</span>
+<div>
+<div>₹ 84.00</div>
+<div class="font-caption text-caption text-on-surface-variant">Pre-paid (Wallet)</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="font-caption text-caption bg-warning/20 text-warning px-2 py-1 rounded flex items-center w-max gap-1">
+<span class="status-dot bg-warning"></span>
+                                            Queued
+                                        </span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="bg-[#3B82F6] hover:bg-secondary-container text-white font-label-md text-label-md rounded px-4 py-2 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+                                            Start Printing
+                                        </button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6">
+<div class="font-label-md text-label-md text-primary">#PRN-8843</div>
+<div class="text-on-surface-variant text-sm mt-1">David Chen</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 border border-border-dark">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div>
+<div class="font-medium truncate max-w-[150px]" title="Lab_Report_Chem101.docx">Lab_Report_Chem...</div>
+<div class="font-caption text-caption text-on-surface-variant">5 Pages • 0.8 MB</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-wrap gap-1">
+<span class="font-caption text-caption bg-secondary-container/20 text-secondary-container px-2 py-1 rounded border border-secondary-container/30">Color</span>
+<span class="font-caption text-caption bg-surface-container px-2 py-1 rounded border border-border-dark text-on-surface">Single-sided</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-success text-[18px]">check_circle</span>
+<div>
+<div>₹ 25.00</div>
+<div class="font-caption text-caption text-on-surface-variant">Pre-paid (Wallet)</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="font-caption text-caption bg-secondary/10 text-secondary px-2 py-1 rounded flex items-center w-max gap-1 border border-secondary/20">
+<span class="material-symbols-outlined text-[14px] animate-spin">sync</span>
+                                            Printing
+                                        </span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="bg-surface border border-outline hover:bg-surface-container-low text-primary font-label-md text-label-md rounded px-4 py-2 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+                                            Mark Ready
+                                        </button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 px-6">
+<div class="font-label-md text-label-md text-primary">#PRN-8840</div>
+<div class="text-on-surface-variant text-sm mt-1">Aisha Patel</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-error-container text-on-error-container flex items-center justify-center shrink-0 border border-border-dark">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div>
+<div class="font-medium truncate max-w-[150px]" title="Architecture_Plans.pdf">Architecture_Plan...</div>
+<div class="font-caption text-caption text-on-surface-variant">12 Pages • 14 MB</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-wrap gap-1">
+<span class="font-caption text-caption bg-secondary-container/20 text-secondary-container px-2 py-1 rounded border border-secondary-container/30">Color</span>
+<span class="font-caption text-caption bg-surface-container px-2 py-1 rounded border border-border-dark text-on-surface">A3 Size</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-success text-[18px]">check_circle</span>
+<div>
+<div>₹ 120.00</div>
+<div class="font-caption text-caption text-on-surface-variant">Pre-paid (Wallet)</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="font-caption text-caption bg-success/20 text-success px-2 py-1 rounded flex items-center w-max gap-1">
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+                                            Ready
+                                        </span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

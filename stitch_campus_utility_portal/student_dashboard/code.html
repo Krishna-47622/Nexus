@@ -1,0 +1,310 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<title>Student Dashboard</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Glassmorphism utilities */
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+        }
+        
+        .glass-modal {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(30, 58, 95, 0.15);
+        }
+
+        /* Safe area padding for mobile nav */
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* Hide scrollbar for clean look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "warning": "#F59E0B",
+                        "on-surface-variant": "#43474e",
+                        "border-dark": "rgba(30, 58, 95, 0.1)",
+                        "surface-container": "#e5eeff",
+                        "primary-container": "#1e3a5f",
+                        "border-light": "rgba(255, 255, 255, 0.3)",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "primary": "#022448",
+                        "outline": "#74777f",
+                        "on-primary-container": "#8aa4cf",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#c69b5f",
+                        "on-secondary-container": "#fefcff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "inverse-surface": "#213145",
+                        "secondary": "#0058be",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-primary-fixed": "#001c3b",
+                        "surface": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#004395",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#ffddb2",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed-variant": "#60410c",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-container": "#2170e4",
+                        "surface-tint": "#455f87",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "success": "#10B981",
+                        "surface-container-high": "#dce9ff",
+                        "on-secondary-fixed": "#001a42",
+                        "on-background": "#0b1c30",
+                        "primary-fixed": "#d5e3ff",
+                        "tertiary": "#341f00",
+                        "outline-variant": "#c4c6cf",
+                        "tertiary-container": "#503300",
+                        "on-surface": "#0b1c30",
+                        "on-error": "#ffffff",
+                        "error": "#DC2626",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#291800",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-primary": "#adc8f5",
+                        "tertiary-fixed-dim": "#edbf7f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "caption": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col relative pb-[80px]">
+<!-- TopAppBar JSON mapping -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-margin-mobile h-16 bg-surface-glass dark:bg-surface-glass backdrop-blur-[10px] border-b border-border-dark dark:border-border-light md:px-margin-desktop md:hidden">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center border border-border-dark">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a college student in their early 20s. They are wearing a casual but neat outfit, perhaps a crisp button-down shirt or a clean university hoodie. The lighting is bright and evenly distributed, creating a fresh, light-mode aesthetic. The background is a soft, blurred institutional setting, like a modern campus building interior with white and light blue tones. The mood is confident and ready to learn." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6gtawtsKzu39i1jJ-k_q5yaTJIqy2JE8pcozx9k1qZWEDx2p_8D9Nrm14Hsod9YqL0SGIXGmiDGaomSXPPGMahP75eBtsTbTiznvfU4yhy3QHt0mFwlz3xBsdCS1B4xX_CLcIFjBKjW-l0drimIMvll4k8rjSCSu484RRpU_uUr9sztpb9c0_l40v3-U4-GCidhiaoPz_vEwkG39MyoTuar9bzfrsba88oNHY1syA12JzH77wnha1">
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary dark:text-primary-fixed">Nexus</h1>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-primary-container/10 transition-opacity duration-200 active:opacity-70">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<!-- Desktop Navigation Shell (Hidden on mobile) -->
+<div class="hidden md:flex fixed top-0 left-0 w-full z-50 items-center justify-between px-margin-desktop h-16 bg-surface-glass backdrop-blur-[10px] border-b border-border-dark">
+<div class="flex items-center gap-8">
+<h1 class="font-headline-md text-headline-md text-primary">Nexus</h1>
+<nav class="flex gap-1">
+<a class="px-4 py-2 rounded-lg bg-primary-container/10 text-primary font-label-md text-label-md" href="#">Home</a>
+<a class="px-4 py-2 rounded-lg text-on-surface-variant hover:bg-surface-variant/50 transition-colors font-label-md text-label-md" href="#">Orders</a>
+<a class="px-4 py-2 rounded-lg text-on-surface-variant hover:bg-surface-variant/50 transition-colors font-label-md text-label-md" href="#">Profile</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant border border-border-dark">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a college student in their early 20s. They are wearing a casual but neat outfit, perhaps a crisp button-down shirt or a clean university hoodie. The lighting is bright and evenly distributed, creating a fresh, light-mode aesthetic. The background is a soft, blurred institutional setting, like a modern campus building interior with white and light blue tones. The mood is confident and ready to learn." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdv00cBUM81VX2SkemvJbKnEvr1zMemxH2KgwB-I28jBGcFtAD0Ca7mLSdU8FVPGS2SiqVm6-J31K5Gkk88UA2rq4anO0YduShGMc31yRbD8lT16GOMtppSA5N9J4Z6bNmkK4pO10RFADUaVWE-Bi-G8MVCd3czJjfgc61dz_vp4_2JMhWfe0gpPSf3rYprH8BWsFADysgQGa_DecjYvuEuw9X3h3cgpOVmKqzcNdpMAHO0k17ZMvq">
+</div>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-[88px] md:pt-[104px] pb-6 flex flex-col gap-[24px]">
+<!-- Greeting Section -->
+<section class="flex flex-col gap-1">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary">Hello, Alex!</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Roll No. 2023CS0192</p>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-gutter auto-rows-min">
+<!-- Featured Wallet Balance Card (Spans full on mobile, 5 cols on desktop) -->
+<div class="md:col-span-5 glass-panel rounded-xl p-6 flex flex-col gap-6 relative overflow-hidden group">
+<!-- Abstract background pattern for wallet -->
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-secondary/10 rounded-full blur-2xl group-hover:bg-secondary/20 transition-colors duration-500"></div>
+<div class="absolute -left-10 -bottom-10 w-32 h-32 bg-primary/5 rounded-full blur-xl"></div>
+<div class="relative z-10 flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant">Wallet Balance</span>
+<div class="flex items-end gap-2">
+<span class="font-display-lg text-display-lg text-primary">₹12,450.00</span>
+<span class="font-body-md text-body-md text-success mb-2 flex items-center"><span class="material-symbols-outlined text-[16px]">trending_up</span> +₹1,250.00</span>
+</div>
+</div>
+<div class="relative z-10 flex gap-3 mt-auto">
+<button class="flex-1 bg-[#3B82F6] hover:bg-blue-600 text-white font-label-md text-label-md py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                        Top Up
+                    </button>
+<button class="w-12 h-[44px] border border-primary text-primary rounded-lg flex items-center justify-center hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined">history</span>
+</button>
+</div>
+</div>
+<!-- Quick Actions Grid (Spans full on mobile, 7 cols on desktop) -->
+<div class="md:col-span-7 grid grid-cols-2 gap-4">
+<!-- Action 1 -->
+<button class="glass-panel rounded-xl p-4 flex flex-col items-center justify-center gap-3 hover:bg-surface-glass/80 transition-all active:scale-[0.98] group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-secondary group-hover:bg-secondary/10 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]" data-icon="restaurant" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<span class="font-label-md text-label-md text-primary text-center">Order Food</span>
+</button>
+<!-- Action 2 -->
+<button class="glass-panel rounded-xl p-4 flex flex-col items-center justify-center gap-3 hover:bg-surface-glass/80 transition-all active:scale-[0.98] group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-secondary group-hover:bg-secondary/10 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]" data-icon="devices" style="font-variation-settings: 'FILL' 1;">devices</span>
+</div>
+<span class="font-label-md text-label-md text-primary text-center">Borrow Equip</span>
+</button>
+<!-- Action 3 -->
+<button class="glass-panel rounded-xl p-4 flex flex-col items-center justify-center gap-3 hover:bg-surface-glass/80 transition-all active:scale-[0.98] group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-secondary group-hover:bg-secondary/10 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]" data-icon="print" style="font-variation-settings: 'FILL' 1;">print</span>
+</div>
+<span class="font-label-md text-label-md text-primary text-center">Print Doc</span>
+</button>
+<!-- Action 4 -->
+<button class="glass-panel rounded-xl p-4 flex flex-col items-center justify-center gap-3 hover:bg-surface-glass/80 transition-all active:scale-[0.98] group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-secondary group-hover:bg-secondary/10 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]" data-icon="directions_run" style="font-variation-settings: 'FILL' 1;">directions_run</span>
+</div>
+<span class="font-label-md text-label-md text-primary text-center">Apply Leave</span>
+</button>
+</div>
+<!-- Active Section Feed (Spans full 12 cols on desktop) -->
+<div class="md:col-span-12 flex flex-col gap-4 mt-2">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-primary">Active Now</h3>
+<button class="font-label-md text-label-md text-secondary hover:underline">View All</button>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Feed Item 1: Food Order -->
+<div class="glass-panel rounded-xl p-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-warning shrink-0">
+<span class="material-symbols-outlined">local_dining</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center justify-between gap-2">
+<span class="font-label-md text-label-md text-primary truncate">Cafeteria Order #4092</span>
+<span class="font-caption text-caption text-on-surface-variant whitespace-nowrap">2m ago</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant truncate">Preparing your Chicken Salad Bowl</span>
+</div>
+<div class="px-2 py-1 bg-warning/10 border border-warning/20 rounded text-warning font-caption text-caption uppercase tracking-wider shrink-0">
+                            In Progress
+                        </div>
+</div>
+<!-- Feed Item 2: Outpass Approval -->
+<div class="glass-panel rounded-xl p-4 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined">badge</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center justify-between gap-2">
+<span class="font-label-md text-label-md text-primary truncate">Weekend Outpass</span>
+<span class="font-caption text-caption text-on-surface-variant whitespace-nowrap">1h ago</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant truncate">Pending HOD Approval for 12/Oct - 14/Oct</span>
+</div>
+<div class="px-2 py-1 bg-surface-variant border border-border-dark rounded text-on-surface-variant font-caption text-caption uppercase tracking-wider shrink-0 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span> Pending
+                        </div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar JSON mapping (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface-glass dark:bg-surface-glass backdrop-blur-[10px] border-t border-border-dark dark:border-border-light">
+<!-- Active: Home -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-label-md mt-1">Home</span>
+</button>
+<!-- Inactive: Orders -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant/50 scale-95 transition-transform duration-150 rounded-lg">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-md text-label-md mt-1">Orders</span>
+</button>
+<!-- Inactive: Profile -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:bg-surface-variant/50 scale-95 transition-transform duration-150 rounded-lg">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md mt-1">Profile</span>
+</button>
+</nav>
+
+
+</body></html>
