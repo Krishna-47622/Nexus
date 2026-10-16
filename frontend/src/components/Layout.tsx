@@ -18,6 +18,7 @@ import {
   Building,
   Layers,
   Menu,
+  Store,
   X,
 } from 'lucide-react';
 
@@ -200,8 +201,9 @@ export const StaffLayout: React.FC = () => {
   const permissions = user?.permissions || [];
   const sidebarLinks: { label: string; path: string; icon: React.ElementType }[] = [];
 
-  if (permissions.includes('CANTEEN_UPDATE_ORDER_STATUS') || permissions.includes('CANTEEN_VIEW_MENU')) {
+  if (permissions.includes('CANTEEN_UPDATE_ORDER_STATUS') || permissions.includes('CANTEEN_VIEW_MENU') || permissions.includes('CANTEEN_MANAGE_MENU') || user?.primaryRole?.toLowerCase().includes('canteen')) {
     sidebarLinks.push({ label: 'Canteen Kitchen Queue', path: '/staff/canteen/orders', icon: Utensils });
+    sidebarLinks.push({ label: 'Menu & Item Management', path: '/staff/canteen/menu', icon: Store });
   }
   if (permissions.includes('SPORTS_APPROVE_BORROW') || permissions.includes('SPORTS_MANAGE_EQUIPMENT') || user?.primaryRole?.toLowerCase().includes('sports')) {
     sidebarLinks.push({ label: 'Sports Pending Borrows', path: '/staff/sports/pending', icon: Dumbbell });

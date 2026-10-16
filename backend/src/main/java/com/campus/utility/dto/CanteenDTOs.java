@@ -62,6 +62,7 @@ public class CanteenDTOs {
         private String itemName;
         private Integer quantity;
         private BigDecimal unitPrice;
+        private String vendorName;
     }
 
     @Data
@@ -79,6 +80,7 @@ public class CanteenDTOs {
         private String upiTxnRef;
         private String upiIntentUrl;
         private List<OrderItemDTO> items;
+        private List<String> vendors;
         private LocalDateTime createdAt;
     }
 }

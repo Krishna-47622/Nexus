@@ -32,6 +32,7 @@ import { NotificationsPage } from './pages/student/NotificationsPage';
 
 // Staff Dashboards
 import { CanteenStaffOrders } from './pages/staff/CanteenStaffOrders';
+import { CanteenStaffMenu } from './pages/staff/CanteenStaffMenu';
 import { SportsStaffPending } from './pages/staff/SportsStaffPending';
 import { SportsStaffCurrent } from './pages/staff/SportsStaffCurrent';
 import { SportsStaffInventory } from './pages/staff/SportsStaffInventory';
@@ -117,6 +118,7 @@ export const App: React.FC = () => {
             }
           >
             <Route path="canteen/orders" element={<CanteenStaffOrders />} />
+            <Route path="canteen/menu" element={<CanteenStaffMenu />} />
             <Route path="sports/pending" element={<SportsStaffPending />} />
             <Route path="sports/current" element={<SportsStaffCurrent />} />
             <Route path="sports/inventory" element={<SportsStaffInventory />} />

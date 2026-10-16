@@ -163,12 +163,174 @@ public class CanteenController {
     }
 
     @GetMapping("/staff/orders")
-    @PreAuthorize("hasAuthority('CANTEEN_UPDATE_ORDER_STATUS') or hasAuthority('CANTEEN_VIEW_MENU') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
-    public ResponseEntity<List<CanteenDTOs.OrderDTO>> getStaffOrdersQueue() {
+    @PreAuthorize("hasAuthority('CANTEEN_UPDATE_ORDER_STATUS') or hasAuthority('CANTEEN_VIEW_MENU') or hasAuthority('CANTEEN_MANAGE_MENU') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
+    public ResponseEntity<List<CanteenDTOs.OrderDTO>> getStaffOrdersQueue(
+            @RequestParam(required = false) String franchise) {
         Long collegeId = TenantContext.getCollegeId();
+        if (collegeId == null) {
+            collegeId = collegeRepository.findAll().stream().findFirst().map(College::getId).orElse(1L);
+        }
         List<Order> orders = orderRepository.findByCollegeIdAndStatusIn(collegeId, List.of("PLACED", "PREPARING", "READY"));
-        List<CanteenDTOs.OrderDTO> dtos = orders.stream().map(o -> mapToOrderDTO(o, null)).collect(Collectors.toList());
+
+        List<CanteenDTOs.OrderDTO> dtos = new ArrayList<>();
+        boolean filterFranchise = franchise != null && !franchise.trim().isEmpty() && !"ALL".equalsIgnoreCase(franchise.trim());
+        String targetFranchise = filterFranchise ? franchise.trim().toLowerCase() : "";
+
+        for (Order o : orders) {
+            CanteenDTOs.OrderDTO dto = mapToOrderDTO(o, null);
+            if (filterFranchise) {
+                List<CanteenDTOs.OrderItemDTO> franchiseItems = dto.getItems().stream()
+                        .filter(i -> i.getVendorName() != null && i.getVendorName().trim().equalsIgnoreCase(targetFranchise))
+                        .collect(Collectors.toList());
+
+                if (!franchiseItems.isEmpty()) {
+                    dto.setItems(franchiseItems);
+                    BigDecimal franchiseTotal = franchiseItems.stream()
+                            .map(i -> i.getUnitPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
+                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                    dto.setTotalAmount(franchiseTotal);
+                    dtos.add(dto);
+                }
+            } else {
+                dtos.add(dto);
+            }
+        }
+
         return ResponseEntity.ok(dtos);
+    }
+
+    // ─── Staff: Menu & Item Management ────────────────────────────────
+    @GetMapping("/staff/menu")
+    @PreAuthorize("hasAuthority('CANTEEN_MANAGE_MENU') or hasAuthority('CANTEEN_VIEW_MENU') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
+    public ResponseEntity<List<CanteenDTOs.MenuItemDTO>> getStaffMenu(
+            @RequestParam(required = false) String franchise) {
+        Long collegeId = TenantContext.getCollegeId();
+        if (collegeId == null) {
+            collegeId = collegeRepository.findAll().stream().findFirst().map(College::getId).orElse(1L);
+        }
+        List<MenuItem> items = menuItemRepository.findByCollegeId(collegeId);
+        if (franchise != null && !franchise.trim().isEmpty() && !"ALL".equalsIgnoreCase(franchise.trim())) {
+            String f = franchise.trim().toLowerCase();
+            items = items.stream()
+                    .filter(i -> i.getVendorName() != null && i.getVendorName().trim().equalsIgnoreCase(f))
+                    .collect(Collectors.toList());
+        }
+        List<CanteenDTOs.MenuItemDTO> dtos = items.stream().map(this::mapToMenuItemDTO).collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+    }
+
+    @PostMapping("/staff/menu")
+    @PreAuthorize("hasAuthority('CANTEEN_MANAGE_MENU') or hasAuthority('ROLE_CANTEEN_STAFF') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
+    public ResponseEntity<?> addMenuItem(@RequestBody CanteenDTOs.MenuItemDTO dto) {
+        if (dto.getName() == null || dto.getName().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Menu item name is required"));
+        }
+        if (dto.getPrice() == null || dto.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Valid price is required"));
+        }
+
+        Long collegeId = TenantContext.getCollegeId();
+        if (collegeId == null) {
+            collegeId = collegeRepository.findAll().stream().findFirst().map(College::getId).orElse(1L);
+        }
+        final Long effectiveCollegeId = collegeId;
+        College college = collegeRepository.findById(effectiveCollegeId)
+                .orElseGet(() -> collegeRepository.findAll().stream().findFirst().orElseThrow(() -> new RuntimeException("College not found")));
+
+        CanteenCategory category;
+        if (dto.getCategoryId() != null) {
+            category = categoryRepository.findById(dto.getCategoryId())
+                    .orElseGet(() -> categoryRepository.save(CanteenCategory.builder().college(college).name(dto.getCategoryName() != null ? dto.getCategoryName() : "Main Menu").displayOrder(1).build()));
+        } else if (dto.getCategoryName() != null && !dto.getCategoryName().trim().isEmpty()) {
+            category = categoryRepository.findByCollegeIdAndName(effectiveCollegeId, dto.getCategoryName().trim())
+                    .orElseGet(() -> categoryRepository.save(CanteenCategory.builder().college(college).name(dto.getCategoryName().trim()).displayOrder(1).build()));
+        } else {
+            category = categoryRepository.findByCollegeIdOrderByDisplayOrderAsc(effectiveCollegeId).stream().findFirst()
+                    .orElseGet(() -> categoryRepository.save(CanteenCategory.builder().college(college).name("Main Menu").displayOrder(1).build()));
+        }
+
+        MenuItem item = MenuItem.builder()
+                .college(college)
+                .category(category)
+                .name(dto.getName().trim())
+                .description(dto.getDescription() != null ? dto.getDescription().trim() : "")
+                .price(dto.getPrice())
+                .sellingPrice(dto.getSellingPrice() != null ? dto.getSellingPrice() : dto.getPrice())
+                .basePrice(dto.getBasePrice() != null ? dto.getBasePrice() : dto.getPrice())
+                .taxValue(dto.getTaxValue() != null ? dto.getTaxValue() : BigDecimal.ZERO)
+                .taxPercent(dto.getTaxPercent() != null ? dto.getTaxPercent() : BigDecimal.ZERO)
+                .isVeg(Boolean.TRUE.equals(dto.getIsVeg()))
+                .isAvailable(dto.getIsAvailable() != null ? dto.getIsAvailable() : true)
+                .imageUrl(dto.getImageUrl())
+                .vendorName(dto.getVendorName() != null && !dto.getVendorName().trim().isEmpty() ? dto.getVendorName().trim() : "MR Food Court")
+                .build();
+
+        menuItemRepository.save(item);
+        return ResponseEntity.ok(Map.of("message", "Menu item added successfully", "item", mapToMenuItemDTO(item)));
+    }
+
+    @PutMapping("/staff/menu/{id}")
+    @PreAuthorize("hasAuthority('CANTEEN_MANAGE_MENU') or hasAuthority('ROLE_CANTEEN_STAFF') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
+    public ResponseEntity<?> updateMenuItem(@PathVariable Long id, @RequestBody CanteenDTOs.MenuItemDTO dto) {
+        MenuItem item = menuItemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Menu item not found"));
+
+        if (dto.getName() != null && !dto.getName().trim().isEmpty()) {
+            item.setName(dto.getName().trim());
+        }
+        if (dto.getDescription() != null) {
+            item.setDescription(dto.getDescription().trim());
+        }
+        if (dto.getPrice() != null && dto.getPrice().compareTo(BigDecimal.ZERO) > 0) {
+            item.setPrice(dto.getPrice());
+            item.setSellingPrice(dto.getSellingPrice() != null ? dto.getSellingPrice() : dto.getPrice());
+        }
+        if (dto.getIsVeg() != null) {
+            item.setIsVeg(dto.getIsVeg());
+        }
+        if (dto.getIsAvailable() != null) {
+            item.setIsAvailable(dto.getIsAvailable());
+        }
+        if (dto.getImageUrl() != null) {
+            item.setImageUrl(dto.getImageUrl());
+        }
+        if (dto.getVendorName() != null && !dto.getVendorName().trim().isEmpty()) {
+            item.setVendorName(dto.getVendorName().trim());
+        }
+        if (dto.getCategoryId() != null) {
+            categoryRepository.findById(dto.getCategoryId()).ifPresent(item::setCategory);
+        }
+
+        menuItemRepository.save(item);
+        return ResponseEntity.ok(Map.of("message", "Menu item updated successfully", "item", mapToMenuItemDTO(item)));
+    }
+
+    @PatchMapping("/staff/menu/{id}/availability")
+    @PreAuthorize("hasAuthority('CANTEEN_MANAGE_MENU') or hasAuthority('ROLE_CANTEEN_STAFF') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
+    public ResponseEntity<?> toggleItemAvailability(@PathVariable Long id) {
+        MenuItem item = menuItemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Menu item not found"));
+
+        boolean newStatus = !Boolean.TRUE.equals(item.getIsAvailable());
+        item.setIsAvailable(newStatus);
+        menuItemRepository.save(item);
+
+        return ResponseEntity.ok(Map.of(
+                "message", "Item marked as " + (newStatus ? "In Stock" : "Out of Stock"),
+                "isAvailable", newStatus,
+                "item", mapToMenuItemDTO(item)
+        ));
+    }
+
+    @DeleteMapping("/staff/menu/{id}")
+    @PreAuthorize("hasAuthority('CANTEEN_MANAGE_MENU') or hasAuthority('ROLE_CANTEEN_STAFF') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
+    public ResponseEntity<?> deleteMenuItem(@PathVariable Long id) {
+        MenuItem item = menuItemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Menu item not found"));
+
+        item.setIsAvailable(false);
+        menuItemRepository.save(item);
+        return ResponseEntity.ok(Map.of("message", "Menu item deactivated successfully"));
     }
 
     @PatchMapping("/staff/orders/{orderId}/status")
@@ -255,7 +417,20 @@ public class CanteenController {
 
     private CanteenDTOs.OrderDTO mapToOrderDTO(Order o, String upiIntent) {
         List<CanteenDTOs.OrderItemDTO> items = o.getItems().stream()
-                .map(i -> new CanteenDTOs.OrderItemDTO(i.getId(), i.getMenuItem() != null ? i.getMenuItem().getId() : null, i.getItemName(), i.getQuantity(), i.getUnitPrice()))
+                .map(i -> CanteenDTOs.OrderItemDTO.builder()
+                        .id(i.getId())
+                        .menuItemId(i.getMenuItem() != null ? i.getMenuItem().getId() : null)
+                        .itemName(i.getItemName())
+                        .quantity(i.getQuantity())
+                        .unitPrice(i.getUnitPrice())
+                        .vendorName(i.getMenuItem() != null && i.getMenuItem().getVendorName() != null ? i.getMenuItem().getVendorName() : "MR Food Court")
+                        .build())
+                .collect(Collectors.toList());
+
+        List<String> vendors = items.stream()
+                .map(CanteenDTOs.OrderItemDTO::getVendorName)
+                .filter(Objects::nonNull)
+                .distinct()
                 .collect(Collectors.toList());
 
         return CanteenDTOs.OrderDTO.builder()
@@ -269,6 +444,7 @@ public class CanteenController {
                 .upiTxnRef(o.getUpiTxnRef())
                 .upiIntentUrl(upiIntent)
                 .items(items)
+                .vendors(vendors)
                 .createdAt(o.getCreatedAt())
                 .build();
     }
