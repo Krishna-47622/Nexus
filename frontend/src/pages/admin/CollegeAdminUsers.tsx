@@ -219,56 +219,48 @@ export const CollegeAdminUsers: React.FC = () => {
         ))}
       </div>
 
-      {/* User Table */}
+      {/* User Table / Cards */}
       {loading ? (
-        <div className="clay-card p-8 text-center text-xs text-ink-soft">
+        <div className="bg-white border border-zinc-200 rounded-xl p-12 text-center text-xs text-zinc-500">
           Loading user database...
         </div>
       ) : filteredUsers.length === 0 ? (
-        <div className="clay-card p-8 text-center text-xs text-ink-soft">
+        <div className="bg-white border border-zinc-200 rounded-xl p-12 text-center text-xs text-zinc-500">
           No user accounts found under category "{selectedCategory}".
         </div>
       ) : (
-        <div className="clay-card overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-clay-bg/60 border-b border-white/60 font-bold text-ink uppercase">
-              <tr>
-                <th className="p-3">User Details</th>
-                <th className="p-3">Username / Roll No</th>
-                <th className="p-3">Assigned Role</th>
-                <th className="p-3">Account Status</th>
-                <th className="p-3 text-right">Credential Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-clay-bg">
-              {filteredUsers.map((u) => (
-                <tr key={u.id} className="hover:bg-clay-bg/60">
-                  <td className="p-3">
-                    <div className="font-bold text-ink">{u.fullName}</div>
-                    <div className="text-[11px] text-ink-soft">{u.email}</div>
-                  </td>
-                  <td className="p-3 font-mono font-semibold text-ink">{u.username}</td>
-                  <td className="p-3">
-                    <span className="px-2 py-0.5 bg-blue-50 border border-blue-200 text-blue-800 text-[10px] font-bold rounded-2xl inline-flex items-center gap-1">
-                      <Shield className="w-3 h-3 text-primary" /> {u.roleName}
-                    </span>
-                  </td>
-                  <td className="p-3">
-                    <span
-                      className={`px-2 py-0.5 text-[10px] font-bold rounded-2xl border ${
-                        u.isActive
-                          ? 'bg-clay-mint/10 text-emerald-800 border-emerald-200'
-                          : 'bg-red-50 text-red-800 border-red-200'
-                      }`}
-                    >
-                      {u.isActive ? 'ACTIVE' : 'DEACTIVATED'}
-                    </span>
-                  </td>
-                  <td className="p-3 text-right space-x-1">
+        <>
+          {/* ─── MOBILE VIEW: CLEAN RESPONSIVE CARDS (strictly < md) ─── */}
+          <div className="md:hidden space-y-3">
+            {filteredUsers.map((u) => (
+              <div key={u.id} className="bg-white border border-zinc-200 rounded-xl p-4 shadow-sm space-y-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <h3 className="font-bold text-sm text-zinc-900">{u.fullName}</h3>
+                    <div className="text-xs font-mono text-zinc-500">{u.username}</div>
+                    <div className="text-[11px] text-zinc-400 mt-0.5">{u.email}</div>
+                  </div>
+                  <span
+                    className={`px-2 py-0.5 text-[10px] font-bold rounded-md border shrink-0 ${
+                      u.isActive
+                        ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                        : 'bg-rose-50 text-rose-800 border-rose-200'
+                    }`}
+                  >
+                    {u.isActive ? 'ACTIVE' : 'DEACTIVATED'}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs pt-1 border-t border-zinc-100">
+                  <span className="px-2 py-0.5 bg-zinc-100 text-zinc-700 rounded-md text-[11px] font-semibold flex items-center gap-1 border border-zinc-200">
+                    <Shield className="w-3 h-3 text-zinc-500" /> {u.roleName}
+                  </span>
+
+                  <div className="flex items-center gap-1">
                     <button
                       onClick={() => openEditModal(u)}
                       title="Edit User & Username"
-                      className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-2xl transition"
+                      className="p-1.5 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
                     >
                       <Edit2 className="w-4 h-4" />
                     </button>
@@ -276,7 +268,7 @@ export const CollegeAdminUsers: React.FC = () => {
                     <button
                       onClick={() => { setPasswordUser(u); setNewPassword(''); }}
                       title="Change / Reset Password"
-                      className="p-1.5 text-clay-amber hover:bg-amber-50 rounded-2xl transition"
+                      className="p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
                     >
                       <Key className="w-4 h-4" />
                     </button>
@@ -284,7 +276,9 @@ export const CollegeAdminUsers: React.FC = () => {
                     <button
                       onClick={() => handleToggleStatus(u)}
                       title={u.isActive ? 'Deactivate Account' : 'Reactivate Account'}
-                      className={`p-1.5 rounded-2xl transition ${u.isActive ? 'text-ink-soft hover:bg-clay-bg' : 'text-clay-mint hover:bg-clay-mint/10'}`}
+                      className={`p-1.5 rounded-lg transition-colors ${
+                        u.isActive ? 'text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100' : 'text-emerald-600 hover:bg-emerald-50'
+                      }`}
                     >
                       {u.isActive ? <UserX className="w-4 h-4" /> : <UserCheck className="w-4 h-4" />}
                     </button>
@@ -292,16 +286,93 @@ export const CollegeAdminUsers: React.FC = () => {
                     <button
                       onClick={() => handleDeleteUser(u)}
                       title="Delete Credentials"
-                      className="p-1.5 text-clay-coral hover:bg-red-50 rounded-2xl transition"
+                      className="p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
-                  </td>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ─── DESKTOP VIEW: CLEAN TABLE (md and above) ─── */}
+          <div className="hidden md:block bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-zinc-50 border-b border-zinc-200 font-semibold text-zinc-600 uppercase tracking-wider">
+                <tr>
+                  <th className="p-3.5">User Details</th>
+                  <th className="p-3.5">Username / Roll No</th>
+                  <th className="p-3.5">Assigned Role</th>
+                  <th className="p-3.5">Account Status</th>
+                  <th className="p-3.5 text-right">Credential Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-zinc-100">
+                {filteredUsers.map((u) => (
+                  <tr key={u.id} className="hover:bg-zinc-50/70 transition-colors">
+                    <td className="p-3.5">
+                      <div className="font-bold text-zinc-900">{u.fullName}</div>
+                      <div className="text-[11px] text-zinc-500">{u.email}</div>
+                    </td>
+                    <td className="p-3.5 font-mono font-semibold text-zinc-800">{u.username}</td>
+                    <td className="p-3.5">
+                      <span className="px-2 py-0.5 bg-zinc-100 text-zinc-700 border border-zinc-200 text-[10px] font-bold rounded-md inline-flex items-center gap-1">
+                        <Shield className="w-3 h-3 text-zinc-500" /> {u.roleName}
+                      </span>
+                    </td>
+                    <td className="p-3.5">
+                      <span
+                        className={`px-2 py-0.5 text-[10px] font-bold rounded-md border ${
+                          u.isActive
+                            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                            : 'bg-rose-50 text-rose-800 border-rose-200'
+                        }`}
+                      >
+                        {u.isActive ? 'ACTIVE' : 'DEACTIVATED'}
+                      </span>
+                    </td>
+                    <td className="p-3.5 text-right space-x-1">
+                      <button
+                        onClick={() => openEditModal(u)}
+                        title="Edit User & Username"
+                        className="p-1.5 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        onClick={() => { setPasswordUser(u); setNewPassword(''); }}
+                        title="Change / Reset Password"
+                        className="p-1.5 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
+                      >
+                        <Key className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        onClick={() => handleToggleStatus(u)}
+                        title={u.isActive ? 'Deactivate Account' : 'Reactivate Account'}
+                        className={`p-1.5 rounded-lg transition-colors ${
+                          u.isActive ? 'text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100' : 'text-emerald-600 hover:bg-emerald-50'
+                        }`}
+                      >
+                        {u.isActive ? <UserX className="w-4 h-4" /> : <UserCheck className="w-4 h-4" />}
+                      </button>
+
+                      <button
+                        onClick={() => handleDeleteUser(u)}
+                        title="Delete Credentials"
+                        className="p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
 
       {/* Create Student Account Modal */}

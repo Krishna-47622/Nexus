@@ -24,13 +24,16 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status;
-    // Only clear session on 401 (Unauthorized / expired token).
-    // Do NOT clear on 403 — that's a permission issue, not an auth issue.
+    // Only clear session on 401 when token is invalid/expired and NOT on login endpoints.
     if (status === 401) {
-      localStorage.removeItem('campus_jwt_token');
-      localStorage.removeItem('campus_user');
-      if (!window.location.pathname.includes('/login')) {
-        window.location.href = '/login';
+      const url = error.config?.url || '';
+      const isAuthUrl = url.includes('/auth/login') || url.includes('/auth/platform-login') || url.includes('/auth/set-password');
+      if (!isAuthUrl) {
+        localStorage.removeItem('campus_jwt_token');
+        localStorage.removeItem('campus_user');
+        if (!window.location.pathname.includes('/login')) {
+          window.location.href = '/login';
+        }
       }
     }
     return Promise.reject(error);

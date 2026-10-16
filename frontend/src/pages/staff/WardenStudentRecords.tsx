@@ -57,27 +57,61 @@ export const WardenStudentRecords: React.FC = () => {
         />
       </div>
 
-      <div className="clay-card overflow-x-auto">
+      {/* ─── MOBILE VIEW: CLEAN RESPONSIVE CARDS (strictly < md) ─── */}
+      <div className="md:hidden space-y-3">
+        {filtered.map((s) => (
+          <div key={s.id} className="bg-white border border-zinc-200 rounded-xl p-4 shadow-sm space-y-2.5">
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <h3 className="font-bold text-sm text-zinc-900">{s.fullName}</h3>
+                <span className="text-xs font-mono text-zinc-500">{s.rollNumber}</span>
+              </div>
+              <span className="text-[11px] font-semibold text-zinc-700 bg-zinc-100 px-2 py-0.5 rounded-md border border-zinc-200">
+                {s.department}
+              </span>
+            </div>
+
+            <div className="text-xs text-zinc-600 bg-zinc-50 p-2.5 rounded-lg border border-zinc-100 flex items-center justify-between">
+              <div>
+                <span className="text-zinc-400 font-medium">Hostel: </span>
+                <span className="font-semibold text-zinc-800">{s.hostelBlock} / Room {s.roomNumber}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 pt-1 text-xs">
+              <span className="flex-1 py-1.5 px-2.5 bg-blue-50 text-blue-800 border border-blue-200 rounded-lg text-center font-medium">
+                Leaves: <strong className="font-bold">{s.leaveCount}</strong>
+              </span>
+              <span className="flex-1 py-1.5 px-2.5 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg text-center font-medium">
+                Outpasses: <strong className="font-bold">{s.outpassCount}</strong>
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ─── DESKTOP VIEW: CLEAN TABLE (md and above) ─── */}
+      <div className="hidden md:block bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm">
         <table className="w-full text-left text-xs">
-          <thead className="bg-clay-bg border-b border-white/60 font-bold uppercase text-ink">
+          <thead className="bg-zinc-50 border-b border-zinc-200 font-semibold text-zinc-600 uppercase tracking-wider">
             <tr>
-              <th className="p-3">Roll Number</th>
-              <th className="p-3">Student Name</th>
-              <th className="p-3">Department</th>
-              <th className="p-3">Hostel / Room</th>
-              <th className="p-3 text-center">Approved Leaves</th>
-              <th className="p-3 text-center">Approved Outpasses</th>
+              <th className="p-3.5">Roll Number</th>
+              <th className="p-3.5">Student Name</th>
+              <th className="p-3.5">Department</th>
+              <th className="p-3.5">Hostel / Room</th>
+              <th className="p-3.5 text-center">Approved Leaves</th>
+              <th className="p-3.5 text-center">Approved Outpasses</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-clay-bg">
+          <tbody className="divide-y divide-zinc-100">
             {filtered.map((s) => (
-              <tr key={s.id} className="hover:bg-clay-bg/60">
-                <td className="p-3 font-mono font-semibold text-ink">{s.rollNumber}</td>
-                <td className="p-3 font-bold text-primary">{s.fullName}</td>
-                <td className="p-3">{s.department}</td>
-                <td className="p-3">{s.hostelBlock} / {s.roomNumber}</td>
-                <td className="p-3 text-center font-bold">{s.leaveCount}</td>
-                <td className="p-3 text-center font-bold">{s.outpassCount}</td>
+              <tr key={s.id} className="hover:bg-zinc-50/70 transition-colors">
+                <td className="p-3.5 font-mono font-semibold text-zinc-900">{s.rollNumber}</td>
+                <td className="p-3.5 font-bold text-zinc-900">{s.fullName}</td>
+                <td className="p-3.5 text-zinc-600">{s.department}</td>
+                <td className="p-3.5 text-zinc-600">{s.hostelBlock} / {s.roomNumber}</td>
+                <td className="p-3.5 text-center font-bold text-zinc-900">{s.leaveCount}</td>
+                <td className="p-3.5 text-center font-bold text-zinc-900">{s.outpassCount}</td>
               </tr>
             ))}
           </tbody>

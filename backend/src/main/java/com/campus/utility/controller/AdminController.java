@@ -236,7 +236,12 @@ public class AdminController {
                 Role role = roleRepository.findByNameAndCollegeIsNull(newRoleName)
                         .orElseGet(() -> roleRepository.findByName(newRoleName)
                                 .orElseThrow(() -> new RuntimeException("Role not found: " + newRoleName)));
-                user.setRoles(Set.of(role));
+                if (user.getRoles() == null) {
+                    user.setRoles(new HashSet<>());
+                } else {
+                    user.getRoles().clear();
+                }
+                user.getRoles().add(role);
             }
 
             userRepository.save(user);
@@ -252,17 +257,25 @@ public class AdminController {
         try {
             User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
             String roleName = body.get("roleName");
+            if (roleName == null || roleName.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("message", "Role name is required"));
+            }
 
             Role role = roleRepository.findByNameAndCollegeIsNull(roleName)
                     .orElseGet(() -> roleRepository.findByName(roleName)
                             .orElseThrow(() -> new RuntimeException("Role not found: " + roleName)));
 
-            user.setRoles(Set.of(role));
+            if (user.getRoles() == null) {
+                user.setRoles(new HashSet<>());
+            } else {
+                user.getRoles().clear();
+            }
+            user.getRoles().add(role);
             userRepository.save(user);
 
             return ResponseEntity.ok(Map.of("message", "User role updated successfully to " + roleName));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage() != null ? e.getMessage() : "Failed to update user role"));
         }
     }
 
@@ -282,7 +295,7 @@ public class AdminController {
 
             return ResponseEntity.ok(Map.of("message", "Credentials/password updated successfully for user " + user.getUsername()));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage() != null ? e.getMessage() : "Failed to update password"));
         }
     }
 
@@ -298,7 +311,7 @@ public class AdminController {
                     "isActive", user.getIsActive()
             ));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage() != null ? e.getMessage() : "Failed to update user status"));
         }
     }
 
@@ -312,7 +325,7 @@ public class AdminController {
 
             return ResponseEntity.ok(Map.of("message", "User credentials & account deleted successfully"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage() != null ? e.getMessage() : "Failed to delete user"));
         }
     }
 
@@ -373,7 +386,7 @@ public class AdminController {
                     "message", "Staff account created. Temporary password generated."
             ));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage() != null ? e.getMessage() : "Failed to add staff account"));
         }
     }
 

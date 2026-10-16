@@ -235,21 +235,29 @@ public class PrintController {
 
     // ─── Staff: Get pricing for configuration ────────────────────────
     @GetMapping("/staff/pricing")
-    @PreAuthorize("hasAuthority('PRINT_VIEW_QUEUE')")
+    @PreAuthorize("hasAuthority('PRINT_VIEW_QUEUE') or hasAuthority('PRINT_MANAGE_PRICING') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<PrintDTOs.PrintPricingDTO> getStaffPricing() {
         Long collegeId = TenantContext.getCollegeId();
+        if (collegeId == null) {
+            collegeId = collegeRepository.findAll().stream().findFirst().map(College::getId).orElse(1L);
+        }
         PrintPricing pricing = getOrCreateDefaultPricing(collegeId);
         return ResponseEntity.ok(mapToPricingDTO(pricing));
     }
 
     // ─── Staff: Update pricing configuration ─────────────────────────
     @PutMapping("/staff/pricing")
-    @PreAuthorize("hasAuthority('PRINT_UPDATE_JOB_STATUS')")
+    @PreAuthorize("hasAuthority('PRINT_UPDATE_JOB_STATUS') or hasAuthority('PRINT_MANAGE_PRICING') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<?> updateStaffPricing(@RequestBody PrintDTOs.PricingUpdateInput input) {
         Long collegeId = TenantContext.getCollegeId();
-        College college = collegeRepository.findById(collegeId).orElseThrow();
+        if (collegeId == null) {
+            collegeId = collegeRepository.findAll().stream().findFirst().map(College::getId).orElse(1L);
+        }
+        final Long effectiveCollegeId = collegeId;
+        College college = collegeRepository.findById(effectiveCollegeId)
+                .orElseGet(() -> collegeRepository.findAll().stream().findFirst().orElseThrow(() -> new RuntimeException("No college found")));
 
-        PrintPricing pricing = printPricingRepository.findByCollegeId(collegeId)
+        PrintPricing pricing = printPricingRepository.findByCollegeId(effectiveCollegeId)
                 .orElseGet(() -> PrintPricing.builder().college(college).build());
 
         if (input.getBwPerPage() != null) pricing.setBwPerPage(input.getBwPerPage());
@@ -278,6 +286,9 @@ public class PrintController {
     // ─── Helpers ──────────────────────────────────────────────────────
 
     private PrintPricing getOrCreateDefaultPricing(Long collegeId) {
+        if (collegeId == null) {
+            collegeId = collegeRepository.findAll().stream().findFirst().map(College::getId).orElse(1L);
+        }
         return printPricingRepository.findByCollegeId(collegeId)
                 .orElse(PrintPricing.builder()
                         .bwPerPage(new BigDecimal("2.00"))

@@ -116,7 +116,7 @@ public class SportsController {
     }
 
     @GetMapping("/staff/pending")
-    @PreAuthorize("hasAuthority('SPORTS_APPROVE_BORROW')")
+    @PreAuthorize("hasAuthority('SPORTS_APPROVE_BORROW') or hasAuthority('SPORTS_MANAGE_EQUIPMENT') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<List<SportsDTOs.BorrowRequestDTO>> getStaffPendingRequests() {
         Long collegeId = TenantContext.getCollegeId();
         List<BorrowRequest> list = borrowRequestRepository.findByCollegeIdAndStatus(collegeId, "PENDING");
@@ -125,7 +125,7 @@ public class SportsController {
     }
 
     @PatchMapping("/staff/requests/{id}/process")
-    @PreAuthorize("hasAuthority('SPORTS_APPROVE_BORROW')")
+    @PreAuthorize("hasAuthority('SPORTS_APPROVE_BORROW') or hasAuthority('SPORTS_MANAGE_EQUIPMENT') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<?> processRequest(@PathVariable Long id, @RequestBody SportsDTOs.ProcessBorrowRequest process) {
         BorrowRequest request = borrowRequestRepository.findById(id).orElseThrow();
 
@@ -170,7 +170,7 @@ public class SportsController {
     }
 
     @GetMapping("/staff/current")
-    @PreAuthorize("hasAuthority('SPORTS_MARK_RETURNED') or hasAuthority('SPORTS_APPROVE_BORROW')")
+    @PreAuthorize("hasAuthority('SPORTS_MARK_RETURNED') or hasAuthority('SPORTS_APPROVE_BORROW') or hasAuthority('SPORTS_MANAGE_EQUIPMENT') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<List<SportsDTOs.BorrowRequestDTO>> getCurrentlyOut() {
         Long collegeId = TenantContext.getCollegeId();
         List<BorrowRequest> list = borrowRequestRepository.findByCollegeIdAndStatusIn(collegeId, List.of("APPROVED", "OVERDUE"));
@@ -179,7 +179,7 @@ public class SportsController {
     }
 
     @PatchMapping("/staff/requests/{id}/return")
-    @PreAuthorize("hasAuthority('SPORTS_MARK_RETURNED')")
+    @PreAuthorize("hasAuthority('SPORTS_MARK_RETURNED') or hasAuthority('SPORTS_MANAGE_EQUIPMENT') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<?> markReturned(@PathVariable Long id) {
         BorrowRequest request = borrowRequestRepository.findById(id).orElseThrow();
 

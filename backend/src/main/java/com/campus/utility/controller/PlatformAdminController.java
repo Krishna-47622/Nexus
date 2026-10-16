@@ -116,9 +116,13 @@ public class PlatformAdminController {
 
     @PostMapping("/iam/roles")
     public ResponseEntity<?> createRole(@RequestBody Map<String, Object> body) {
-        String name = (String) body.get("name");
+        String name = (String) (body.containsKey("name") ? body.get("name") : body.get("roleName"));
+        if (name == null || name.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Role name is required"));
+        }
+
         @SuppressWarnings("unchecked")
-        List<String> permCodes = (List<String>) body.get("permissions");
+        List<String> permCodes = (List<String>) (body.containsKey("permissions") ? body.get("permissions") : body.get("permissionCodes"));
 
         Set<Permission> perms = new HashSet<>();
         if (permCodes != null) {
@@ -128,13 +132,59 @@ public class PlatformAdminController {
         }
 
         Role role = Role.builder()
-                .name(name)
+                .name(name.trim())
                 .college(null)
                 .permissions(perms)
                 .build();
 
         roleRepository.save(role);
         return ResponseEntity.ok(Map.of("message", "Role created", "id", role.getId()));
+    }
+
+    @PutMapping("/iam/roles/{roleId}")
+    public ResponseEntity<?> updateRole(@PathVariable Long roleId, @RequestBody Map<String, Object> body) {
+        Role role = roleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Role not found"));
+        if (body.containsKey("name")) role.setName((String) body.get("name"));
+        if (body.containsKey("roleName")) role.setName((String) body.get("roleName"));
+
+        @SuppressWarnings("unchecked")
+        List<String> permCodes = (List<String>) (body.containsKey("permissions") ? body.get("permissions") : body.get("permissionCodes"));
+        if (permCodes != null) {
+            Set<Permission> perms = new HashSet<>();
+            for (String code : permCodes) {
+                permissionRepository.findByCode(code).ifPresent(perms::add);
+            }
+            role.setPermissions(perms);
+        }
+
+        roleRepository.save(role);
+        return ResponseEntity.ok(Map.of("message", "Role updated successfully", "id", role.getId()));
+    }
+
+    @PostMapping("/colleges/{collegeId}/assign-admin")
+    public ResponseEntity<?> assignCollegeAdmin(@PathVariable Long collegeId, @RequestBody Map<String, String> body) {
+        College college = collegeRepository.findById(collegeId).orElseThrow(() -> new RuntimeException("College not found"));
+        String username = body.get("username");
+        String email = body.get("email");
+        String fullName = body.get("fullName");
+        String password = body.getOrDefault("password", "Admin" + UUID.randomUUID().toString().substring(0, 6));
+
+        Role collegeAdminRole = roleRepository.findByNameAndCollegeIsNull("College Admin")
+                .orElseThrow(() -> new RuntimeException("College Admin role template missing"));
+
+        User collegeAdmin = User.builder()
+                .college(college)
+                .username(username != null ? username.trim() : "admin_" + college.getDomain().replace(".", "_"))
+                .fullName(fullName != null ? fullName.trim() : college.getName() + " Administrator")
+                .email(email != null ? email.trim() : "admin@" + college.getDomain())
+                .passwordHash(passwordEncoder.encode(password))
+                .mustChangePassword(true)
+                .isActive(true)
+                .roles(Set.of(collegeAdminRole))
+                .build();
+
+        userRepository.save(collegeAdmin);
+        return ResponseEntity.ok(Map.of("message", "Admin assigned successfully", "username", collegeAdmin.getUsername(), "tempPassword", password));
     }
 
     // --- Global Overview ---

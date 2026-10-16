@@ -141,7 +141,7 @@ public class LeaveOutpassController {
     }
 
     @GetMapping("/warden/leave/pending")
-    @PreAuthorize("hasAuthority('LEAVE_OUTPASS_APPROVE_REJECT_REQUEST') or hasAuthority('LEAVE_OUTPASS_VIEW_REQUESTS')")
+    @PreAuthorize("hasAuthority('LEAVE_OUTPASS_APPROVE_REJECT_REQUEST') or hasAuthority('LEAVE_OUTPASS_VIEW_REQUESTS') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<List<LeaveOutpassDTOs.LeaveRequestDTO>> getWardenPendingLeave() {
         Long collegeId = TenantContext.getCollegeId();
         List<LeaveRequest> list = leaveRequestRepository.findByCollegeIdAndStatusOrderByCreatedAtAsc(collegeId, "PENDING");
@@ -150,7 +150,7 @@ public class LeaveOutpassController {
     }
 
     @GetMapping("/warden/outpass/pending")
-    @PreAuthorize("hasAuthority('LEAVE_OUTPASS_APPROVE_REJECT_REQUEST') or hasAuthority('LEAVE_OUTPASS_VIEW_REQUESTS')")
+    @PreAuthorize("hasAuthority('LEAVE_OUTPASS_APPROVE_REJECT_REQUEST') or hasAuthority('LEAVE_OUTPASS_VIEW_REQUESTS') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<List<LeaveOutpassDTOs.OutpassRequestDTO>> getWardenPendingOutpass() {
         Long collegeId = TenantContext.getCollegeId();
         List<OutpassRequest> list = outpassRequestRepository.findByCollegeIdAndStatusOrderByCreatedAtAsc(collegeId, "PENDING");
@@ -159,7 +159,7 @@ public class LeaveOutpassController {
     }
 
     @PatchMapping("/warden/leave/{id}/review")
-    @PreAuthorize("hasAuthority('LEAVE_OUTPASS_APPROVE_REJECT_REQUEST')")
+    @PreAuthorize("hasAuthority('LEAVE_OUTPASS_APPROVE_REJECT_REQUEST') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<?> reviewLeave(@PathVariable Long id, @RequestBody LeaveOutpassDTOs.ReviewDecision decision) {
         LeaveRequest req = leaveRequestRepository.findById(id).orElseThrow();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -184,7 +184,7 @@ public class LeaveOutpassController {
     }
 
     @PatchMapping("/warden/outpass/{id}/review")
-    @PreAuthorize("hasAuthority('LEAVE_OUTPASS_APPROVE_REJECT_REQUEST')")
+    @PreAuthorize("hasAuthority('LEAVE_OUTPASS_APPROVE_REJECT_REQUEST') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<?> reviewOutpass(@PathVariable Long id, @RequestBody LeaveOutpassDTOs.ReviewDecision decision) {
         OutpassRequest req = outpassRequestRepository.findById(id).orElseThrow();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();

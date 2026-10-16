@@ -163,7 +163,7 @@ public class CanteenController {
     }
 
     @GetMapping("/staff/orders")
-    @PreAuthorize("hasAuthority('CANTEEN_UPDATE_ORDER_STATUS') or hasAuthority('CANTEEN_VIEW_MENU')")
+    @PreAuthorize("hasAuthority('CANTEEN_UPDATE_ORDER_STATUS') or hasAuthority('CANTEEN_VIEW_MENU') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<List<CanteenDTOs.OrderDTO>> getStaffOrdersQueue() {
         Long collegeId = TenantContext.getCollegeId();
         List<Order> orders = orderRepository.findByCollegeIdAndStatusIn(collegeId, List.of("PLACED", "PREPARING", "READY"));
@@ -172,7 +172,7 @@ public class CanteenController {
     }
 
     @PatchMapping("/staff/orders/{orderId}/status")
-    @PreAuthorize("hasAuthority('CANTEEN_UPDATE_ORDER_STATUS')")
+    @PreAuthorize("hasAuthority('CANTEEN_UPDATE_ORDER_STATUS') or hasAuthority('CANTEEN_MANAGE_MENU') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
     public ResponseEntity<?> updateOrderStatus(@PathVariable Long orderId, @RequestBody Map<String, String> body) {
         Order order = orderRepository.findById(orderId).orElseThrow();
 
