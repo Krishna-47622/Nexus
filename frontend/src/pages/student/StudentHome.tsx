@@ -60,7 +60,7 @@ export const StudentHome: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* ──────── WELCOME BANNER ──────── */}
-      <div className="bg-white border border-zinc-200/90 rounded-xl p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="bg-white border border-zinc-200/90 rounded-xl p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-xl font-bold tracking-tight text-zinc-900">
             Welcome back, {user?.fullName?.split(' ')[0]}
@@ -86,7 +86,7 @@ export const StudentHome: React.FC = () => {
               <Link
                 key={action.path}
                 to={action.path}
-                className="bg-white border border-zinc-200/90 rounded-xl p-4 flex flex-col justify-between h-32 hover:border-zinc-300 hover:shadow-xs transition-all group"
+                className="bg-white border border-zinc-200/90 rounded-xl p-4 flex flex-col justify-between h-32 hover:border-zinc-300 hover:shadow-sm transition-all group"
               >
                 <div className="w-9 h-9 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-800 flex items-center justify-center group-hover:bg-zinc-900 group-hover:text-white group-hover:border-zinc-900 transition-colors">
                   <Icon className="w-4.5 h-4.5" />

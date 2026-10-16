@@ -257,7 +257,7 @@ export const CanteenMenu: React.FC = () => {
             return (
               <div
                 key={item.id}
-                className="bg-white border border-zinc-200/90 rounded-xl p-4 flex flex-col justify-between hover:border-zinc-300 transition-all hover:shadow-xs group"
+                className="bg-white border border-zinc-200/90 rounded-xl p-4 flex flex-col justify-between hover:border-zinc-300 transition-all hover:shadow-sm group"
               >
                 <div className="flex items-start gap-3">
                   {/* Thumbnail */}
@@ -324,12 +324,12 @@ export const CanteenMenu: React.FC = () => {
                   {qty === 0 ? (
                     <button
                       onClick={() => updateCartQty(item, 1)}
-                      className="px-3 py-1.5 bg-zinc-900 text-white rounded-lg text-xs font-medium hover:bg-zinc-800 transition-colors shadow-xs"
+                      className="px-3 py-1.5 bg-zinc-900 text-white rounded-lg text-xs font-medium hover:bg-zinc-800 transition-colors shadow-sm"
                     >
                       Add +
                     </button>
                   ) : (
-                    <div className="flex items-center border border-zinc-300 rounded-lg overflow-hidden bg-white shadow-xs">
+                    <div className="flex items-center border border-zinc-300 rounded-lg overflow-hidden bg-white shadow-sm">
                       <button
                         onClick={() => updateCartQty(item, -1)}
                         className="px-2.5 py-1 text-zinc-700 hover:bg-zinc-100 transition-colors"

@@ -19,7 +19,7 @@
 @layer components {
   /* ──────── MINIMALIST CARD ──────── */
   .clay-card {
-    @apply bg-white rounded-xl border border-zinc-200/90 shadow-xs transition-all duration-200;
+    @apply bg-white rounded-xl border border-zinc-200/90 shadow-sm transition-all duration-200;
   }
 
   .clay-card:hover {
@@ -30,7 +30,7 @@
   .clay-btn {
     @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 
            bg-zinc-900 text-white font-medium text-sm
-           rounded-lg shadow-xs
+           rounded-lg shadow-sm
            transition-colors duration-150 ease-out
            hover:bg-zinc-800 active:bg-zinc-950
            disabled:opacity-50 disabled:cursor-not-allowed;
@@ -39,7 +39,7 @@
   .clay-btn-secondary {
     @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 
            bg-white text-zinc-800 font-medium text-sm
-           rounded-lg shadow-xs border border-zinc-200
+           rounded-lg shadow-sm border border-zinc-200
            transition-colors duration-150 ease-out
            hover:bg-zinc-50 hover:text-zinc-900 hover:border-zinc-300
            active:bg-zinc-100;
@@ -56,7 +56,7 @@
   .clay-btn-danger {
     @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 
            bg-red-600 text-white font-medium text-sm
-           rounded-lg shadow-xs
+           rounded-lg shadow-sm
            transition-colors duration-150 ease-out
            hover:bg-red-700 active:bg-red-800;
   }
@@ -64,7 +64,7 @@
   .clay-btn-mint {
     @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 
            bg-emerald-600 text-white font-medium text-sm
-           rounded-lg shadow-xs
+           rounded-lg shadow-sm
            transition-colors duration-150 ease-out
            hover:bg-emerald-700 active:bg-emerald-800;
   }
@@ -130,7 +130,7 @@
   }
 
   .clay-pill-active {
-    @apply clay-pill bg-zinc-900 text-white border-zinc-900 shadow-xs;
+    @apply clay-pill bg-zinc-900 text-white border-zinc-900 shadow-sm;
   }
 
   .clay-pill-inactive {

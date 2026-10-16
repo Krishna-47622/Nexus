@@ -371,7 +371,7 @@ export const CanteenCart: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center border border-zinc-200 rounded-lg overflow-hidden bg-white shadow-xs">
+                    <div className="flex items-center border border-zinc-200 rounded-lg overflow-hidden bg-white shadow-sm">
                       <button
                         onClick={() => updateQty(index, -1)}
                         className="p-1.5 text-zinc-600 hover:bg-zinc-100 transition-colors"
@@ -416,7 +416,7 @@ export const CanteenCart: React.FC = () => {
 
         {/* Right Column: Checkout Summary & Payment Selection */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="bg-white border border-zinc-200/90 rounded-xl p-5 shadow-xs space-y-5">
+          <div className="bg-white border border-zinc-200/90 rounded-xl p-5 shadow-sm space-y-5">
             <h3 className="font-bold text-sm text-zinc-900">Payment & Checkout Options</h3>
 
             {/* Payment Method Selector */}
@@ -508,7 +508,7 @@ export const CanteenCart: React.FC = () => {
                 <button
                   onClick={handlePlatformUpiCheckout}
                   disabled={loading}
-                  className="w-full py-3 bg-zinc-900 text-white rounded-lg font-semibold text-xs hover:bg-zinc-800 transition-colors shadow-xs flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-zinc-900 text-white rounded-lg font-semibold text-xs hover:bg-zinc-800 transition-colors shadow-sm flex items-center justify-center gap-2"
                 >
                   <QrCode className="w-4 h-4" />
                   {loading ? 'Processing...' : `Pay ₹${totalAmount.toFixed(2)} via UPI QR`}
@@ -517,7 +517,7 @@ export const CanteenCart: React.FC = () => {
                 <button
                   onClick={handleIstharaCheckout}
                   disabled={loading}
-                  className="w-full py-3 bg-zinc-900 text-white rounded-lg font-semibold text-xs hover:bg-zinc-800 transition-colors shadow-xs flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-zinc-900 text-white rounded-lg font-semibold text-xs hover:bg-zinc-800 transition-colors shadow-sm flex items-center justify-center gap-2"
                 >
                   <ExternalLink className="w-4 h-4" />
                   {loading ? 'Preparing Cart...' : 'Transfer to Isthara Cart & Pay'}
@@ -527,7 +527,7 @@ export const CanteenCart: React.FC = () => {
           </div>
 
           {/* Isthara 1-Click Sync Bridge Card */}
-          <div className="bg-white border border-zinc-200/90 rounded-xl p-4 shadow-xs space-y-3">
+          <div className="bg-white border border-zinc-200/90 rounded-xl p-4 shadow-sm space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
                 <Bookmark className="w-3.5 h-3.5 text-zinc-800" /> Isthara Cart Sync Bridge
