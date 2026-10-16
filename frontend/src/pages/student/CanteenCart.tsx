@@ -131,9 +131,11 @@ export const CanteenCart: React.FC = () => {
   };
 
   // Automated sync script for Isthara's IndexedDB USER_CART and LocalStorage
+  // Uses exact AES-128-ECB encrypted food court tokens (key: 0123456789123456)
+  // to prevent the "Could not get delivery info of the foodcourt" error
   const getIstharaSyncScript = () => {
     const istharaItems = getIstharaCartItems();
-    return `(function(){try{var items=${JSON.stringify(istharaItems)};localStorage.setItem("orderingFCId","d656ce31-7db0-11ec-81b6-02d12e814022");localStorage.setItem("foodCourtId","d656ce31-7db0-11ec-81b6-02d12e814022");localStorage.setItem("foodCourtName","MR+FOOD+COURT+-+1");localStorage.setItem("siteId","ed38dfe1-7dae-11ec-81b6-02d12e814022");var req=window.indexedDB.open("USER_DETAILS",1);req.onupgradeneeded=function(e){var db=e.target.result;if(!db.objectStoreNames.contains("USER_CART")){db.createObjectStore("USER_CART",{keyPath:"appItemId"});}};req.onsuccess=function(e){var db=e.target.result;var tx=db.transaction("USER_CART","readwrite");var store=tx.objectStore("USER_CART");store.clear();items.forEach(function(it){store.put(it);});tx.oncomplete=function(){if(window.location.pathname.indexOf("/cart")!==-1){window.location.reload();}else{window.location.href="https://isthara.com/mbd/cart";}};tx.onerror=function(){window.location.href="https://isthara.com/mbd/cart";};};req.onerror=function(){window.location.href="https://isthara.com/mbd/cart";};}catch(err){window.location.href="https://isthara.com/mbd/cart";}})();`;
+    return `(function(){try{var enc={"orderingFCId":"Hmm+cMbh3v3WzJUx2Kb19Oo3pbs2lru0QW0JDjNxjJfqIF/RO26i4LFkxpWr9WIX","foodCourtId":"Hmm+cMbh3v3WzJUx2Kb19Oo3pbs2lru0QW0JDjNxjJfqIF/RO26i4LFkxpWr9WIX","foodCourtName":"32/Nw/6Pre9D7xU0JZqyyNQAjrgQcBTGTBdmxUqh1Tc=","siteId":"hayiFJQooTZz3qcg8lhvo+o3pbs2lru0QW0JDjNxjJfqIF/RO26i4LFkxpWr9WIX","siteName":"IylDGyA0yfZcjEBpoTRlycbhbYCNB0iiPDu9UX1NpqA="};for(var k in enc){try{localStorage.setItem(k,enc[k]);}catch(_){}}var items=${JSON.stringify(istharaItems)};var req=window.indexedDB.open("USER_DETAILS",1);req.onupgradeneeded=function(e){var db=e.target.result;if(!db.objectStoreNames.contains("USER_CART")){db.createObjectStore("USER_CART",{keyPath:"appItemId"});}};req.onsuccess=function(e){var db=e.target.result;var tx=db.transaction("USER_CART","readwrite");var store=tx.objectStore("USER_CART");store.clear();items.forEach(function(it){store.put(it);});tx.oncomplete=function(){try{var t=document.createElement("div");t.innerText="✓ Nexus Cart Synced ("+items.length+" items)";t.style.cssText="position:fixed;top:24px;left:50%;transform:translateX(-50%);background:#18181b;color:#fff;padding:10px 20px;border-radius:10px;font-family:sans-serif;font-size:13px;font-weight:600;z-index:999999;box-shadow:0 8px 20px rgba(0,0,0,0.25);";document.body.appendChild(t);setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},2500);}catch(_){}if(window.location.pathname.indexOf("/cart")!==-1){window.location.reload();}else{window.location.href="https://isthara.com/mbd/cart";}};tx.onerror=function(){window.location.href="https://isthara.com/mbd/cart";};};req.onerror=function(){window.location.href="https://isthara.com/mbd/cart";};}catch(err){window.location.href="https://isthara.com/mbd/cart";}})();`;
   };
 
   const handleCopySyncScript = () => {
@@ -251,7 +253,10 @@ export const CanteenCart: React.FC = () => {
           </p>
         </div>
         <div>
-          <Link to="/app/canteen" className="clay-btn text-xs inline-flex items-center gap-2">
+          <Link
+            to="/app/canteen"
+            className="px-4 py-2 bg-zinc-900 text-white rounded-lg text-xs font-medium hover:bg-zinc-800 transition-colors inline-flex items-center gap-2"
+          >
             <ShoppingBag className="w-3.5 h-3.5" />
             Explore Live Menu
           </Link>
@@ -597,7 +602,7 @@ export const CanteenCart: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-sm text-zinc-900">Isthara Cart Sync Ready</h3>
-                  <p className="text-[11px] text-zinc-500">MR Food Court - 1 items prepared</p>
+                  <p className="text-[11px] text-zinc-500">MR Food Court - 1 items & campus tokens prepared</p>
                 </div>
               </div>
               <button
@@ -609,24 +614,53 @@ export const CanteenCart: React.FC = () => {
             </div>
 
             <div className="space-y-3 text-xs text-zinc-600">
-              <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-lg space-y-2">
-                <div className="font-semibold text-zinc-900">How to view your synced cart in Isthara:</div>
-                <ol className="list-decimal list-inside space-y-1 text-zinc-600 text-[11px]">
-                  <li>Click <strong>"Open Isthara Cart & Sync"</strong> below (the sync script is already copied).</li>
-                  <li>On the Isthara page, paste into the browser address bar or DevTools Console (F12) and press Enter.</li>
-                  <li>Your exact items and prices will immediately appear ready for payment!</li>
-                </ol>
+              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-[11px] flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                <span>
+                  <strong>Delivery Info Fixed:</strong> Session tokens for MR Food Court - 1 (Dine-in / Takeaway) are included in the sync script to resolve the food court delivery lookup error.
+                </span>
               </div>
 
-              <div className="flex flex-col gap-2 pt-2">
+              <div className="p-3.5 bg-zinc-50 border border-zinc-200 rounded-lg space-y-2.5">
+                <div className="font-semibold text-zinc-900 text-xs">Two simple ways to view your items in Isthara:</div>
+                <div className="space-y-2 text-zinc-600 text-[11px]">
+                  <div className="flex items-start gap-2">
+                    <span className="w-4 h-4 rounded-full bg-zinc-200 text-zinc-800 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
+                    <div>
+                      <strong>Quickest (Console):</strong> Click <strong>"Open Isthara Cart & Sync"</strong> below. On Isthara, open DevTools (<kbd className="font-mono bg-zinc-100 px-1 rounded border border-zinc-300">F12</kbd>), press <kbd className="font-mono bg-zinc-100 px-1 rounded border border-zinc-300">Ctrl+V</kbd> and Enter.
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="w-4 h-4 rounded-full bg-zinc-200 text-zinc-800 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
+                    <div>
+                      <strong>1-Click Bookmarklet:</strong> Drag the <strong>"★ Sync Isthara Cart"</strong> button to your bookmarks bar. Once on Isthara, simply click that bookmark anytime!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2 pt-1">
                 <button
                   onClick={launchIstharaAndSync}
-                  className="w-full py-2.5 bg-zinc-900 text-white rounded-lg font-medium text-xs hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-2.5 bg-zinc-900 text-white rounded-lg font-semibold text-xs hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2 shadow-sm"
                 >
-                  <ExternalLink className="w-3.5 h-3.5" /> Open Isthara Cart & Sync
+                  <ExternalLink className="w-3.5 h-3.5" /> Open Isthara Cart & Copy Script
                 </button>
 
                 <div className="grid grid-cols-2 gap-2">
+                  <a
+                    href={syncBookmarkletHref}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleCopySyncScript();
+                    }}
+                    draggable="true"
+                    title="Drag to bookmarks bar"
+                    className="py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-800 border border-zinc-300 rounded-lg font-medium text-xs flex items-center justify-center gap-1.5 cursor-grab transition-colors"
+                  >
+                    ★ Bookmarklet (Drag Me)
+                  </a>
+
                   <button
                     onClick={handleCopySyncScript}
                     className="py-2 bg-white border border-zinc-200 text-zinc-700 rounded-lg font-medium text-xs hover:bg-zinc-50 transition-colors flex items-center justify-center gap-1.5"
@@ -638,21 +672,6 @@ export const CanteenCart: React.FC = () => {
                     ) : (
                       <>
                         <Copy className="w-3.5 h-3.5" /> Copy Script
-                      </>
-                    )}
-                  </button>
-
-                  <button
-                    onClick={handleCopySummary}
-                    className="py-2 bg-white border border-zinc-200 text-zinc-700 rounded-lg font-medium text-xs hover:bg-zinc-50 transition-colors flex items-center justify-center gap-1.5"
-                  >
-                    {copiedSummary ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-600" /> Copied Text
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5" /> Copy Order Text
                       </>
                     )}
                   </button>
