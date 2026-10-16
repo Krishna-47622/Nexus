@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
@@ -17,14 +17,15 @@ import {
   ShieldCheck,
   Building,
   Layers,
-  ChevronRight,
+  Menu,
+  X,
 } from 'lucide-react';
 
 export const PublicLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900 flex flex-col font-sans">
       {/* Minimal Header */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-zinc-200 px-6 py-3.5">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-zinc-200 px-4 sm:px-6 py-3.5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5 font-bold text-base tracking-tight">
             <div className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center font-bold text-sm">
@@ -32,16 +33,16 @@ export const PublicLayout: React.FC = () => {
             </div>
             <span className="text-zinc-900 font-bold tracking-tight">NEXUS</span>
           </Link>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               to="/login"
-              className="text-xs font-medium text-zinc-600 hover:text-zinc-900 px-3 py-1.5 transition-colors"
+              className="text-xs font-medium text-zinc-600 hover:text-zinc-900 px-2.5 sm:px-3 py-1.5 transition-colors"
             >
               Sign In
             </Link>
             <Link
               to="/platform-admin/login"
-              className="clay-btn text-xs px-3.5 py-1.5"
+              className="clay-btn text-xs px-3 sm:px-3.5 py-1.5"
             >
               Platform Console
             </Link>
@@ -49,7 +50,7 @@ export const PublicLayout: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         <Outlet />
       </main>
 
@@ -77,7 +78,6 @@ export const StudentLayout: React.FC = () => {
       {/* ──────── DESKTOP / LAPTOP HEADER (md and above) ──────── */}
       <header className="hidden md:block sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-zinc-200 px-6 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Brand & Campus Info */}
           <div className="flex items-center gap-6">
             <Link to="/app/home" className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center font-bold text-xs">
@@ -89,7 +89,6 @@ export const StudentLayout: React.FC = () => {
               </div>
             </Link>
 
-            {/* Desktop Navigation Links */}
             <nav className="flex items-center gap-1 ml-4 pl-4 border-l border-zinc-200">
               {navItems.map((item) => {
                 const Icon = item.icon;
@@ -112,7 +111,6 @@ export const StudentLayout: React.FC = () => {
             </nav>
           </div>
 
-          {/* Right Action Icons: Notification, User, Signout */}
           <div className="flex items-center gap-2">
             <Link
               to="/app/notifications"
@@ -197,6 +195,7 @@ export const StudentLayout: React.FC = () => {
 export const StaffLayout: React.FC = () => {
   const { user, logout, hasPermission } = useAuth();
   const location = useLocation();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const permissions = user?.permissions || [];
   const sidebarLinks: { label: string; path: string; icon: React.ElementType }[] = [];
@@ -217,9 +216,99 @@ export const StaffLayout: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 flex">
-      {/* Minimalist Sidebar */}
-      <aside className="w-64 bg-white border-r border-zinc-200 flex flex-col">
+    <div className="min-h-screen bg-zinc-50 flex flex-col md:flex-row">
+      {/* ──────── MOBILE TOP HEADER (< md) ──────── */}
+      <header className="md:hidden sticky top-0 z-40 bg-white border-b border-zinc-200 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className="p-1.5 rounded-lg border border-zinc-200 text-zinc-700 hover:bg-zinc-100"
+            aria-label="Open menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <div>
+            <h1 className="text-xs font-bold text-zinc-900 leading-tight">{user?.primaryRole}</h1>
+            <span className="text-[10px] text-zinc-500 font-medium">{user?.collegeName}</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-semibold bg-zinc-100 text-zinc-800 border border-zinc-200 px-2 py-0.5 rounded-md truncate max-w-[120px]">
+            {user?.fullName?.split(' ')[0]}
+          </span>
+          <button
+            onClick={logout}
+            className="p-1.5 text-zinc-400 hover:text-rose-600 rounded-lg"
+            title="Sign Out"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
+        </div>
+      </header>
+
+      {/* ──────── MOBILE DRAWER BACKDROP & MENU ──────── */}
+      {drawerOpen && (
+        <div className="md:hidden fixed inset-0 z-50 flex">
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
+            onClick={() => setDrawerOpen(false)}
+          />
+          <aside className="relative w-72 max-w-[80vw] bg-white h-full shadow-2xl flex flex-col z-50">
+            <div className="p-4 border-b border-zinc-100 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 bg-zinc-900 text-white flex items-center justify-center font-bold rounded-lg text-xs">
+                  S
+                </div>
+                <div>
+                  <h2 className="font-bold text-xs text-zinc-900 leading-tight">{user?.collegeName}</h2>
+                  <span className="text-[10px] text-zinc-500 font-medium">{user?.primaryRole}</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setDrawerOpen(false)}
+                className="p-1 rounded-lg text-zinc-400 hover:text-zinc-700"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+              {sidebarLinks.map((link) => {
+                const Icon = link.icon;
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setDrawerOpen(false)}
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${
+                      isActive
+                        ? 'bg-zinc-900 text-white font-semibold'
+                        : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="p-4 border-t border-zinc-100">
+              <button
+                onClick={logout}
+                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-rose-600 hover:bg-rose-50 rounded-lg transition-colors font-medium"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </button>
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {/* ──────── DESKTOP SIDEBAR (md and above) ──────── */}
+      <aside className="hidden md:flex w-64 bg-white border-r border-zinc-200 flex-col shrink-0">
         <div className="p-5 border-b border-zinc-100 flex items-center gap-3">
           <div className="w-9 h-9 bg-zinc-900 text-white flex items-center justify-center font-bold rounded-lg text-sm">
             S
@@ -260,8 +349,9 @@ export const StaffLayout: React.FC = () => {
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col">
-        <header className="bg-white border-b border-zinc-200 px-6 py-4 flex items-center justify-between">
+      {/* ──────── MAIN CONTENT (Full width on mobile, right pane on desktop) ──────── */}
+      <div className="flex-1 min-w-0 flex flex-col">
+        <header className="hidden md:flex bg-white border-b border-zinc-200 px-6 py-4 items-center justify-between">
           <h1 className="text-base font-bold text-zinc-900">{user?.primaryRole} Operations Portal</h1>
           <div className="flex items-center gap-3">
             <span className="text-xs font-medium text-zinc-700 bg-zinc-100 px-2.5 py-1 rounded-md border border-zinc-200">
@@ -269,7 +359,7 @@ export const StaffLayout: React.FC = () => {
             </span>
           </div>
         </header>
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 p-4 sm:p-6 overflow-y-auto">
           <Outlet />
         </main>
       </div>
@@ -280,6 +370,7 @@ export const StaffLayout: React.FC = () => {
 export const AdminLayout: React.FC = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const links = [
     { label: 'Analytics & Overview', path: '/admin/college/analytics', icon: BarChart3 },
@@ -290,9 +381,99 @@ export const AdminLayout: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-zinc-50 flex">
-      {/* Minimalist Sidebar */}
-      <aside className="w-64 bg-white border-r border-zinc-200 flex flex-col">
+    <div className="min-h-screen bg-zinc-50 flex flex-col md:flex-row">
+      {/* ──────── MOBILE TOP HEADER (< md) ──────── */}
+      <header className="md:hidden sticky top-0 z-40 bg-white border-b border-zinc-200 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className="p-1.5 rounded-lg border border-zinc-200 text-zinc-700 hover:bg-zinc-100"
+            aria-label="Open menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <div>
+            <h1 className="text-xs font-bold text-zinc-900 leading-tight">College Admin</h1>
+            <span className="text-[10px] text-zinc-500 font-medium">{user?.collegeName}</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-semibold bg-zinc-100 text-zinc-800 border border-zinc-200 px-2 py-0.5 rounded-md truncate max-w-[120px]">
+            {user?.fullName?.split(' ')[0]}
+          </span>
+          <button
+            onClick={logout}
+            className="p-1.5 text-zinc-400 hover:text-rose-600 rounded-lg"
+            title="Sign Out"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
+        </div>
+      </header>
+
+      {/* ──────── MOBILE DRAWER BACKDROP & MENU ──────── */}
+      {drawerOpen && (
+        <div className="md:hidden fixed inset-0 z-50 flex">
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
+            onClick={() => setDrawerOpen(false)}
+          />
+          <aside className="relative w-72 max-w-[80vw] bg-white h-full shadow-2xl flex flex-col z-50">
+            <div className="p-4 border-b border-zinc-100 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 bg-zinc-900 text-white flex items-center justify-center font-bold rounded-lg text-xs">
+                  A
+                </div>
+                <div>
+                  <h2 className="font-bold text-xs text-zinc-900 leading-tight">{user?.collegeName}</h2>
+                  <span className="text-[10px] text-zinc-500 font-medium">Administration</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setDrawerOpen(false)}
+                className="p-1 rounded-lg text-zinc-400 hover:text-zinc-700"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+              {links.map((link) => {
+                const Icon = link.icon;
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setDrawerOpen(false)}
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${
+                      isActive
+                        ? 'bg-zinc-900 text-white font-semibold'
+                        : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="p-4 border-t border-zinc-100">
+              <button
+                onClick={logout}
+                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-rose-600 hover:bg-rose-50 rounded-lg transition-colors font-medium"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </button>
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {/* ──────── DESKTOP SIDEBAR (md and above) ──────── */}
+      <aside className="hidden md:flex w-64 bg-white border-r border-zinc-200 flex-col shrink-0">
         <div className="p-5 border-b border-zinc-100 flex items-center gap-3">
           <div className="w-9 h-9 bg-zinc-900 text-white flex items-center justify-center rounded-lg text-sm font-bold">
             <Building className="w-4.5 h-4.5" />
@@ -333,14 +514,15 @@ export const AdminLayout: React.FC = () => {
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col">
-        <header className="bg-white border-b border-zinc-200 px-6 py-4 flex items-center justify-between">
+      {/* ──────── MAIN CONTENT ──────── */}
+      <div className="flex-1 min-w-0 flex flex-col">
+        <header className="hidden md:flex bg-white border-b border-zinc-200 px-6 py-4 items-center justify-between">
           <h1 className="text-base font-bold text-zinc-900">Institutional Administration</h1>
           <span className="text-xs font-medium text-zinc-700 bg-zinc-100 px-2.5 py-1 rounded-md border border-zinc-200">
             {user?.fullName}
           </span>
         </header>
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 p-4 sm:p-6 overflow-y-auto">
           <Outlet />
         </main>
       </div>
@@ -351,6 +533,7 @@ export const AdminLayout: React.FC = () => {
 export const PlatformAdminLayout: React.FC = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const links = [
     { label: 'Global Overview', path: '/platform-admin/overview', icon: BarChart3 },
@@ -360,9 +543,99 @@ export const PlatformAdminLayout: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex">
-      {/* Dark Minimalist Sidebar */}
-      <aside className="w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col md:flex-row">
+      {/* ──────── MOBILE TOP HEADER (< md) ──────── */}
+      <header className="md:hidden sticky top-0 z-40 bg-zinc-900 border-b border-zinc-800 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className="p-1.5 rounded-lg border border-zinc-800 text-zinc-300 hover:bg-zinc-800"
+            aria-label="Open menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <div>
+            <h1 className="text-xs font-bold text-zinc-100 leading-tight">Platform Admin</h1>
+            <span className="text-[10px] text-zinc-400 font-medium">SaaS Console</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-semibold bg-zinc-800 text-emerald-400 border border-zinc-700 px-2 py-0.5 rounded-md">
+            Superadmin
+          </span>
+          <button
+            onClick={logout}
+            className="p-1.5 text-zinc-400 hover:text-rose-400 rounded-lg"
+            title="Sign Out"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
+        </div>
+      </header>
+
+      {/* ──────── MOBILE DRAWER BACKDROP & MENU ──────── */}
+      {drawerOpen && (
+        <div className="md:hidden fixed inset-0 z-50 flex">
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
+            onClick={() => setDrawerOpen(false)}
+          />
+          <aside className="relative w-72 max-w-[80vw] bg-zinc-900 h-full shadow-2xl flex flex-col z-50 border-r border-zinc-800">
+            <div className="p-4 border-b border-zinc-800 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 bg-zinc-800 text-white flex items-center justify-center font-bold rounded-lg text-xs">
+                  PA
+                </div>
+                <div>
+                  <h2 className="font-bold text-xs text-zinc-100 leading-tight">Platform Admin</h2>
+                  <span className="text-[10px] text-zinc-400 font-medium">Multi-Tenant Console</span>
+                </div>
+              </div>
+              <button
+                onClick={() => setDrawerOpen(false)}
+                className="p-1 rounded-lg text-zinc-400 hover:text-zinc-200"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+              {links.map((link) => {
+                const Icon = link.icon;
+                const isActive = location.pathname === link.path;
+                return (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setDrawerOpen(false)}
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${
+                      isActive
+                        ? 'bg-zinc-800 text-white font-semibold'
+                        : 'text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="p-4 border-t border-zinc-800">
+              <button
+                onClick={logout}
+                className="w-full flex items-center gap-2 px-3 py-2 text-xs text-rose-400 hover:bg-rose-950/20 rounded-lg transition-colors font-medium"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </button>
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {/* ──────── DESKTOP SIDEBAR (md and above) ──────── */}
+      <aside className="hidden md:flex w-64 bg-zinc-900 border-r border-zinc-800 flex-col shrink-0">
         <div className="p-5 border-b border-zinc-800 flex items-center gap-3">
           <div className="w-8 h-8 bg-zinc-800 border border-zinc-700 text-white flex items-center justify-center font-bold rounded-lg text-xs">
             PA
@@ -403,14 +676,15 @@ export const PlatformAdminLayout: React.FC = () => {
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col">
-        <header className="bg-zinc-900 border-b border-zinc-800 px-6 py-4 flex items-center justify-between">
+      {/* ──────── MAIN CONTENT ──────── */}
+      <div className="flex-1 min-w-0 flex flex-col">
+        <header className="hidden md:flex bg-zinc-900 border-b border-zinc-800 px-6 py-4 items-center justify-between">
           <h1 className="text-base font-bold text-white">System Platform Console</h1>
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md bg-zinc-800 border border-zinc-700 text-emerald-400">
             Superadmin
           </span>
         </header>
-        <main className="flex-1 p-6 overflow-y-auto bg-zinc-950">
+        <main className="flex-1 p-4 sm:p-6 overflow-y-auto bg-zinc-950">
           <Outlet />
         </main>
       </div>
