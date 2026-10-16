@@ -482,6 +482,7 @@ public class AdminController {
                 .isVeg(Boolean.TRUE.equals(dto.getIsVeg()))
                 .isAvailable(Boolean.TRUE.equals(dto.getIsAvailable()))
                 .imageUrl(dto.getImageUrl())
+                .vendorName(dto.getVendorName() != null ? dto.getVendorName() : "MR Food Court")
                 .build();
 
         menuItemRepository.save(item);
@@ -508,18 +509,31 @@ public class AdminController {
     }
 
     @PutMapping("/catalog/print/pricing")
-    public ResponseEntity<?> updatePrintPricing(@RequestBody Map<String, BigDecimal> body) {
+    public ResponseEntity<?> updatePrintPricing(@RequestBody Map<String, Object> body) {
         Long tenantCollegeId = TenantContext.getCollegeId();
         College college = resolveCollege("print@campus.edu", tenantCollegeId);
 
         PrintPricing pricing = printPricingRepository.findByCollegeId(college.getId())
                 .orElseGet(() -> PrintPricing.builder().college(college).build());
 
-        if (body.containsKey("bwPerPage")) pricing.setBwPerPage(body.get("bwPerPage"));
-        if (body.containsKey("colorPerPage")) pricing.setColorPerPage(body.get("colorPerPage"));
+        if (body.get("bwPerPage") != null) pricing.setBwPerPage(new BigDecimal(body.get("bwPerPage").toString()));
+        if (body.get("colorPerPage") != null) pricing.setColorPerPage(new BigDecimal(body.get("colorPerPage").toString()));
+        if (body.get("a4Multiplier") != null) pricing.setA4Multiplier(new BigDecimal(body.get("a4Multiplier").toString()));
+        if (body.get("a3Multiplier") != null) pricing.setA3Multiplier(new BigDecimal(body.get("a3Multiplier").toString()));
+        if (body.get("letterMultiplier") != null) pricing.setLetterMultiplier(new BigDecimal(body.get("letterMultiplier").toString()));
+        if (body.get("doubleSidedDiscountPercent") != null) pricing.setDoubleSidedDiscountPercent(new BigDecimal(body.get("doubleSidedDiscountPercent").toString()));
+        if (body.get("bindingCharge") != null) pricing.setBindingCharge(new BigDecimal(body.get("bindingCharge").toString()));
+        if (body.get("urgentSurchargePercent") != null) pricing.setUrgentSurchargePercent(new BigDecimal(body.get("urgentSurchargePercent").toString()));
+
+        if (body.get("printerShopName") != null) pricing.setPrinterShopName(body.get("printerShopName").toString());
+        if (body.get("printerContactPerson") != null) pricing.setPrinterContactPerson(body.get("printerContactPerson").toString());
+        if (body.get("printerPhone") != null) pricing.setPrinterPhone(body.get("printerPhone").toString());
+        if (body.get("printerWhatsapp") != null) pricing.setPrinterWhatsapp(body.get("printerWhatsapp").toString());
+        if (body.get("printerShopLocation") != null) pricing.setPrinterShopLocation(body.get("printerShopLocation").toString());
+        if (body.get("printerUpiId") != null) pricing.setPrinterUpiId(body.get("printerUpiId").toString());
 
         printPricingRepository.save(pricing);
-        return ResponseEntity.ok(Map.of("message", "Print pricing updated"));
+        return ResponseEntity.ok(Map.of("message", "Print pricing and contact info updated"));
     }
 
     // --- Analytics ---

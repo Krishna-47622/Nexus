@@ -7,32 +7,73 @@ export default {
   theme: {
     extend: {
       colors: {
+        clay: {
+          bg: "#fafafa",
+          surface: "#ffffff",
+          indigo: "#4f46e5",
+          "indigo-light": "#6366f1",
+          "indigo-deep": "#3730a3",
+          mint: "#10b981",
+          "mint-light": "#34d399",
+          coral: "#ef4444",
+          "coral-light": "#f87171",
+          amber: "#f59e0b",
+          "amber-light": "#fbbf24",
+          violet: "#8b5cf6",
+          "violet-light": "#a78bfa",
+          sky: "#0284c7",
+          "sky-light": "#38bdf8",
+          pink: "#ec4899",
+          "pink-light": "#f472b6",
+        },
+        ink: {
+          DEFAULT: "#18181b",
+          soft: "#71717a",
+          muted: "#a1a1aa",
+          ghost: "#e4e4e7",
+        },
         primary: {
-          DEFAULT: "#1E3A5F",
-          dark: "#022448",
-          light: "#2A4D7A",
-          container: "#e5eeff"
+          DEFAULT: "#18181b",
+          dark: "#09090b",
+          light: "#27272a",
+          container: "#f4f4f5",
         },
         surface: {
-          DEFAULT: "#f8f9ff",
-          container: "#eff4ff",
+          DEFAULT: "#fafafa",
+          container: "#f4f4f5",
           white: "#ffffff",
-          dim: "#e2e8f0"
+          dim: "#e4e4e7",
         },
-        border: {
-          DEFAULT: "rgba(30, 58, 95, 0.15)",
-          dark: "rgba(30, 58, 95, 0.3)"
-        }
+      },
+      boxShadow: {
+        xs: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        "clay-card": "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05)",
+        "clay-card-hover": "0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05)",
+        "clay-btn": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        "clay-btn-active": "none",
+        "clay-inset": "none",
+        "clay-sm": "0 1px 2px 0 rgba(0, 0, 0, 0.04)",
+        "clay-lg": "0 10px 15px -3px rgba(0, 0, 0, 0.08)",
+        "clay-nav": "0 -1px 3px 0 rgba(0, 0, 0, 0.05)",
+        "clay-sidebar": "1px 0 3px 0 rgba(0, 0, 0, 0.05)",
+        "clay-badge": "none",
       },
       borderRadius: {
-        DEFAULT: "4px",
-        sm: "2px",
-        md: "4px",
-        lg: "6px"
+        DEFAULT: "0.5rem",
+        sm: "0.375rem",
+        md: "0.5rem",
+        lg: "0.75rem",
+        xl: "1rem",
+        "2xl": "1.25rem",
+        "3xl": "1.5rem",
+        "4xl": "1.75rem",
+        clay: "0.75rem",
+        "clay-lg": "1rem",
+        full: "9999px",
       },
       fontFamily: {
-        sans: ['Inter', 'Noto Sans', 'sans-serif'],
-      }
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+      },
     },
   },
   plugins: [],

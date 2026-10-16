@@ -28,9 +28,16 @@ public class CanteenDTOs {
         private String name;
         private String description;
         private BigDecimal price;
+        private BigDecimal sellingPrice;
+        private BigDecimal basePrice;
+        private BigDecimal taxValue;
+        private BigDecimal taxPercent;
+        private String istharaItemId;
+        private String istharaVendorId;
         private Boolean isVeg;
         private Boolean isAvailable;
         private String imageUrl;
+        private String vendorName;
     }
 
     @Data

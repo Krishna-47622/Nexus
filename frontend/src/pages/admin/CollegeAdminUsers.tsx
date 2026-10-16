@@ -172,46 +172,46 @@ export const CollegeAdminUsers: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">User & Credentials Management</h2>
-          <p className="text-xs text-slate-500">Filter users by category, modify usernames/roles, or create student credentials</p>
+          <h2 className="text-xl font-extrabold text-ink">User & Credentials Management</h2>
+          <p className="text-xs text-ink-soft">Filter users by category, modify usernames/roles, or create student credentials</p>
         </div>
         <div className="flex items-center gap-3">
           <button
             onClick={() => { setShowCreateStudentModal(true); setCreateError(''); }}
-            className="px-3.5 py-1.5 bg-primary text-white font-bold text-xs rounded-sm hover:bg-primary-dark transition flex items-center gap-1.5"
+            className="px-3.5 py-1.5 clay-btn text-xs flex items-center gap-1.5"
           >
             <Plus className="w-4 h-4" /> Create Student Account
           </button>
           <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+            <Search className="w-4 h-4 text-ink-muted absolute left-3 top-2.5" />
             <input
               type="text"
               placeholder="Search name, roll no, or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 pr-3 py-1.5 border border-slate-300 rounded-sm text-xs w-56 focus:outline-none focus:border-primary"
+              className="pl-9 pr-3 py-1.5 border border-white/50 rounded-2xl text-xs w-56 focus:outline-none focus:ring-2 focus:ring-clay-indigo/30"
             />
           </div>
         </div>
       </div>
 
       {feedback && (
-        <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-sm flex items-center gap-2">
+        <div className="p-3 bg-clay-mint/10 border border-emerald-200 text-emerald-800 text-xs rounded-2xl flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{feedback}</span>
         </div>
       )}
 
       {/* Category Filter Pills */}
-      <div className="flex flex-wrap gap-1.5 border-b border-slate-200 pb-3">
+      <div className="flex flex-wrap gap-1.5 border-b border-white/60 pb-3">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-3 py-1.5 text-xs font-bold rounded-sm transition ${
+            className={`px-3 py-1.5 text-xs font-bold rounded-2xl transition ${
               selectedCategory === cat
-                ? 'bg-primary text-white'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                ? 'bg-clay-indigo text-white'
+                : 'bg-clay-bg text-ink-soft hover:bg-slate-200'
             }`}
           >
             {cat === 'ALL' ? 'All Users' : cat}
@@ -221,17 +221,17 @@ export const CollegeAdminUsers: React.FC = () => {
 
       {/* User Table */}
       {loading ? (
-        <div className="bg-white border border-slate-200 p-8 text-center text-xs text-slate-500">
+        <div className="clay-card p-8 text-center text-xs text-ink-soft">
           Loading user database...
         </div>
       ) : filteredUsers.length === 0 ? (
-        <div className="bg-white border border-slate-200 p-8 text-center text-xs text-slate-500">
+        <div className="clay-card p-8 text-center text-xs text-ink-soft">
           No user accounts found under category "{selectedCategory}".
         </div>
       ) : (
-        <div className="bg-white border border-slate-200 rounded-sm overflow-x-auto">
+        <div className="clay-card overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-b border-slate-200 font-bold text-slate-700 uppercase">
+            <thead className="bg-clay-bg/60 border-b border-white/60 font-bold text-ink uppercase">
               <tr>
                 <th className="p-3">User Details</th>
                 <th className="p-3">Username / Roll No</th>
@@ -240,24 +240,24 @@ export const CollegeAdminUsers: React.FC = () => {
                 <th className="p-3 text-right">Credential Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-clay-bg">
               {filteredUsers.map((u) => (
-                <tr key={u.id} className="hover:bg-slate-50">
+                <tr key={u.id} className="hover:bg-clay-bg/60">
                   <td className="p-3">
-                    <div className="font-bold text-slate-900">{u.fullName}</div>
-                    <div className="text-[11px] text-slate-500">{u.email}</div>
+                    <div className="font-bold text-ink">{u.fullName}</div>
+                    <div className="text-[11px] text-ink-soft">{u.email}</div>
                   </td>
-                  <td className="p-3 font-mono font-semibold text-slate-700">{u.username}</td>
+                  <td className="p-3 font-mono font-semibold text-ink">{u.username}</td>
                   <td className="p-3">
-                    <span className="px-2 py-0.5 bg-blue-50 border border-blue-200 text-blue-800 text-[10px] font-bold rounded-sm inline-flex items-center gap-1">
+                    <span className="px-2 py-0.5 bg-blue-50 border border-blue-200 text-blue-800 text-[10px] font-bold rounded-2xl inline-flex items-center gap-1">
                       <Shield className="w-3 h-3 text-primary" /> {u.roleName}
                     </span>
                   </td>
                   <td className="p-3">
                     <span
-                      className={`px-2 py-0.5 text-[10px] font-bold rounded-sm border ${
+                      className={`px-2 py-0.5 text-[10px] font-bold rounded-2xl border ${
                         u.isActive
-                          ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                          ? 'bg-clay-mint/10 text-emerald-800 border-emerald-200'
                           : 'bg-red-50 text-red-800 border-red-200'
                       }`}
                     >
@@ -268,7 +268,7 @@ export const CollegeAdminUsers: React.FC = () => {
                     <button
                       onClick={() => openEditModal(u)}
                       title="Edit User & Username"
-                      className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-sm transition"
+                      className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-2xl transition"
                     >
                       <Edit2 className="w-4 h-4" />
                     </button>
@@ -276,7 +276,7 @@ export const CollegeAdminUsers: React.FC = () => {
                     <button
                       onClick={() => { setPasswordUser(u); setNewPassword(''); }}
                       title="Change / Reset Password"
-                      className="p-1.5 text-amber-600 hover:bg-amber-50 rounded-sm transition"
+                      className="p-1.5 text-clay-amber hover:bg-amber-50 rounded-2xl transition"
                     >
                       <Key className="w-4 h-4" />
                     </button>
@@ -284,7 +284,7 @@ export const CollegeAdminUsers: React.FC = () => {
                     <button
                       onClick={() => handleToggleStatus(u)}
                       title={u.isActive ? 'Deactivate Account' : 'Reactivate Account'}
-                      className={`p-1.5 rounded-sm transition ${u.isActive ? 'text-slate-600 hover:bg-slate-100' : 'text-emerald-600 hover:bg-emerald-50'}`}
+                      className={`p-1.5 rounded-2xl transition ${u.isActive ? 'text-ink-soft hover:bg-clay-bg' : 'text-clay-mint hover:bg-clay-mint/10'}`}
                     >
                       {u.isActive ? <UserX className="w-4 h-4" /> : <UserCheck className="w-4 h-4" />}
                     </button>
@@ -292,7 +292,7 @@ export const CollegeAdminUsers: React.FC = () => {
                     <button
                       onClick={() => handleDeleteUser(u)}
                       title="Delete Credentials"
-                      className="p-1.5 text-red-600 hover:bg-red-50 rounded-sm transition"
+                      className="p-1.5 text-clay-coral hover:bg-red-50 rounded-2xl transition"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -307,12 +307,12 @@ export const CollegeAdminUsers: React.FC = () => {
       {/* Create Student Account Modal */}
       {showCreateStudentModal && (
         <div className="fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
-          <form onSubmit={handleCreateStudent} className="bg-white border border-slate-200 rounded-sm p-6 max-w-md w-full space-y-4">
-            <h3 className="text-sm font-bold text-slate-900">Create New Student Account</h3>
-            <p className="text-xs text-slate-500">Provision single student credentials for your institution</p>
+          <form onSubmit={handleCreateStudent} className="clay-card p-6 max-w-md w-full space-y-4">
+            <h3 className="text-sm font-bold text-ink">Create New Student Account</h3>
+            <p className="text-xs text-ink-soft">Provision single student credentials for your institution</p>
 
             {createError && (
-              <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-sm flex items-center gap-2">
+              <div className="p-3 bg-clay-coral/10 border border-clay-coral/20 text-clay-coral text-xs rounded-2xl flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{createError}</span>
               </div>
@@ -320,60 +320,60 @@ export const CollegeAdminUsers: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs font-semibold text-slate-700 block">Roll Number (Username)</label>
+                <label className="text-xs font-semibold text-ink block">Roll Number (Username)</label>
                 <input
                   type="text"
                   required
                   placeholder="2511cs020633"
                   value={studentRoll}
                   onChange={(e) => setStudentRoll(e.target.value)}
-                  className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1 font-mono"
+                  className="clay-input mt-1 font-mono"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-700 block">Full Name</label>
+                <label className="text-xs font-semibold text-ink block">Full Name</label>
                 <input
                   type="text"
                   required
                   placeholder="Veeram Reddy Sri Krishna"
                   value={studentName}
                   onChange={(e) => setStudentName(e.target.value)}
-                  className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1"
+                  className="clay-input mt-1"
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block">Email Address</label>
+              <label className="text-xs font-semibold text-ink block">Email Address</label>
               <input
                 type="email"
                 required
                 placeholder="2511cs020633@mallareddyuniversity.ac.in"
                 value={studentEmail}
                 onChange={(e) => setStudentEmail(e.target.value)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1 font-mono"
+                className="clay-input mt-1 font-mono"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs font-semibold text-slate-700 block">Department</label>
+                <label className="text-xs font-semibold text-ink block">Department</label>
                 <input
                   type="text"
                   required
                   value={studentDept}
                   onChange={(e) => setStudentDept(e.target.value)}
-                  className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1"
+                  className="clay-input mt-1"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-700 block">Year of Study</label>
+                <label className="text-xs font-semibold text-ink block">Year of Study</label>
                 <select
                   value={studentYear}
                   onChange={(e) => setStudentYear(e.target.value)}
-                  className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1"
+                  className="clay-input mt-1"
                 >
                   <option value="1">1st Year</option>
                   <option value="2">2nd Year</option>
@@ -385,12 +385,12 @@ export const CollegeAdminUsers: React.FC = () => {
 
             {/* Checkbox for Hostel Resident */}
             <div className="pt-1">
-              <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-800">
+              <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-ink">
                 <input
                   type="checkbox"
                   checked={isHostelResident}
                   onChange={(e) => setIsHostelResident(e.target.checked)}
-                  className="rounded-sm text-primary focus:ring-primary w-4 h-4"
+                  className="rounded-2xl text-clay-indigo focus:ring-primary w-4 h-4"
                 />
                 <span>Is Hostel Resident?</span>
               </label>
@@ -398,53 +398,53 @@ export const CollegeAdminUsers: React.FC = () => {
 
             {/* Optional Hostel Fields */}
             {isHostelResident && (
-              <div className="grid grid-cols-2 gap-3 p-3 bg-slate-50 border border-slate-200 rounded-sm">
+              <div className="grid grid-cols-2 gap-3 p-3 bg-clay-bg/60 border border-white/60 rounded-2xl">
                 <div>
-                  <label className="text-xs font-semibold text-slate-700 block">Hostel Block</label>
+                  <label className="text-xs font-semibold text-ink block">Hostel Block</label>
                   <input
                     type="text"
                     placeholder="Block-A"
                     value={studentHostel}
                     onChange={(e) => setStudentHostel(e.target.value)}
-                    className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1"
+                    className="clay-input mt-1"
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold text-slate-700 block">Room Number</label>
+                  <label className="text-xs font-semibold text-ink block">Room Number</label>
                   <input
                     type="text"
                     placeholder="126"
                     value={studentRoom}
                     onChange={(e) => setStudentRoom(e.target.value)}
-                    className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1"
+                    className="clay-input mt-1"
                   />
                 </div>
               </div>
             )}
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block">Initial Password (Optional)</label>
+              <label className="text-xs font-semibold text-ink block">Initial Password (Optional)</label>
               <input
                 type="text"
                 placeholder="Leave blank to auto-generate temporary password"
                 value={studentPassword}
                 onChange={(e) => setStudentPassword(e.target.value)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1 font-mono"
+                className="clay-input mt-1 font-mono"
               />
             </div>
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
+            <div className="flex justify-end gap-2 pt-2 border-t border-clay-bg">
               <button
                 type="button"
                 onClick={() => setShowCreateStudentModal(false)}
-                className="px-3 py-1.5 border border-slate-300 text-xs font-bold rounded-sm text-slate-600 hover:bg-slate-100"
+                className="px-3 py-1.5 border border-white/50 text-xs font-bold rounded-2xl text-ink-soft hover:bg-clay-bg"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-1.5 bg-primary text-white text-xs font-bold rounded-sm hover:bg-primary-dark"
+                className="px-4 py-1.5 bg-clay-indigo text-white text-xs font-bold rounded-2xl hover:bg-clay-indigo-deep"
               >
                 Create Account
               </button>
@@ -456,56 +456,56 @@ export const CollegeAdminUsers: React.FC = () => {
       {/* Edit User & Username Modal */}
       {editingUser && (
         <div className="fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
-          <form onSubmit={handleUpdateUserDetails} className="bg-white border border-slate-200 rounded-sm p-6 max-w-md w-full space-y-4">
-            <h3 className="text-sm font-bold text-slate-900">Edit Account Details & Username</h3>
-            <p className="text-xs text-slate-500">Modify credentials for <span className="font-bold text-slate-800">{editingUser.fullName}</span></p>
+          <form onSubmit={handleUpdateUserDetails} className="clay-card p-6 max-w-md w-full space-y-4">
+            <h3 className="text-sm font-bold text-ink">Edit Account Details & Username</h3>
+            <p className="text-xs text-ink-soft">Modify credentials for <span className="font-bold text-ink">{editingUser.fullName}</span></p>
 
             {editError && (
-              <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-sm flex items-center gap-2">
+              <div className="p-3 bg-clay-coral/10 border border-clay-coral/20 text-clay-coral text-xs rounded-2xl flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{editError}</span>
               </div>
             )}
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block">Username / Roll Number</label>
+              <label className="text-xs font-semibold text-ink block">Username / Roll Number</label>
               <input
                 type="text"
                 required
                 value={editUsername}
                 onChange={(e) => setEditUsername(e.target.value)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1 font-mono"
+                className="clay-input mt-1 font-mono"
               />
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block">Full Name</label>
+              <label className="text-xs font-semibold text-ink block">Full Name</label>
               <input
                 type="text"
                 required
                 value={editFullName}
                 onChange={(e) => setEditFullName(e.target.value)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1"
+                className="clay-input mt-1"
               />
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block">Email Address</label>
+              <label className="text-xs font-semibold text-ink block">Email Address</label>
               <input
                 type="email"
                 required
                 value={editEmail}
                 onChange={(e) => setEditEmail(e.target.value)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1"
+                className="clay-input mt-1"
               />
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block">Assigned Role</label>
+              <label className="text-xs font-semibold text-ink block">Assigned Role</label>
               <select
                 value={editRole}
                 onChange={(e) => setEditRole(e.target.value)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1"
+                className="clay-input mt-1"
               >
                 <option value="Student">Student</option>
                 <option value="Canteen Staff">Canteen Staff</option>
@@ -516,17 +516,17 @@ export const CollegeAdminUsers: React.FC = () => {
               </select>
             </div>
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
+            <div className="flex justify-end gap-2 pt-2 border-t border-clay-bg">
               <button
                 type="button"
                 onClick={() => setEditingUser(null)}
-                className="px-3 py-1.5 border border-slate-300 text-xs font-bold rounded-sm text-slate-600 hover:bg-slate-100"
+                className="px-3 py-1.5 border border-white/50 text-xs font-bold rounded-2xl text-ink-soft hover:bg-clay-bg"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-1.5 bg-primary text-white text-xs font-bold rounded-sm hover:bg-primary-dark"
+                className="px-4 py-1.5 bg-clay-indigo text-white text-xs font-bold rounded-2xl hover:bg-clay-indigo-deep"
               >
                 Save Details & Username
               </button>
@@ -538,12 +538,12 @@ export const CollegeAdminUsers: React.FC = () => {
       {/* Change Password Modal */}
       {passwordUser && (
         <div className="fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-50">
-          <form onSubmit={handleChangePassword} className="bg-white border border-slate-200 rounded-sm p-6 max-w-sm w-full space-y-4">
-            <h3 className="text-sm font-bold text-slate-900">Change User Password</h3>
-            <p className="text-xs text-slate-500">Set new password for <span className="font-bold text-slate-800">{passwordUser.username}</span></p>
+          <form onSubmit={handleChangePassword} className="clay-card p-6 max-w-sm w-full space-y-4">
+            <h3 className="text-sm font-bold text-ink">Change User Password</h3>
+            <p className="text-xs text-ink-soft">Set new password for <span className="font-bold text-ink">{passwordUser.username}</span></p>
 
             <div>
-              <label className="text-xs font-semibold text-slate-700 block">New Password</label>
+              <label className="text-xs font-semibold text-ink block">New Password</label>
               <input
                 type="password"
                 required
@@ -551,7 +551,7 @@ export const CollegeAdminUsers: React.FC = () => {
                 placeholder="Enter new password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-3 py-1.5 border border-slate-300 rounded-sm text-xs mt-1"
+                className="clay-input mt-1"
               />
             </div>
 
@@ -559,13 +559,13 @@ export const CollegeAdminUsers: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setPasswordUser(null)}
-                className="px-3 py-1.5 border border-slate-300 text-xs font-bold rounded-sm text-slate-600 hover:bg-slate-100"
+                className="px-3 py-1.5 border border-white/50 text-xs font-bold rounded-2xl text-ink-soft hover:bg-clay-bg"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-1.5 bg-primary text-white text-xs font-bold rounded-sm hover:bg-primary-dark"
+                className="px-4 py-1.5 bg-clay-indigo text-white text-xs font-bold rounded-2xl hover:bg-clay-indigo-deep"
               >
                 Update Password
               </button>

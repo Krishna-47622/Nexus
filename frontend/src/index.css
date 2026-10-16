@@ -1,28 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
-    @apply bg-surface text-slate-900 font-sans;
+    @apply bg-zinc-50 text-zinc-900 font-sans selection:bg-zinc-900 selection:text-white;
   }
 }
 
-.fade-in-up {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+@layer components {
+  /* ──────── MINIMALIST CARD ──────── */
+  .clay-card {
+    @apply bg-white rounded-xl border border-zinc-200/90 shadow-xs transition-all duration-200;
+  }
+
+  .clay-card:hover {
+    @apply border-zinc-300;
+  }
+
+  /* ──────── MINIMALIST BUTTONS ──────── */
+  .clay-btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 
+           bg-zinc-900 text-white font-medium text-sm
+           rounded-lg shadow-xs
+           transition-colors duration-150 ease-out
+           hover:bg-zinc-800 active:bg-zinc-950
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .clay-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 
+           bg-white text-zinc-800 font-medium text-sm
+           rounded-lg shadow-xs border border-zinc-200
+           transition-colors duration-150 ease-out
+           hover:bg-zinc-50 hover:text-zinc-900 hover:border-zinc-300
+           active:bg-zinc-100;
+  }
+
+  .clay-btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-3 py-1.5 
+           bg-transparent text-zinc-600 font-medium text-sm
+           rounded-lg
+           transition-colors duration-150 ease-out
+           hover:bg-zinc-100 hover:text-zinc-900;
+  }
+
+  .clay-btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 
+           bg-red-600 text-white font-medium text-sm
+           rounded-lg shadow-xs
+           transition-colors duration-150 ease-out
+           hover:bg-red-700 active:bg-red-800;
+  }
+
+  .clay-btn-mint {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 
+           bg-emerald-600 text-white font-medium text-sm
+           rounded-lg shadow-xs
+           transition-colors duration-150 ease-out
+           hover:bg-emerald-700 active:bg-emerald-800;
+  }
+
+  /* ──────── MINIMALIST INPUTS ──────── */
+  .clay-input {
+    @apply w-full px-3.5 py-2.5 bg-white text-zinc-900 text-sm
+           rounded-lg border border-zinc-200
+           placeholder:text-zinc-400
+           focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900
+           transition-colors duration-150;
+  }
+
+  .clay-select {
+    @apply w-full px-3.5 py-2.5 bg-white text-zinc-900 text-sm
+           rounded-lg border border-zinc-200
+           focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900
+           transition-colors duration-150 appearance-none cursor-pointer;
+  }
+
+  .clay-textarea {
+    @apply w-full px-3.5 py-2.5 bg-white text-zinc-900 text-sm
+           rounded-lg border border-zinc-200
+           placeholder:text-zinc-400 resize-none
+           focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900
+           transition-colors duration-150;
+  }
+
+  /* ──────── MINIMALIST BADGES ──────── */
+  .clay-badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 
+           text-xs font-medium rounded-md border;
+  }
+
+  .clay-badge-indigo {
+    @apply clay-badge bg-indigo-50 text-indigo-700 border-indigo-200;
+  }
+
+  .clay-badge-mint {
+    @apply clay-badge bg-emerald-50 text-emerald-700 border-emerald-200;
+  }
+
+  .clay-badge-coral {
+    @apply clay-badge bg-rose-50 text-rose-700 border-rose-200;
+  }
+
+  .clay-badge-amber {
+    @apply clay-badge bg-amber-50 text-amber-700 border-amber-200;
+  }
+
+  .clay-badge-violet {
+    @apply clay-badge bg-purple-50 text-purple-700 border-purple-200;
+  }
+
+  .clay-badge-sky {
+    @apply clay-badge bg-sky-50 text-sky-700 border-sky-200;
+  }
+
+  /* ──────── MINIMALIST PILLS ──────── */
+  .clay-pill {
+    @apply px-3.5 py-1.5 text-xs font-medium rounded-lg 
+           transition-colors duration-150 cursor-pointer border;
+  }
+
+  .clay-pill-active {
+    @apply clay-pill bg-zinc-900 text-white border-zinc-900 shadow-xs;
+  }
+
+  .clay-pill-inactive {
+    @apply clay-pill bg-white text-zinc-600 border-zinc-200
+           hover:bg-zinc-50 hover:text-zinc-900 hover:border-zinc-300;
+  }
+
+  /* ──────── MINIMALIST TABLE ──────── */
+  .clay-table {
+    @apply w-full text-sm text-left;
+  }
+
+  .clay-table thead th {
+    @apply px-4 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider bg-zinc-50 border-b border-zinc-200;
+  }
+
+  .clay-table tbody td {
+    @apply px-4 py-3 text-zinc-800 border-b border-zinc-100;
+  }
+
+  .clay-table tbody tr {
+    @apply transition-colors hover:bg-zinc-50/70;
+  }
 }
 
-.fade-in-up.visible {
-  opacity: 1;
-  transform: translateY(0);
+/* ──────── SCROLLBAR ──────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
 }
 
-.material-symbols-outlined {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24;
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
 }

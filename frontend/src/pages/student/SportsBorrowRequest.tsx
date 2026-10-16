@@ -50,39 +50,39 @@ export const SportsBorrowRequest: React.FC = () => {
   };
 
   if (!equipment) {
-    return <div className="p-8 text-center text-xs text-slate-500">Loading equipment details...</div>;
+    return <div className="p-8 text-center text-xs text-ink-soft">Loading equipment details...</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link to="/app/sports" className="p-1 text-slate-600 hover:text-slate-900">
+        <Link to="/app/sports" className="p-1 text-ink-soft hover:text-ink">
           <ArrowLeft className="w-5 h-5" />
         </Link>
-        <h2 className="text-xl font-bold text-slate-900">Request Equipment Borrow</h2>
+        <h2 className="text-xl font-extrabold text-ink">Request Equipment Borrow</h2>
       </div>
 
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-sm">
+        <div className="p-3 bg-clay-coral/10 border border-clay-coral/20 text-clay-coral text-xs rounded-2xl">
           {error}
         </div>
       )}
 
-      <div className="bg-white border border-slate-200 rounded-sm p-4 space-y-3">
-        <div className="space-y-1 border-b border-slate-100 pb-3">
-          <h3 className="text-base font-bold text-slate-900">{equipment.name}</h3>
-          <span className="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-sm border border-slate-300">
+      <div className="clay-card p-4 space-y-3">
+        <div className="space-y-1 border-b border-clay-bg pb-3">
+          <h3 className="text-base font-bold text-ink">{equipment.name}</h3>
+          <span className="text-xs bg-clay-bg text-ink px-2 py-0.5 rounded-2xl border border-white/50">
             Category: {equipment.category}
           </span>
         </div>
 
         {/* Fine Policy Warning */}
-        <div className="p-3 bg-amber-50 border border-amber-200 rounded-sm space-y-1">
+        <div className="p-3 bg-amber-50 border border-amber-200 rounded-2xl space-y-1">
           <div className="flex items-center gap-1.5 text-xs font-bold text-amber-800">
-            <AlertTriangle className="w-4 h-4 text-amber-600" />
+            <AlertTriangle className="w-4 h-4 text-clay-amber" />
             Institutional Late Fine Policy
           </div>
-          <p className="text-[11px] text-amber-700">
+          <p className="text-[11px] text-clay-amber">
             Overdue returns incur a fine rate of <span className="font-bold">₹{equipment.lateFineRatePerDay.toFixed(2)} per day</span>.
             Fines must be cleared via UPI intent before borrowing subsequent items.
           </p>
@@ -90,20 +90,20 @@ export const SportsBorrowRequest: React.FC = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           <div>
-            <label className="text-xs font-bold text-slate-700 block">Expected Return Date & Time</label>
+            <label className="text-xs font-bold text-ink block">Expected Return Date & Time</label>
             <input
               type="datetime-local"
               required
               value={returnDate}
               onChange={(e) => setReturnDate(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-sm text-xs mt-1 focus:outline-none focus:border-primary"
+              className="w-full px-3 py-2 border border-white/50 rounded-2xl text-xs mt-1 focus:outline-none focus:ring-2 focus:ring-clay-indigo/30"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading || equipment.availableQty <= 0}
-            className="w-full py-2.5 bg-primary text-white font-bold text-xs rounded-sm hover:bg-primary-dark transition disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-2.5 clay-btn text-xs disabled:opacity-50 flex items-center justify-center gap-2"
           >
             <CheckCircle2 className="w-4 h-4" />
             {loading ? 'Submitting Request...' : 'Confirm Borrow Request'}

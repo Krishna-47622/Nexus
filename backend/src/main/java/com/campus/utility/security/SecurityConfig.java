@@ -24,10 +24,15 @@ import java.util.List;
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtTokenProvider tokenProvider;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    public SecurityConfig(JwtTokenProvider tokenProvider) {
+        this.tokenProvider = tokenProvider;
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(tokenProvider);
     }
 
     @Bean
@@ -60,7 +65,7 @@ public class SecurityConfig {
             )
             .headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

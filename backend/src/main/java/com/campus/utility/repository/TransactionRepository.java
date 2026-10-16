@@ -10,4 +10,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     Optional<Transaction> findByUpiTxnRef(String upiTxnRef);
     List<Transaction> findByCollegeIdAndStudentIdOrderByCreatedAtDesc(Long collegeId, Long studentId);
     List<Transaction> findByCollegeIdAndStatus(Long collegeId, String status);
+    Optional<Transaction> findByCollegeIdAndReferenceId(Long collegeId, String referenceId);
 }

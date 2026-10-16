@@ -50,33 +50,33 @@ export const RequestsStatus: React.FC = () => {
   const getStatusBadge = (status: string) => {
     switch (status.toUpperCase()) {
       case 'PENDING':
-        return 'bg-amber-100 text-amber-800 border-amber-300';
+        return 'bg-clay-amber/10 text-clay-amber border-clay-amber/20';
       case 'APPROVED':
-        return 'bg-emerald-100 text-emerald-800 border-emerald-300';
+        return 'bg-clay-mint/10 text-clay-mint border-clay-mint/20';
       case 'CURRENTLY_OUT':
-        return 'bg-blue-100 text-blue-800 border-blue-300';
+        return 'bg-clay-indigo/10 text-clay-indigo border-clay-indigo/20';
       case 'REJECTED':
       case 'OVERDUE':
-        return 'bg-red-100 text-red-800 border-red-300';
+        return 'bg-clay-coral/10 text-clay-coral border-clay-coral/20';
       default:
-        return 'bg-slate-100 text-slate-800 border-slate-300';
+        return 'bg-clay-bg text-ink border-white/50';
     }
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-slate-900">Leave & Outpass Status</h2>
+        <h2 className="text-xl font-extrabold text-ink">Leave & Outpass Status</h2>
         <div className="flex gap-2">
           <Link
             to="/app/leave/new"
-            className="px-2.5 py-1 bg-white border border-slate-300 text-slate-800 text-xs font-semibold rounded-sm hover:bg-slate-50"
+            className="px-2.5 py-1 clay-card text-ink text-xs font-semibold rounded-2xl hover:bg-clay-bg/60"
           >
             + Leave
           </Link>
           <Link
             to="/app/outpass/new"
-            className="px-2.5 py-1 bg-primary text-white text-xs font-semibold rounded-sm hover:bg-primary-dark"
+            className="px-2.5 py-1 bg-clay-indigo text-white text-xs font-semibold rounded-2xl hover:bg-clay-indigo-deep"
           >
             + Outpass
           </Link>
@@ -84,11 +84,11 @@ export const RequestsStatus: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-200">
+      <div className="flex border-b border-white/60">
         <button
           onClick={() => setActiveTab('LEAVE')}
           className={`py-2 px-4 text-xs font-bold border-b-2 transition ${
-            activeTab === 'LEAVE' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:text-slate-800'
+            activeTab === 'LEAVE' ? 'border-clay-indigo text-clay-indigo' : 'border-transparent text-ink-soft hover:text-ink'
           }`}
         >
           Leave Letters ({leaves.length})
@@ -96,7 +96,7 @@ export const RequestsStatus: React.FC = () => {
         <button
           onClick={() => setActiveTab('OUTPASS')}
           className={`py-2 px-4 text-xs font-bold border-b-2 transition ${
-            activeTab === 'OUTPASS' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:text-slate-800'
+            activeTab === 'OUTPASS' ? 'border-clay-indigo text-clay-indigo' : 'border-transparent text-ink-soft hover:text-ink'
           }`}
         >
           Outpass Requests ({outpasses.length})
@@ -104,12 +104,12 @@ export const RequestsStatus: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="bg-white border border-slate-200 p-8 rounded-sm text-center text-xs text-slate-500">
+        <div className="clay-card p-8 rounded-2xl text-center text-xs text-ink-soft">
           Loading applications...
         </div>
       ) : activeTab === 'LEAVE' ? (
         leaves.length === 0 ? (
-          <div className="bg-white border border-slate-200 p-8 rounded-sm text-center text-xs text-slate-500">
+          <div className="clay-card p-8 rounded-2xl text-center text-xs text-ink-soft">
             No leave letters submitted yet.
           </div>
         ) : (
@@ -117,24 +117,24 @@ export const RequestsStatus: React.FC = () => {
             {leaves.map((l) => {
               const isExpanded = expandedId === `leave-${l.id}`;
               return (
-                <div key={l.id} className="bg-white border border-slate-200 rounded-sm p-3.5 space-y-2">
+                <div key={l.id} className="clay-card p-3.5 space-y-2">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h4 className="font-bold text-sm text-slate-900">{l.destination}</h4>
-                      <p className="text-xs text-slate-500">{l.fromDate} to {l.toDate}</p>
+                      <h4 className="font-bold text-sm text-ink">{l.destination}</h4>
+                      <p className="text-xs text-ink-soft">{l.fromDate} to {l.toDate}</p>
                     </div>
-                    <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-sm border ${getStatusBadge(l.status)}`}>
+                    <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-2xl border ${getStatusBadge(l.status)}`}>
                       {l.status}
                     </span>
                   </div>
 
-                  <div className="text-xs text-slate-600">
+                  <div className="text-xs text-ink-soft">
                     <span className="font-semibold">Reason:</span> {l.reason}
                   </div>
 
                   {l.wardenRemarks && (
-                    <div className="p-2 bg-slate-50 border border-slate-200 rounded-sm text-xs text-slate-700">
-                      <span className="font-bold text-slate-900">Warden Remarks:</span> {l.wardenRemarks}
+                    <div className="p-2 bg-clay-bg/60 border border-white/60 rounded-2xl text-xs text-ink">
+                      <span className="font-bold text-ink">Warden Remarks:</span> {l.wardenRemarks}
                     </div>
                   )}
                 </div>
@@ -143,31 +143,31 @@ export const RequestsStatus: React.FC = () => {
           </div>
         )
       ) : outpasses.length === 0 ? (
-        <div className="bg-white border border-slate-200 p-8 rounded-sm text-center text-xs text-slate-500">
+        <div className="clay-card p-8 rounded-2xl text-center text-xs text-ink-soft">
           No outpass applications submitted yet.
         </div>
       ) : (
         <div className="space-y-2">
           {outpasses.map((op) => (
-            <div key={op.id} className="bg-white border border-slate-200 rounded-sm p-3.5 space-y-2">
+            <div key={op.id} className="clay-card p-3.5 space-y-2">
               <div className="flex justify-between items-center">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-sm text-slate-900">{op.destinationPurpose}</span>
-                    <span className="text-[10px] bg-slate-100 border border-slate-300 text-slate-700 px-1.5 py-0.5 rounded-sm font-semibold">
+                    <span className="font-bold text-sm text-ink">{op.destinationPurpose}</span>
+                    <span className="text-[10px] bg-clay-bg border border-white/50 text-ink px-1.5 py-0.5 rounded-2xl font-semibold">
                       {op.type}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500 mt-0.5">Return by: {new Date(op.expectedReturnTime).toLocaleString()}</p>
+                  <p className="text-xs text-ink-soft mt-0.5">Return by: {new Date(op.expectedReturnTime).toLocaleString()}</p>
                 </div>
-                <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-sm border ${getStatusBadge(op.status)}`}>
+                <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-2xl border ${getStatusBadge(op.status)}`}>
                   {op.status.replace('_', ' ')}
                 </span>
               </div>
 
               {op.wardenRemarks && (
-                <div className="p-2 bg-slate-50 border border-slate-200 rounded-sm text-xs text-slate-700">
-                  <span className="font-bold text-slate-900">Warden Remarks:</span> {op.wardenRemarks}
+                <div className="p-2 bg-clay-bg/60 border border-white/60 rounded-2xl text-xs text-ink">
+                  <span className="font-bold text-ink">Warden Remarks:</span> {op.wardenRemarks}
                 </div>
               )}
             </div>

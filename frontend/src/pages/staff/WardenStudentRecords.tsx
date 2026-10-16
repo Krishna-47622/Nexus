@@ -42,24 +42,24 @@ export const WardenStudentRecords: React.FC = () => {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-xl font-bold text-slate-900">Hostel Student Directory & Movement Logs</h2>
-        <p className="text-xs text-slate-500">Comprehensive leave & outpass record per resident student</p>
+        <h2 className="text-xl font-extrabold text-ink">Hostel Student Directory & Movement Logs</h2>
+        <p className="text-xs text-ink-soft">Comprehensive leave & outpass record per resident student</p>
       </div>
 
       <div className="relative max-w-md">
-        <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+        <Search className="w-4 h-4 text-ink-muted absolute left-3 top-3" />
         <input
           type="text"
           placeholder="Search by student name, roll number, or hostel block..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-9 pr-3 py-2 border border-slate-300 rounded-sm text-xs focus:outline-none focus:border-primary"
+          className="clay-input pl-9"
         />
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-sm overflow-x-auto">
+      <div className="clay-card overflow-x-auto">
         <table className="w-full text-left text-xs">
-          <thead className="bg-slate-100 border-b border-slate-200 font-bold uppercase text-slate-700">
+          <thead className="bg-clay-bg border-b border-white/60 font-bold uppercase text-ink">
             <tr>
               <th className="p-3">Roll Number</th>
               <th className="p-3">Student Name</th>
@@ -69,10 +69,10 @@ export const WardenStudentRecords: React.FC = () => {
               <th className="p-3 text-center">Approved Outpasses</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-clay-bg">
             {filtered.map((s) => (
-              <tr key={s.id} className="hover:bg-slate-50">
-                <td className="p-3 font-mono font-semibold text-slate-900">{s.rollNumber}</td>
+              <tr key={s.id} className="hover:bg-clay-bg/60">
+                <td className="p-3 font-mono font-semibold text-ink">{s.rollNumber}</td>
                 <td className="p-3 font-bold text-primary">{s.fullName}</td>
                 <td className="p-3">{s.department}</td>
                 <td className="p-3">{s.hostelBlock} / {s.roomNumber}</td>

@@ -27,6 +27,7 @@ public class Student {
     private String rollNumber;
 
     private String department;
+    @Column(name = "academic_year")
     private String year;
     private String hostelBlock;
     private String roomNumber;

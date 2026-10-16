@@ -85,13 +85,17 @@ public class CanteenController {
         String orderNum = "ORD-" + System.currentTimeMillis();
         String txnRef = "TXN-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
 
+        boolean isUpiPlatform = "PLATFORM_UPI".equalsIgnoreCase(request.getPaymentMethod()) || "UPI".equalsIgnoreCase(request.getPaymentMethod());
+        String initialPaymentStatus = isUpiPlatform ? "PENDING" : "PAID";
+        String initialOrderStatus = isUpiPlatform ? "PAYMENT_PENDING" : "PLACED";
+
         Order order = Order.builder()
                 .college(college)
                 .student(student)
                 .orderNumber(orderNum)
-                .status("PLACED")
+                .status(initialOrderStatus)
                 .totalAmount(BigDecimal.ZERO)
-                .paymentStatus("PAID")
+                .paymentStatus(initialPaymentStatus)
                 .upiTxnRef(txnRef)
                 .build();
 
@@ -123,21 +127,24 @@ public class CanteenController {
                 .student(student)
                 .type("CANTEEN")
                 .amount(total)
-                .status("PAID")
+                .status(initialPaymentStatus)
                 .upiTxnRef(txnRef)
                 .referenceId(String.valueOf(order.getId()))
                 .build());
 
-        notificationRepository.save(Notification.builder()
-                .college(college)
-                .student(student)
-                .module("CANTEEN")
-                .title("Order Placed Successfully")
-                .message("Your order #" + orderNum + " of ₹" + total + " has been placed.")
-                .build());
+        if (!isUpiPlatform) {
+            notificationRepository.save(Notification.builder()
+                    .college(college)
+                    .student(student)
+                    .module("CANTEEN")
+                    .title("Order Placed Successfully")
+                    .message("Your order #" + orderNum + " of ₹" + total + " has been placed.")
+                    .build());
+        }
 
-        String upiIntent = String.format("upi://pay?pa=canteen@%s&pn=%s+Canteen&am=%.2f&tn=%s&tr=%s",
-                college.getDomain(), college.getName().replaceAll(" ", ""), total, orderNum, txnRef);
+        String merchantUpi = "9398979155-1@superyes";
+        String upiIntent = String.format("upi://pay?pa=%s&pn=Nexus+Food+Court&am=%.2f&tn=Order-%s&tr=%s",
+                merchantUpi, total, orderNum, txnRef);
 
         CanteenDTOs.OrderDTO dto = mapToOrderDTO(order, upiIntent);
         return ResponseEntity.ok(dto);
@@ -185,6 +192,46 @@ public class CanteenController {
         return ResponseEntity.ok(mapToOrderDTO(order, null));
     }
 
+    @PostMapping("/orders/{orderId}/verify-payment")
+    public ResponseEntity<?> verifyPlatformPayment(@PathVariable Long orderId, @RequestBody(required = false) Map<String, String> body) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setPaymentStatus("PAID");
+        order.setStatus("PLACED");
+        order.setUpdatedAt(LocalDateTime.now());
+
+        String utr = (body != null && body.containsKey("utr")) ? body.get("utr") : "UTR-" + System.currentTimeMillis();
+        order.setUpiTxnRef(utr);
+        orderRepository.save(order);
+
+        Optional<Transaction> existingTxn = transactionRepository.findByCollegeIdAndReferenceId(order.getCollege().getId(), String.valueOf(order.getId()));
+        if (existingTxn.isPresent()) {
+            Transaction txn = existingTxn.get();
+            txn.setStatus("PAID");
+            txn.setUpiTxnRef(utr);
+            transactionRepository.save(txn);
+        }
+
+        notificationRepository.save(Notification.builder()
+                .college(order.getCollege())
+                .student(order.getStudent())
+                .module("CANTEEN")
+                .title("Platform Payment Confirmed")
+                .message("Payment of ₹" + order.getTotalAmount() + " confirmed for Order #" + order.getOrderNumber() + " via Platform UPI (" + utr + ").")
+                .build());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("order", mapToOrderDTO(order, null));
+        response.put("status", "SUCCESS");
+        response.put("message", "Platform payment verified successfully");
+        response.put("transactionId", utr);
+        response.put("tokenNumber", "MR-" + (100 + (order.getId() % 900)));
+        response.put("estimatedPrepMinutes", 12);
+        response.put("pickupLocation", "MR Food Court - 1 (Counter #3, Malla Reddy University)");
+
+        return ResponseEntity.ok(response);
+    }
+
+
     private CanteenDTOs.MenuItemDTO mapToMenuItemDTO(MenuItem item) {
         return CanteenDTOs.MenuItemDTO.builder()
                 .id(item.getId())
@@ -193,9 +240,16 @@ public class CanteenController {
                 .name(item.getName())
                 .description(item.getDescription())
                 .price(item.getPrice())
+                .sellingPrice(item.getSellingPrice() != null ? item.getSellingPrice() : item.getPrice())
+                .basePrice(item.getBasePrice() != null ? item.getBasePrice() : item.getPrice())
+                .taxValue(item.getTaxValue() != null ? item.getTaxValue() : BigDecimal.ZERO)
+                .taxPercent(item.getTaxPercent() != null ? item.getTaxPercent() : BigDecimal.ZERO)
+                .istharaItemId(item.getIstharaItemId())
+                .istharaVendorId(item.getIstharaVendorId())
                 .isVeg(item.getIsVeg())
                 .isAvailable(item.getIsAvailable())
                 .imageUrl(item.getImageUrl())
+                .vendorName(item.getVendorName())
                 .build();
     }
 

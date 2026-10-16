@@ -22,59 +22,59 @@ export const CollegeAdminAnalytics: React.FC = () => {
   }, []);
 
   if (loading || !data) {
-    return <div className="p-8 text-center text-xs text-slate-500">Loading institutional analytics...</div>;
+    return <div className="p-8 text-center text-xs text-ink-soft">Loading institutional analytics...</div>;
   }
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-slate-900">College Operational Analytics</h2>
-        <p className="text-xs text-slate-500">Real-time stats and metrics computed exclusively for your institution</p>
+        <h2 className="text-xl font-extrabold text-ink">College Operational Analytics</h2>
+        <p className="text-xs text-ink-soft">Real-time stats and metrics computed exclusively for your institution</p>
       </div>
 
       {/* Stat Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white border border-slate-200 p-4 rounded-sm space-y-1">
-          <div className="flex items-center justify-between text-slate-500">
+        <div className="clay-card p-4 rounded-2xl space-y-1">
+          <div className="flex items-center justify-between text-ink-soft">
             <span className="text-xs font-bold uppercase tracking-wider">Total Students</span>
             <Users className="w-4 h-4 text-primary" />
           </div>
-          <div className="text-2xl font-extrabold text-slate-900">{data.totalStudents}</div>
-          <span className="text-[11px] text-slate-500">Onboarded & active</span>
+          <div className="text-2xl font-extrabold text-ink">{data.totalStudents}</div>
+          <span className="text-[11px] text-ink-soft">Onboarded & active</span>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-sm space-y-1">
-          <div className="flex items-center justify-between text-slate-500">
+        <div className="clay-card p-4 rounded-2xl space-y-1">
+          <div className="flex items-center justify-between text-ink-soft">
             <span className="text-xs font-bold uppercase tracking-wider">Active Orders Today</span>
-            <Utensils className="w-4 h-4 text-amber-600" />
+            <Utensils className="w-4 h-4 text-clay-amber" />
           </div>
-          <div className="text-2xl font-extrabold text-slate-900">{data.activeOrdersToday}</div>
-          <span className="text-[11px] text-slate-500">Kitchen queue</span>
+          <div className="text-2xl font-extrabold text-ink">{data.activeOrdersToday}</div>
+          <span className="text-[11px] text-ink-soft">Kitchen queue</span>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-sm space-y-1">
-          <div className="flex items-center justify-between text-slate-500">
+        <div className="clay-card p-4 rounded-2xl space-y-1">
+          <div className="flex items-center justify-between text-ink-soft">
             <span className="text-xs font-bold uppercase tracking-wider">Pending Approvals</span>
             <Clock className="w-4 h-4 text-blue-600" />
           </div>
-          <div className="text-2xl font-extrabold text-slate-900">{data.pendingApprovals}</div>
-          <span className="text-[11px] text-slate-500">Sports & Leave/Outpass</span>
+          <div className="text-2xl font-extrabold text-ink">{data.pendingApprovals}</div>
+          <span className="text-[11px] text-ink-soft">Sports & Leave/Outpass</span>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-sm space-y-1">
-          <div className="flex items-center justify-between text-slate-500">
+        <div className="clay-card p-4 rounded-2xl space-y-1">
+          <div className="flex items-center justify-between text-ink-soft">
             <span className="text-xs font-bold uppercase tracking-wider">Total Revenue Month</span>
-            <DollarSign className="w-4 h-4 text-emerald-600" />
+            <DollarSign className="w-4 h-4 text-clay-mint" />
           </div>
-          <div className="text-2xl font-extrabold text-slate-900">₹{data.totalRevenueMonth.toFixed(2)}</div>
-          <span className="text-[11px] text-slate-500">Sum of UPI transactions</span>
+          <div className="text-2xl font-extrabold text-ink">₹{data.totalRevenueMonth.toFixed(2)}</div>
+          <span className="text-[11px] text-ink-soft">Sum of UPI transactions</span>
         </div>
       </div>
 
       {/* Analytics Charts & Categorical Breakdown */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white border border-slate-200 p-4 rounded-sm space-y-3">
-          <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+        <div className="clay-card p-4 rounded-2xl space-y-3">
+          <h3 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest flex items-center gap-1.5">
             <BarChart3 className="w-4 h-4 text-primary" /> Most Ordered Canteen Items
           </h3>
           <div className="space-y-2">
@@ -82,11 +82,11 @@ export const CollegeAdminAnalytics: React.FC = () => {
               <div key={idx} className="space-y-1">
                 <div className="flex justify-between text-xs font-semibold">
                   <span>{item.name}</span>
-                  <span className="text-slate-500">{item.count} orders</span>
+                  <span className="text-ink-soft">{item.count} orders</span>
                 </div>
-                <div className="w-full bg-slate-100 h-2 rounded-sm overflow-hidden">
+                <div className="w-full bg-clay-bg h-2 rounded-2xl overflow-hidden">
                   <div
-                    className="bg-primary h-full rounded-sm"
+                    className="bg-clay-indigo h-full rounded-2xl"
                     style={{ width: `${Math.min(100, (item.count / 150) * 100)}%` }}
                   />
                 </div>
@@ -95,8 +95,8 @@ export const CollegeAdminAnalytics: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-sm space-y-3">
-          <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+        <div className="clay-card p-4 rounded-2xl space-y-3">
+          <h3 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest flex items-center gap-1.5">
             <TrendingUp className="w-4 h-4 text-primary" /> Most Borrowed Sports Equipment
           </h3>
           <div className="space-y-2">
@@ -104,11 +104,11 @@ export const CollegeAdminAnalytics: React.FC = () => {
               <div key={idx} className="space-y-1">
                 <div className="flex justify-between text-xs font-semibold">
                   <span>{item.name}</span>
-                  <span className="text-slate-500">{item.count} checkouts</span>
+                  <span className="text-ink-soft">{item.count} checkouts</span>
                 </div>
-                <div className="w-full bg-slate-100 h-2 rounded-sm overflow-hidden">
+                <div className="w-full bg-clay-bg h-2 rounded-2xl overflow-hidden">
                   <div
-                    className="bg-emerald-600 h-full rounded-sm"
+                    className="bg-emerald-600 h-full rounded-2xl"
                     style={{ width: `${Math.min(100, (item.count / 100) * 100)}%` }}
                   />
                 </div>

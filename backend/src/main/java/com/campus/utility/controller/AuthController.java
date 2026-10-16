@@ -38,6 +38,11 @@ public class AuthController {
         this.studentRepository = studentRepository;
     }
 
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, String>> health() {
+        return ResponseEntity.ok(Map.of("status", "UP", "service", "nexus-backend"));
+    }
+
     @GetMapping("/colleges")
     public ResponseEntity<List<AuthDTOs.CollegeResponse>> getColleges() {
         List<College> colleges = collegeRepository.findAll();

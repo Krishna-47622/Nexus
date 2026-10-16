@@ -55,21 +55,21 @@ export const SportsMyBorrows: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-slate-900">My Borrows</h2>
-        <Link to="/app/sports" className="text-xs font-semibold text-primary hover:underline">
+        <h2 className="text-xl font-extrabold text-ink">My Borrows</h2>
+        <Link to="/app/sports" className="text-xs font-semibold text-clay-indigo hover:underline">
           Browse Equipment →
         </Link>
       </div>
 
       {/* Active Borrow Requests */}
       <div className="space-y-3">
-        <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Active Borrows</h3>
+        <h3 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest">Active Borrows</h3>
         {loading ? (
-          <div className="bg-white border border-slate-200 p-6 rounded-sm text-center text-xs text-slate-500">
+          <div className="clay-card p-6 rounded-2xl text-center text-xs text-ink-soft">
             Loading active borrows...
           </div>
         ) : activeBorrows.length === 0 ? (
-          <div className="bg-white border border-slate-200 p-6 rounded-sm text-center text-xs text-slate-500">
+          <div className="clay-card p-6 rounded-2xl text-center text-xs text-ink-soft">
             No active borrowed equipment.
           </div>
         ) : (
@@ -77,43 +77,43 @@ export const SportsMyBorrows: React.FC = () => {
             {activeBorrows.map((b) => (
               <div
                 key={b.id}
-                className={`bg-white border rounded-sm p-4 space-y-2 ${
-                  b.status === 'OVERDUE' ? 'border-red-400 bg-red-50/20' : 'border-slate-200'
+                className={`bg-white border rounded-2xl p-4 space-y-2 ${
+                  b.status === 'OVERDUE' ? 'border-red-400 bg-red-50/20' : 'border-white/60'
                 }`}
               >
                 <div className="flex justify-between items-center">
                   <div>
-                    <h4 className="font-bold text-sm text-slate-900">{b.equipmentName}</h4>
-                    <span className="text-[11px] text-slate-500">{b.category}</span>
+                    <h4 className="font-bold text-sm text-ink">{b.equipmentName}</h4>
+                    <span className="text-[11px] text-ink-soft">{b.category}</span>
                   </div>
                   <span
-                    className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-sm border ${
+                    className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-2xl border ${
                       b.status === 'OVERDUE'
-                        ? 'bg-red-100 text-red-800 border-red-300'
+                        ? 'bg-clay-coral/10 text-clay-coral border-clay-coral/20'
                         : b.status === 'APPROVED'
-                        ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                        : 'bg-amber-100 text-amber-800 border-amber-300'
+                        ? 'bg-clay-mint/10 text-clay-mint border-clay-mint/20'
+                        : 'bg-clay-amber/10 text-clay-amber border-clay-amber/20'
                     }`}
                   >
                     {b.status}
                   </span>
                 </div>
 
-                <div className="text-xs text-slate-600 space-y-0.5">
-                  <div>Expected Return: <span className="font-semibold text-slate-900">{new Date(b.expectedReturnAt).toLocaleString()}</span></div>
-                  {b.remarks && <div className="text-slate-500 italic">Staff Note: {b.remarks}</div>}
+                <div className="text-xs text-ink-soft space-y-0.5">
+                  <div>Expected Return: <span className="font-semibold text-ink">{new Date(b.expectedReturnAt).toLocaleString()}</span></div>
+                  {b.remarks && <div className="text-ink-soft italic">Staff Note: {b.remarks}</div>}
                 </div>
 
                 {/* Overdue Fine Notice & UPI Pay Action */}
                 {b.fineAmount > 0 && !b.finePaid && (
                   <div className="pt-2 border-t border-red-200 flex items-center justify-between">
-                    <div className="text-xs text-red-700 font-bold">
+                    <div className="text-xs text-clay-coral font-bold">
                       Accrued Overdue Fine: ₹{b.fineAmount.toFixed(2)}
                     </div>
                     <button
                       onClick={() => handlePayFine(b.id)}
                       disabled={payingId === b.id}
-                      className="px-3 py-1 bg-red-600 text-white font-bold text-xs rounded-sm hover:bg-red-700 transition flex items-center gap-1"
+                      className="px-3 py-1 bg-red-600 text-white font-bold text-xs rounded-2xl hover:bg-red-700 transition flex items-center gap-1"
                     >
                       <QrCode className="w-3.5 h-3.5" /> Pay Fine via UPI
                     </button>
@@ -127,20 +127,20 @@ export const SportsMyBorrows: React.FC = () => {
 
       {/* Borrow History */}
       <div className="space-y-3">
-        <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Past Borrows History</h3>
+        <h3 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest">Past Borrows History</h3>
         {historyBorrows.length === 0 ? (
-          <div className="bg-white border border-slate-200 p-6 rounded-sm text-center text-xs text-slate-500">
+          <div className="clay-card p-6 rounded-2xl text-center text-xs text-ink-soft">
             No borrow history records.
           </div>
         ) : (
           <div className="space-y-2">
             {historyBorrows.map((b) => (
-              <div key={b.id} className="bg-white border border-slate-200 p-3 rounded-sm flex items-center justify-between text-xs">
+              <div key={b.id} className="clay-card p-3 rounded-2xl flex items-center justify-between text-xs">
                 <div>
-                  <span className="font-bold text-slate-900">{b.equipmentName}</span>
-                  <p className="text-slate-500 text-[11px]">Returned: {b.returnedAt ? new Date(b.returnedAt).toLocaleDateString() : 'N/A'}</p>
+                  <span className="font-bold text-ink">{b.equipmentName}</span>
+                  <p className="text-ink-soft text-[11px]">Returned: {b.returnedAt ? new Date(b.returnedAt).toLocaleDateString() : 'N/A'}</p>
                 </div>
-                <span className={`px-2 py-0.5 rounded-sm font-bold text-[10px] uppercase ${b.status === 'RETURNED' ? 'bg-slate-100 text-slate-700' : 'bg-red-100 text-red-700'}`}>
+                <span className={`px-2 py-0.5 rounded-2xl font-bold text-[10px] uppercase ${b.status === 'RETURNED' ? 'bg-clay-bg text-ink' : 'bg-red-100 text-clay-coral'}`}>
                   {b.status}
                 </span>
               </div>

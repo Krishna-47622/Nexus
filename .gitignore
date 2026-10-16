@@ -1,0 +1,65 @@
+# System & User Sensitive Credentials
+CREDENTIALS.txt
+.env
+.env.*
+!.env.example
+
+# Java / Maven build output
+backend/target/
+**/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Node / Frontend build output & dependencies
+frontend/node_modules/
+**/node_modules/
+frontend/dist/
+**/dist/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Scratch inspection, data dumps & test scripts
+inspect_*.js
+extract_*.js
+check_*.js
+curate_*.js
+generate_*.js
+get_live_prices.js
+match_*.js
+test_*.js
+update_*.js
+find_postmessage.js
+search_query_params.js
+generated_seeder_snippet.java
+isthara_*.js
+isthara_*.json
+all_matched_items.json
+curated_menu_items.json
+matched_live_seed.json
+mr1_details.json
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & temp
+logs/
+*.log
+tmp/
+temp/

@@ -32,6 +32,22 @@ public class MenuItem {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Column(precision = 10, scale = 2)
+    private BigDecimal sellingPrice;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal basePrice;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal taxValue;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal taxPercent;
+
+    private String istharaItemId;
+
+    private String istharaVendorId;
+
     @Builder.Default
     private Boolean isVeg = true;
 
@@ -39,4 +55,7 @@ public class MenuItem {
     private Boolean isAvailable = true;
 
     private String imageUrl;
+
+    private String vendorName;
 }
+

@@ -28,7 +28,7 @@ export const CanteenOrders: React.FC = () => {
 
   useEffect(() => {
     fetchOrders();
-    const interval = setInterval(fetchOrders, 5000); // Live status update polling
+    const interval = setInterval(fetchOrders, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -50,57 +50,56 @@ export const CanteenOrders: React.FC = () => {
 
   const activeOrders = orders.filter((o) => ['PLACED', 'PREPARING', 'READY'].includes(o.status.toUpperCase()));
   const pastOrders = orders.filter((o) => ['PICKED_UP', 'CANCELLED'].includes(o.status.toUpperCase()));
+  const stepLabels = ['Placed', 'Preparing', 'Ready', 'Picked Up'];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-slate-900">Canteen Orders</h2>
-        <Link to="/app/canteen" className="text-xs font-semibold text-primary hover:underline flex items-center gap-1">
-          <ShoppingBag className="w-3.5 h-3.5" /> Menu
+        <h2 className="text-xl font-extrabold text-ink">Canteen Orders</h2>
+        <Link to="/app/canteen" className="clay-badge-indigo text-[10px] hover:shadow-clay-card transition-shadow">
+          <ShoppingBag className="w-3 h-3" /> Menu
         </Link>
       </div>
 
-      {/* Active Orders Stepper UI */}
+      {/* Active Orders */}
       {activeOrders.length > 0 && (
         <div className="space-y-3">
-          <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Active Order Stepper</h3>
+          <h3 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest px-1">Active Order Stepper</h3>
           {activeOrders.map((o) => {
             const step = getStepperIndex(o.status);
             return (
-              <div key={o.id} className="bg-white border-2 border-primary p-4 rounded-sm space-y-4 shadow-sm">
-                <div className="flex justify-between items-center border-b border-slate-100 pb-2">
+              <div key={o.id} className="clay-card !shadow-clay-lg border-2 !border-clay-indigo/20 p-5 space-y-4">
+                <div className="flex justify-between items-center border-b border-clay-bg pb-3">
                   <div>
-                    <span className="font-bold text-sm text-slate-900">Order #{o.orderNumber}</span>
-                    <p className="text-[11px] text-slate-500">{new Date(o.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                    <span className="font-bold text-sm text-ink">Order #{o.orderNumber}</span>
+                    <p className="text-[11px] text-ink-soft">{new Date(o.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                   </div>
-                  <span className="font-extrabold text-sm text-primary">₹{o.totalAmount.toFixed(2)}</span>
+                  <span className="font-extrabold text-sm text-clay-indigo">₹{o.totalAmount.toFixed(2)}</span>
                 </div>
 
-                {/* 4-Step Visual Stepper */}
-                <div className="grid grid-cols-4 gap-1 text-center py-2 relative">
-                  <div className={`space-y-1 ${step >= 1 ? 'text-primary font-bold' : 'text-slate-400'}`}>
-                    <div className={`w-6 h-6 rounded-full mx-auto flex items-center justify-center text-xs ${step >= 1 ? 'bg-primary text-white' : 'bg-slate-200'}`}>1</div>
-                    <div className="text-[10px]">Placed</div>
-                  </div>
-                  <div className={`space-y-1 ${step >= 2 ? 'text-primary font-bold' : 'text-slate-400'}`}>
-                    <div className={`w-6 h-6 rounded-full mx-auto flex items-center justify-center text-xs ${step >= 2 ? 'bg-primary text-white' : 'bg-slate-200'}`}>2</div>
-                    <div className="text-[10px]">Preparing</div>
-                  </div>
-                  <div className={`space-y-1 ${step >= 3 ? 'text-primary font-bold' : 'text-slate-400'}`}>
-                    <div className={`w-6 h-6 rounded-full mx-auto flex items-center justify-center text-xs ${step >= 3 ? 'bg-primary text-white' : 'bg-slate-200'}`}>3</div>
-                    <div className="text-[10px]">Ready</div>
-                  </div>
-                  <div className={`space-y-1 ${step >= 4 ? 'text-primary font-bold' : 'text-slate-400'}`}>
-                    <div className={`w-6 h-6 rounded-full mx-auto flex items-center justify-center text-xs ${step >= 4 ? 'bg-primary text-white' : 'bg-slate-200'}`}>4</div>
-                    <div className="text-[10px]">Picked Up</div>
-                  </div>
+                {/* Clay Stepper */}
+                <div className="grid grid-cols-4 gap-1 text-center py-2">
+                  {stepLabels.map((label, idx) => {
+                    const stepNum = idx + 1;
+                    const isActive = step >= stepNum;
+                    return (
+                      <div key={label} className={`space-y-1.5 ${isActive ? 'text-clay-indigo font-bold' : 'text-ink-muted'}`}>
+                        <div className={`w-8 h-8 rounded-xl mx-auto flex items-center justify-center text-xs font-extrabold transition-all ${
+                          isActive ? 'bg-clay-indigo text-white shadow-clay-btn' : 'bg-clay-bg shadow-clay-inset'
+                        }`}>
+                          {stepNum}
+                        </div>
+                        <div className="text-[9px]">{label}</div>
+                      </div>
+                    );
+                  })}
                 </div>
 
-                <div className="bg-slate-50 p-2.5 rounded-sm text-xs space-y-1">
+                <div className="bg-clay-bg/60 p-3 rounded-2xl shadow-clay-inset text-xs space-y-1">
                   {o.items.map((i) => (
                     <div key={i.id} className="flex justify-between">
-                      <span>{i.quantity}x {i.itemName}</span>
-                      <span className="font-semibold">₹{(i.quantity * i.unitPrice).toFixed(2)}</span>
+                      <span className="text-ink-soft">{i.quantity}x {i.itemName}</span>
+                      <span className="font-bold text-ink">₹{(i.quantity * i.unitPrice).toFixed(2)}</span>
                     </div>
                   ))}
                 </div>
@@ -110,29 +109,29 @@ export const CanteenOrders: React.FC = () => {
         </div>
       )}
 
-      {/* Past Order History */}
+      {/* Past Orders */}
       <div className="space-y-3">
-        <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Order History</h3>
+        <h3 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest px-1">Order History</h3>
         {loading ? (
-          <div className="bg-white border border-slate-200 p-6 rounded-sm text-center text-xs text-slate-500">
+          <div className="clay-card p-6 text-center text-xs text-ink-soft animate-clay-pulse">
             Loading past orders...
           </div>
         ) : pastOrders.length === 0 ? (
-          <div className="bg-white border border-slate-200 p-6 rounded-sm text-center text-xs text-slate-500">
+          <div className="clay-card p-6 text-center text-xs text-ink-soft">
             No completed past orders.
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {pastOrders.map((o) => (
-              <div key={o.id} className="bg-white border border-slate-200 p-3 rounded-sm space-y-2">
+              <div key={o.id} className="clay-card p-4 space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <div>
-                    <span className="font-bold text-slate-900">#{o.orderNumber}</span>
-                    <span className="text-slate-400 ml-2">{new Date(o.createdAt).toLocaleDateString()}</span>
+                    <span className="font-bold text-ink">#{o.orderNumber}</span>
+                    <span className="text-ink-muted ml-2">{new Date(o.createdAt).toLocaleDateString()}</span>
                   </div>
-                  <span className="font-bold text-slate-800">₹{o.totalAmount.toFixed(2)}</span>
+                  <span className="font-extrabold text-ink">₹{o.totalAmount.toFixed(2)}</span>
                 </div>
-                <div className="text-xs text-slate-600">
+                <div className="text-[11px] text-ink-soft">
                   {o.items.map((i) => `${i.quantity}x ${i.itemName}`).join(', ')}
                 </div>
               </div>

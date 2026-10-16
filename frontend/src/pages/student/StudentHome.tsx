@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../api/client';
-import { Utensils, Dumbbell, Printer, FileText, Clock, ChevronRight, AlertCircle } from 'lucide-react';
+import { Utensils, Dumbbell, Printer, FileText, Clock, RefreshCw } from 'lucide-react';
 
 interface ActiveFeedItem {
   id: string;
@@ -34,123 +34,120 @@ export const StudentHome: React.FC = () => {
       case 'PLACED':
       case 'QUEUED':
       case 'PENDING':
-        return 'bg-amber-100 text-amber-800 border-amber-300';
+        return 'clay-badge-amber';
       case 'PREPARING':
       case 'PRINTING':
       case 'CURRENTLY_OUT':
-        return 'bg-blue-100 text-blue-800 border-blue-300';
+        return 'clay-badge-indigo';
       case 'READY':
       case 'APPROVED':
-        return 'bg-emerald-100 text-emerald-800 border-emerald-300';
+        return 'clay-badge-mint';
       case 'OVERDUE':
       case 'REJECTED':
-        return 'bg-red-100 text-red-800 border-red-300';
+        return 'clay-badge-coral';
       default:
-        return 'bg-slate-100 text-slate-800 border-slate-300';
+        return 'clay-badge bg-zinc-100 text-zinc-600 border-zinc-200';
     }
   };
 
+  const quickActions = [
+    { label: 'Order Food', sub: 'MR Food Court - 1', path: '/app/canteen', icon: Utensils },
+    { label: 'Sports Gear', sub: 'Borrow Equipment', path: '/app/sports', icon: Dumbbell },
+    { label: 'Print Docs', sub: 'Upload & Digital Print', path: '/app/print/new', icon: Printer },
+    { label: 'Leave & Outpass', sub: 'Warden Requests', path: '/app/requests', icon: FileText },
+  ];
+
   return (
     <div className="space-y-6">
-      {/* Student Greeting */}
-      <div className="bg-white border border-slate-200 p-4 rounded-sm space-y-1">
-        <h2 className="text-xl font-bold text-slate-900">Welcome back, {user?.fullName?.split(' ')[0]}</h2>
-        <p className="text-xs text-slate-500 font-medium">
-          Roll No: <span className="text-slate-800 font-semibold">{user?.username}</span> • {user?.collegeName}
-        </p>
-      </div>
-
-      {/* Quick Action Tiles */}
-      <div className="space-y-2">
-        <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Services Dashboard</h3>
-        <div className="grid grid-cols-2 gap-3">
-          <Link
-            to="/app/canteen"
-            className="bg-white border border-slate-200 p-4 rounded-sm hover:border-primary transition flex flex-col justify-between h-28 group"
-          >
-            <div className="w-8 h-8 bg-slate-100 text-primary flex items-center justify-center rounded-sm">
-              <Utensils className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="font-bold text-sm text-slate-900 group-hover:text-primary">Order Food</div>
-              <div className="text-[11px] text-slate-500">Canteen Menu</div>
-            </div>
-          </Link>
-
-          <Link
-            to="/app/sports"
-            className="bg-white border border-slate-200 p-4 rounded-sm hover:border-primary transition flex flex-col justify-between h-28 group"
-          >
-            <div className="w-8 h-8 bg-slate-100 text-primary flex items-center justify-center rounded-sm">
-              <Dumbbell className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="font-bold text-sm text-slate-900 group-hover:text-primary">Sports Gear</div>
-              <div className="text-[11px] text-slate-500">Borrow Equipment</div>
-            </div>
-          </Link>
-
-          <Link
-            to="/app/print/new"
-            className="bg-white border border-slate-200 p-4 rounded-sm hover:border-primary transition flex flex-col justify-between h-28 group"
-          >
-            <div className="w-8 h-8 bg-slate-100 text-primary flex items-center justify-center rounded-sm">
-              <Printer className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="font-bold text-sm text-slate-900 group-hover:text-primary">Print Docs</div>
-              <div className="text-[11px] text-slate-500">Upload & Print</div>
-            </div>
-          </Link>
-
-          <Link
-            to="/app/requests"
-            className="bg-white border border-slate-200 p-4 rounded-sm hover:border-primary transition flex flex-col justify-between h-28 group"
-          >
-            <div className="w-8 h-8 bg-slate-100 text-primary flex items-center justify-center rounded-sm">
-              <FileText className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="font-bold text-sm text-slate-900 group-hover:text-primary">Leave & Outpass</div>
-              <div className="text-[11px] text-slate-500">Warden Approval</div>
-            </div>
-          </Link>
+      {/* ──────── WELCOME BANNER ──────── */}
+      <div className="bg-white border border-zinc-200/90 rounded-xl p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 className="text-xl font-bold tracking-tight text-zinc-900">
+            Welcome back, {user?.fullName?.split(' ')[0]}
+          </h2>
+          <p className="text-xs text-zinc-500 mt-0.5">
+            Roll No: <span className="font-semibold text-zinc-800">{user?.username}</span> • {user?.collegeName}
+          </p>
+        </div>
+        <div className="text-xs text-zinc-500 bg-zinc-50 border border-zinc-200 px-3 py-1.5 rounded-lg self-start sm:self-auto">
+          Active Student Portal
         </div>
       </div>
 
-      {/* Combined Active Feed */}
+      {/* ──────── SERVICES DASHBOARD: 4 COLUMNS ON LAPTOP ──────── */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Active In-Progress Activity</h3>
-          <button onClick={fetchActiveFeed} className="text-xs text-primary font-semibold hover:underline">
-            Refresh Feed
+        <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider px-1">
+          Campus Services
+        </h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {quickActions.map((action) => {
+            const Icon = action.icon;
+            return (
+              <Link
+                key={action.path}
+                to={action.path}
+                className="bg-white border border-zinc-200/90 rounded-xl p-4 flex flex-col justify-between h-32 hover:border-zinc-300 hover:shadow-xs transition-all group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-800 flex items-center justify-center group-hover:bg-zinc-900 group-hover:text-white group-hover:border-zinc-900 transition-colors">
+                  <Icon className="w-4.5 h-4.5" />
+                </div>
+                <div>
+                  <div className="font-semibold text-sm text-zinc-900 group-hover:text-zinc-950 transition-colors">
+                    {action.label}
+                  </div>
+                  <div className="text-[11px] text-zinc-500 mt-0.5">{action.sub}</div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ──────── ACTIVE IN-PROGRESS FEED ──────── */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between px-1">
+          <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+            Active Requests & Orders
+          </h3>
+          <button
+            onClick={fetchActiveFeed}
+            className="text-xs text-zinc-600 hover:text-zinc-900 font-medium inline-flex items-center gap-1 transition-colors"
+          >
+            <RefreshCw className="w-3.5 h-3.5" /> Refresh
           </button>
         </div>
 
         {loading ? (
-          <div className="bg-white border border-slate-200 p-6 rounded-sm text-center text-xs text-slate-500">
-            Loading active requests...
+          <div className="bg-white border border-zinc-200 rounded-xl p-8 text-center text-xs text-zinc-500">
+            Checking status...
           </div>
         ) : feed.length === 0 ? (
-          <div className="bg-white border border-slate-200 p-6 rounded-sm text-center space-y-1">
-            <Clock className="w-6 h-6 text-slate-400 mx-auto" />
-            <p className="text-sm font-semibold text-slate-700">No active in-progress items</p>
-            <p className="text-xs text-slate-500">Your active orders, equipment borrows, and leave applications will show here.</p>
+          <div className="bg-white border border-zinc-200 rounded-xl p-8 text-center space-y-2">
+            <div className="w-10 h-10 bg-zinc-100 rounded-full flex items-center justify-center mx-auto text-zinc-400">
+              <Clock className="w-5 h-5" />
+            </div>
+            <p className="text-xs font-semibold text-zinc-800">No active in-progress items</p>
+            <p className="text-xs text-zinc-500">
+              Your canteen orders, sports equipment borrows, and leave applications will appear here in real-time.
+            </p>
           </div>
         ) : (
           <div className="space-y-2">
             {feed.map((item) => (
-              <div key={item.id} className="bg-white border border-slate-200 p-3 rounded-sm flex items-center justify-between">
-                <div className="space-y-0.5">
+              <div
+                key={item.id}
+                className="bg-white border border-zinc-200/90 rounded-xl p-4 flex items-center justify-between gap-3 hover:border-zinc-300 transition-colors"
+              >
+                <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-slate-900">{item.title}</span>
-                    <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-sm border ${getStatusBadgeClass(item.status)}`}>
+                    <span className="text-xs font-semibold text-zinc-900">{item.title}</span>
+                    <span className={getStatusBadgeClass(item.status)}>
                       {item.status.replace('_', ' ')}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500">{item.subtitle}</p>
+                  <p className="text-xs text-zinc-500">{item.subtitle}</p>
                 </div>
-                <div className="text-xs text-slate-400 font-mono">
+                <div className="text-xs text-zinc-400 font-mono">
                   {new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </div>

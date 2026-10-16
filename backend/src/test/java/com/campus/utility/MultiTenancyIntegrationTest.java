@@ -36,8 +36,20 @@ public class MultiTenancyIntegrationTest {
         College collegeA = collegeRepository.save(College.builder().name("College A").domain("collegea.edu").build());
         College collegeB = collegeRepository.save(College.builder().name("College B").domain("collegeb.edu").build());
 
-        User userA = userRepository.save(User.builder().username("student101").passwordHash("pass").college(collegeA).build());
-        User userB = userRepository.save(User.builder().username("student102").passwordHash("pass").college(collegeB).build());
+        User userA = userRepository.save(User.builder()
+                .username("student101")
+                .passwordHash("pass")
+                .email("student101@collegea.edu")
+                .fullName("Student One")
+                .college(collegeA)
+                .build());
+        User userB = userRepository.save(User.builder()
+                .username("student102")
+                .passwordHash("pass")
+                .email("student102@collegeb.edu")
+                .fullName("Student Two")
+                .college(collegeB)
+                .build());
 
         assertTrue(userRepository.findByUsernameAndCollegeId("student101", collegeA.getId()).isPresent());
         assertEquals(collegeA.getId(), userRepository.findByUsernameAndCollegeId("student101", collegeA.getId()).get().getCollege().getId());

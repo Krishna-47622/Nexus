@@ -53,21 +53,21 @@ export const NotificationsPage: React.FC = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-slate-900">Notifications</h2>
-        <span className="text-xs text-slate-500 font-medium">
+        <h2 className="text-xl font-extrabold text-ink">Notifications</h2>
+        <span className="text-xs text-ink-soft font-medium">
           {notifications.filter((n) => !n.isRead).length} Unread
         </span>
       </div>
 
       {loading ? (
-        <div className="bg-white border border-slate-200 p-8 rounded-sm text-center text-xs text-slate-500">
+        <div className="clay-card p-8 rounded-2xl text-center text-xs text-ink-soft">
           Loading notifications...
         </div>
       ) : notifications.length === 0 ? (
-        <div className="bg-white border border-slate-200 p-8 rounded-sm text-center space-y-1">
-          <Bell className="w-6 h-6 text-slate-400 mx-auto" />
-          <p className="text-sm font-semibold text-slate-700">No notifications yet</p>
-          <p className="text-xs text-slate-500">You'll receive updates here when order or request status changes.</p>
+        <div className="clay-card p-8 rounded-2xl text-center space-y-1">
+          <Bell className="w-6 h-6 text-ink-muted mx-auto" />
+          <p className="text-sm font-semibold text-ink">No notifications yet</p>
+          <p className="text-xs text-ink-soft">You'll receive updates here when order or request status changes.</p>
         </div>
       ) : (
         <div className="space-y-2">
@@ -75,25 +75,25 @@ export const NotificationsPage: React.FC = () => {
             <div
               key={n.id}
               onClick={() => !n.isRead && handleMarkAsRead(n.id)}
-              className={`bg-white border p-3.5 rounded-sm flex items-start gap-3 transition cursor-pointer ${
-                !n.isRead ? 'border-primary bg-blue-50/20' : 'border-slate-200'
+              className={`bg-white border p-3.5 rounded-2xl flex items-start gap-3 transition cursor-pointer ${
+                !n.isRead ? 'border-clay-indigo bg-blue-50/20' : 'border-white/60'
               }`}
             >
-              <div className="p-2 bg-slate-100 rounded-sm shrink-0 mt-0.5">
+              <div className="p-2 bg-clay-bg rounded-2xl shrink-0 mt-0.5">
                 {getModuleIcon(n.module)}
               </div>
 
               <div className="flex-1 space-y-0.5">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-xs text-slate-900">{n.title}</span>
+                  <span className="font-bold text-xs text-ink">{n.title}</span>
                   <div className="flex items-center gap-2">
-                    {!n.isRead && <span className="w-2 h-2 bg-primary rounded-full" title="Unread" />}
-                    <span className="text-[10px] text-slate-400 font-mono">
+                    {!n.isRead && <span className="w-2 h-2 bg-clay-indigo rounded-full" title="Unread" />}
+                    <span className="text-[10px] text-ink-muted font-mono">
                       {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">{n.message}</p>
+                <p className="text-xs text-ink-soft leading-relaxed">{n.message}</p>
               </div>
             </div>
           ))}
