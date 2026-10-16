@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../api/client';
-import { Building, Lock, User as UserIcon, ArrowRight, Key, RefreshCw, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Building, Lock, User as UserIcon, ArrowRight, Key, RefreshCw, CheckCircle2 } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -60,7 +60,7 @@ export const LoginPage: React.FC = () => {
 
       redirectUserByRole(data.primaryRole);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Invalid username or password');
+      setError(err.response?.data?.message || 'Invalid roll number, username, or password.');
     } finally {
       setLoading(false);
     }
@@ -112,12 +112,6 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const fillQuickCredentials = (u: string, p: string) => {
-    setUsername(u);
-    setPassword(p);
-    setError('');
-  };
-
   const handleClearSession = () => {
     logout();
     setError('Saved session cleared. You can sign in now.');
@@ -125,96 +119,76 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center p-4">
-      <div className="w-full max-w-md clay-card p-8 space-y-6">
+      <div className="w-full max-w-md bg-white border border-zinc-200 rounded-2xl p-6 sm:p-8 space-y-6 shadow-sm">
         {/* Header */}
-        <div className="text-center space-y-3">
-          <div className="w-14 h-14 bg-gradient-to-br from-clay-indigo to-clay-violet text-white flex items-center justify-center rounded-2xl mx-auto shadow-clay-btn">
-            <Building className="w-7 h-7" />
+        <div className="text-center space-y-2">
+          <div className="w-12 h-12 bg-zinc-900 text-white flex items-center justify-center rounded-xl mx-auto shadow-sm">
+            <Building className="w-6 h-6" />
           </div>
-          <h2 className="text-xl font-extrabold text-ink">Campus Identity Portal</h2>
-          <p className="text-xs text-ink-soft font-medium">Sign in with your roll number, username, or college email</p>
+          <h2 className="text-xl font-bold tracking-tight text-zinc-900">Campus Identity Portal</h2>
+          <p className="text-xs text-zinc-500">Sign in with your roll number, username, or college email</p>
         </div>
 
-        {/* Payment Received & Auto-Logout Alert */}
+        {/* Payment Received Alert */}
         {paymentSuccess && (
-          <div className="p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-2xl flex items-start gap-2.5 shadow-clay-card animate-in fade-in">
+          <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-start gap-2.5">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
             <div className="space-y-0.5">
-              <div className="font-extrabold text-emerald-900">
-                Payment Confirmed & Received!
-              </div>
-              <div className="text-[11px] text-emerald-800 leading-snug">
+              <div className="font-bold text-emerald-900">Payment Confirmed & Received</div>
+              <div className="text-[11px] text-emerald-700 leading-snug">
                 Payment of ₹{paidAmount || '0.00'} verified on{' '}
-                <span className="font-mono font-bold text-emerald-950">{recipient}</span>.
-                Order {orderNum ? `#${orderNum}` : ''} confirmed and your session has been safely closed.
+                <span className="font-mono font-bold text-emerald-900">{recipient}</span>.
+                Order {orderNum ? `#${orderNum}` : ''} confirmed.
               </div>
             </div>
           </div>
         )}
 
-        {/* Error */}
+        {/* Error Alert */}
         {error && (
-          <div className="p-3 bg-clay-coral/10 border border-clay-coral/20 text-clay-coral text-xs rounded-2xl flex items-center justify-between shadow-clay-badge">
+          <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl flex items-center justify-between">
             <span className="font-medium">{error}</span>
-            <button onClick={handleClearSession} className="underline text-[11px] font-bold text-clay-coral hover:text-clay-coral/80">
+            <button
+              onClick={handleClearSession}
+              className="underline text-[11px] font-semibold text-rose-800 hover:text-rose-900 ml-2"
+            >
               Clear Session
             </button>
           </div>
         )}
 
-        {/* Quick Demo Logins */}
-        <div className="p-4 bg-clay-bg/60 rounded-2xl shadow-clay-inset space-y-3">
-          <div className="text-[10px] font-bold text-ink-soft uppercase tracking-widest">Quick Demo Logins</div>
-          <div className="grid grid-cols-2 gap-2 text-[11px]">
-            {[
-              { label: '🔑 College Admin', u: 'admin@mallareddyuniversity.ac.in', p: '1234' },
-              { label: '🛡️ Platform Admin', u: 'admin', p: '1234' },
-              { label: '🎓 Student (Veeram Reddy)', u: '2511cs020633@mallareddyuniversity.ac.in', p: '123456', span: true },
-              { label: 'Canteen Staff', u: 'canteen_staff', p: '1234' },
-              { label: 'Sports Staff', u: 'sports_staff', p: '1234' },
-              { label: 'Print Staff', u: 'print_staff', p: '1234' },
-              { label: 'Warden', u: 'warden', p: '1234' },
-            ].map((cred) => (
-              <button
-                key={cred.u}
-                type="button"
-                onClick={() => fillQuickCredentials(cred.u, cred.p)}
-                className={`px-3 py-2 bg-white rounded-xl text-left hover:shadow-clay-card hover:-translate-y-0.5 text-ink font-semibold truncate transition-all shadow-clay-sm active:scale-[0.97] ${cred.span ? 'col-span-2' : ''}`}
-              >
-                {cred.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Login Form */}
         <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="text-xs font-bold text-ink-soft block mb-1.5">Roll Number / Email / Username</label>
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-zinc-700 block">
+              Roll Number / Email / Username
+            </label>
             <div className="relative">
-              <UserIcon className="w-4 h-4 text-ink-muted absolute left-4 top-3.5" />
+              <UserIcon className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3" />
               <input
                 type="text"
                 required
-                placeholder="e.g. 22101 or student@college.ac.in"
+                placeholder="e.g. 2511cs020633 or admin@college.ac.in"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="clay-input pl-10"
+                className="w-full pl-10 pr-3.5 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-xs rounded-lg placeholder:text-zinc-400 focus:outline-none focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-all"
               />
             </div>
           </div>
 
-          <div>
-            <label className="text-xs font-bold text-ink-soft block mb-1.5">Password</label>
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-zinc-700 block">Password</label>
+            </div>
             <div className="relative">
-              <Lock className="w-4 h-4 text-ink-muted absolute left-4 top-3.5" />
+              <Lock className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3" />
               <input
                 type="password"
                 required
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="clay-input pl-10"
+                className="w-full pl-10 pr-3.5 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-xs rounded-lg placeholder:text-zinc-400 focus:outline-none focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-all"
               />
             </div>
           </div>
@@ -222,68 +196,77 @@ export const LoginPage: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="clay-btn w-full disabled:opacity-50"
+            className="w-full py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg font-semibold text-xs transition-colors shadow-sm disabled:opacity-50 flex items-center justify-center gap-2"
           >
-            <span>{loading ? 'Authenticating...' : 'Sign In to Campus'}</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>{loading ? 'Authenticating...' : 'Sign In to Campus Portal'}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </form>
 
-        <div className="text-center pt-2">
+        <div className="flex items-center justify-between pt-2 border-t border-zinc-100 text-[11px] text-zinc-500">
+          <Link
+            to="/platform-admin/login"
+            className="hover:text-zinc-900 transition-colors font-medium"
+          >
+            Platform Console →
+          </Link>
           <button
             type="button"
             onClick={handleClearSession}
-            className="text-[11px] text-ink-muted hover:text-ink-soft inline-flex items-center gap-1 font-medium transition-colors"
+            className="hover:text-zinc-900 inline-flex items-center gap-1 font-medium transition-colors"
           >
-            <RefreshCw className="w-3 h-3" /> Reset Local Browser Session
+            <RefreshCw className="w-3 h-3" /> Reset Session
           </button>
         </div>
       </div>
 
       {/* Temporary Password Reset Modal */}
       {showResetModal && (
-        <div className="fixed inset-0 bg-ink/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="clay-card p-6 max-w-sm w-full space-y-4 !shadow-clay-lg">
-            <div className="flex items-center gap-2 text-clay-amber font-bold text-sm">
-              <Key className="w-5 h-5" />
-              <span>Temporary Password Update Required</span>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+          <div className="bg-white border border-zinc-200 rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl">
+            <div className="flex items-center gap-2 text-zinc-900 font-bold text-sm">
+              <Key className="w-4 h-4 text-zinc-700" />
+              <span>Password Update Required</span>
             </div>
-            <p className="text-xs text-ink-soft">
-              You are logging in with a temporary system password. Please set a new permanent password to secure your account.
+            <p className="text-xs text-zinc-500 leading-relaxed">
+              You are logging in with a temporary password. Please set a new permanent password to secure your account.
             </p>
 
             {resetError && (
-              <div className="p-2 bg-clay-coral/10 border border-clay-coral/20 text-clay-coral text-xs rounded-2xl shadow-clay-badge">
+              <div className="p-2.5 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-lg">
                 {resetError}
               </div>
             )}
 
             <form onSubmit={handlePasswordReset} className="space-y-3">
               <div>
-                <label className="text-xs font-bold text-ink-soft block mb-1">New Permanent Password</label>
+                <label className="text-xs font-semibold text-zinc-700 block mb-1">New Permanent Password</label>
                 <input
                   type="password"
                   required
                   minLength={4}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="clay-input"
+                  className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 text-zinc-900 text-xs rounded-lg focus:outline-none focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-ink-soft block mb-1">Confirm New Password</label>
+                <label className="text-xs font-semibold text-zinc-700 block mb-1">Confirm New Password</label>
                 <input
                   type="password"
                   required
                   minLength={4}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="clay-input"
+                  className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 text-zinc-900 text-xs rounded-lg focus:outline-none focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
                 />
               </div>
 
-              <button type="submit" className="clay-btn w-full">
+              <button
+                type="submit"
+                className="w-full py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg font-semibold text-xs transition-colors"
+              >
                 Set Permanent Password & Continue
               </button>
             </form>

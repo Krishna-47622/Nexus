@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../api/client';
-import { ShieldCheck, Lock, User, AlertCircle } from 'lucide-react';
+import { ShieldCheck, Lock, User, AlertCircle, ArrowLeft } from 'lucide-react';
 
 export const PlatformAdminLoginPage: React.FC = () => {
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('1234');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +20,7 @@ export const PlatformAdminLoginPage: React.FC = () => {
 
     try {
       const res = await api.post('/auth/platform-login', {
-        username,
+        username: username.trim(),
         password,
       });
 
@@ -35,20 +35,30 @@ export const PlatformAdminLoginPage: React.FC = () => {
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-md clay-card bg-gradient-to-br from-[#1e293b] to-[#0f172a] !border-0 !shadow-clay-lg p-6 md:p-8 space-y-6 text-slate-100">
+      <div className="w-full max-w-md bg-white border border-zinc-200 rounded-2xl p-6 sm:p-8 space-y-6 shadow-sm">
+        {/* Back Link */}
+        <div>
+          <Link
+            to="/login"
+            className="inline-flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-900 transition-colors font-medium"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" /> Campus Portal Login
+          </Link>
+        </div>
+
         {/* Header */}
-        <div className="space-y-3 text-center">
-          <div className="w-14 h-14 bg-gradient-to-br from-clay-indigo to-clay-sky text-white flex items-center justify-center rounded-2xl mx-auto shadow-clay-btn">
-            <ShieldCheck className="w-7 h-7" />
+        <div className="space-y-2 text-center">
+          <div className="w-12 h-12 bg-zinc-900 text-white flex items-center justify-center rounded-xl mx-auto shadow-sm">
+            <ShieldCheck className="w-6 h-6" />
           </div>
-          <h2 className="text-2xl font-extrabold text-white tracking-tight">Platform Root Console</h2>
-          <p className="text-xs text-slate-400 font-medium">Multi-Tenant Platform Administrator Authentication</p>
+          <h2 className="text-xl font-bold text-zinc-900 tracking-tight">Platform Root Console</h2>
+          <p className="text-xs text-zinc-500">Multi-tenant root administration & institutional IAM</p>
         </div>
 
         {/* Error */}
         {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-2xl text-sm flex items-center gap-2 shadow-clay-badge">
-            <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+          <div className="bg-rose-50 border border-rose-200 text-rose-700 px-3.5 py-2.5 rounded-lg text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
             <span className="font-medium">{error}</span>
           </div>
         )}
@@ -56,33 +66,35 @@ export const PlatformAdminLoginPage: React.FC = () => {
         {/* Form */}
         <form onSubmit={handlePlatformLogin} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
+            <label className="text-xs font-semibold text-zinc-700 block">
               Superadmin Username
             </label>
             <div className="relative">
-              <User className="w-4 h-4 text-slate-500 absolute left-4 top-3.5" />
+              <User className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3" />
               <input
                 type="text"
                 required
+                placeholder="root username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white/5 text-white text-sm rounded-2xl shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(255,255,255,0.05)] border border-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-clay-indigo/40 transition-all"
+                className="w-full pl-10 pr-3.5 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-xs rounded-lg placeholder:text-zinc-400 focus:outline-none focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-all"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
+            <label className="text-xs font-semibold text-zinc-700 block">
               Master Security Password
             </label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-500 absolute left-4 top-3.5" />
+              <Lock className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3" />
               <input
                 type="password"
                 required
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white/5 text-white text-sm rounded-2xl shadow-[inset_3px_3px_6px_rgba(0,0,0,0.3),inset_-3px_-3px_6px_rgba(255,255,255,0.05)] border border-white/10 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-clay-indigo/40 transition-all"
+                className="w-full pl-10 pr-3.5 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-xs rounded-lg placeholder:text-zinc-400 focus:outline-none focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-all"
               />
             </div>
           </div>
@@ -90,14 +102,14 @@ export const PlatformAdminLoginPage: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="clay-btn w-full disabled:opacity-50"
+            className="w-full py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg font-semibold text-xs transition-colors shadow-sm disabled:opacity-50"
           >
             {loading ? 'Authenticating Platform Superadmin...' : 'Access Root Console'}
           </button>
         </form>
 
-        <div className="pt-3 text-center text-xs text-slate-500 border-t border-white/10 font-medium">
-          Seed credentials: <code className="bg-white/10 px-2 py-0.5 rounded-lg text-slate-300 font-mono shadow-clay-badge">admin</code> / <code className="bg-white/10 px-2 py-0.5 rounded-lg text-slate-300 font-mono shadow-clay-badge">1234</code>
+        <div className="pt-2 text-center text-[11px] text-zinc-400 border-t border-zinc-100">
+          Strictly restricted to authorized university system administrators.
         </div>
       </div>
     </div>

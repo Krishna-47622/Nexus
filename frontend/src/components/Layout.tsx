@@ -43,7 +43,7 @@ export const PublicLayout: React.FC = () => {
             </Link>
             <Link
               to="/platform-admin/login"
-              className="clay-btn text-xs px-3 sm:px-3.5 py-1.5"
+              className="text-xs px-3 sm:px-3.5 py-1.5 bg-zinc-900 text-white rounded-lg font-medium hover:bg-zinc-800 transition-colors shadow-sm"
             >
               Platform Console
             </Link>
