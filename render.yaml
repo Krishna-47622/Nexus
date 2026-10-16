@@ -4,7 +4,7 @@ services:
   # 1. Spring Boot Backend Web Service
   - type: web
     name: nexus-backend
-    env: docker
+    runtime: docker
     dockerfilePath: backend/Dockerfile
     dockerContext: backend
     plan: free
@@ -21,11 +21,10 @@ services:
   # 2. Vite React Frontend Static Site
   - type: web
     name: nexus-frontend
-    env: static
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
-    plan: free
     routes:
       - type: rewrite
         source: /*
