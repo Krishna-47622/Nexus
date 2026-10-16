@@ -80,10 +80,21 @@ public class DataSeeder implements CommandLineRunner {
         createRoleIfAbsent("Platform Admin", permMap.values());
         createRoleIfAbsent("College Admin", getPerms(permMap, "CANTEEN_MANAGE_MENU", "SPORTS_MANAGE_EQUIPMENT", "PRINT_MANAGE_PRICING", "ADMIN_MANAGE_STAFF", "ADMIN_MANAGE_STUDENTS", "ADMIN_VIEW_ANALYTICS"));
         createRoleIfAbsent("Canteen Staff", getPerms(permMap, "CANTEEN_VIEW_MENU", "CANTEEN_UPDATE_ORDER_STATUS"));
-        createRoleIfAbsent("Sports Room Staff", getPerms(permMap, "SPORTS_VIEW_EQUIPMENT", "SPORTS_APPROVE_BORROW", "SPORTS_MARK_RETURNED"));
+        createRoleIfAbsent("Sports Room Staff", getPerms(permMap, "SPORTS_VIEW_EQUIPMENT", "SPORTS_MANAGE_EQUIPMENT", "SPORTS_APPROVE_BORROW", "SPORTS_MARK_RETURNED"));
         createRoleIfAbsent("Print Shop Staff", getPerms(permMap, "PRINT_VIEW_QUEUE", "PRINT_UPDATE_JOB_STATUS"));
         createRoleIfAbsent("Warden", getPerms(permMap, "LEAVE_OUTPASS_APPROVE_REJECT_REQUEST", "LEAVE_OUTPASS_VIEW_REQUESTS"));
         createRoleIfAbsent("Student", getPerms(permMap, "CANTEEN_VIEW_MENU", "CANTEEN_PLACE_ORDER", "SPORTS_VIEW_EQUIPMENT", "SPORTS_REQUEST_BORROW", "PRINT_SUBMIT_JOB", "LEAVE_OUTPASS_SUBMIT_REQUEST", "LEAVE_OUTPASS_VIEW_REQUESTS"));
+
+        roleRepository.findByNameAndCollegeIsNull("Sports Room Staff").ifPresent(role -> {
+            Permission managePerm = permMap.get("SPORTS_MANAGE_EQUIPMENT");
+            if (managePerm != null && (role.getPermissions() == null || !role.getPermissions().contains(managePerm))) {
+                if (role.getPermissions() == null) {
+                    role.setPermissions(new HashSet<>());
+                }
+                role.getPermissions().add(managePerm);
+                roleRepository.save(role);
+            }
+        });
     }
 
     private Collection<Permission> getPerms(Map<String, Permission> permMap, String... codes) {

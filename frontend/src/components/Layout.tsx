@@ -203,9 +203,10 @@ export const StaffLayout: React.FC = () => {
   if (permissions.includes('CANTEEN_UPDATE_ORDER_STATUS') || permissions.includes('CANTEEN_VIEW_MENU')) {
     sidebarLinks.push({ label: 'Canteen Kitchen Queue', path: '/staff/canteen/orders', icon: Utensils });
   }
-  if (permissions.includes('SPORTS_APPROVE_BORROW')) {
+  if (permissions.includes('SPORTS_APPROVE_BORROW') || permissions.includes('SPORTS_MANAGE_EQUIPMENT') || user?.primaryRole?.toLowerCase().includes('sports')) {
     sidebarLinks.push({ label: 'Sports Pending Borrows', path: '/staff/sports/pending', icon: Dumbbell });
     sidebarLinks.push({ label: 'Sports Currently Out', path: '/staff/sports/current', icon: CheckSquare });
+    sidebarLinks.push({ label: 'Equipment Inventory', path: '/staff/sports/inventory', icon: Package });
   }
   if (permissions.includes('PRINT_VIEW_QUEUE')) {
     sidebarLinks.push({ label: 'Print Shop Queue', path: '/staff/print/queue', icon: Printer });

@@ -48,9 +48,123 @@ public class SportsController {
     @GetMapping("/equipment")
     public ResponseEntity<List<SportsDTOs.EquipmentDTO>> getEquipment() {
         Long collegeId = TenantContext.getCollegeId();
+        if (collegeId == null) {
+            collegeId = collegeRepository.findAll().stream().findFirst().map(College::getId).orElse(1L);
+        }
         List<Equipment> items = equipmentRepository.findByCollegeIdAndIsActiveTrue(collegeId);
         List<SportsDTOs.EquipmentDTO> dtos = items.stream().map(this::mapToEquipmentDTO).collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
+    }
+
+    // ─── Staff: Equipment Management ──────────────────────────────────
+    @GetMapping("/staff/equipment")
+    @PreAuthorize("hasAuthority('SPORTS_MANAGE_EQUIPMENT') or hasAuthority('SPORTS_VIEW_EQUIPMENT') or hasAuthority('ROLE_SPORTS_STAFF') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
+    public ResponseEntity<List<SportsDTOs.EquipmentDTO>> getStaffEquipment() {
+        Long collegeId = TenantContext.getCollegeId();
+        if (collegeId == null) {
+            collegeId = collegeRepository.findAll().stream().findFirst().map(College::getId).orElse(1L);
+        }
+        List<Equipment> items = equipmentRepository.findByCollegeId(collegeId);
+        List<SportsDTOs.EquipmentDTO> dtos = items.stream().map(this::mapToEquipmentDTO).collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+    }
+
+    @PostMapping("/staff/equipment")
+    @PreAuthorize("hasAuthority('SPORTS_MANAGE_EQUIPMENT') or hasAuthority('ROLE_SPORTS_STAFF') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
+    public ResponseEntity<?> addEquipment(@RequestBody SportsDTOs.EquipmentDTO dto) {
+        if (dto.getName() == null || dto.getName().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Equipment name is required"));
+        }
+
+        Long collegeId = TenantContext.getCollegeId();
+        if (collegeId == null) {
+            collegeId = collegeRepository.findAll().stream().findFirst().map(College::getId).orElse(1L);
+        }
+        final Long effectiveCollegeId = collegeId;
+        College college = collegeRepository.findById(effectiveCollegeId)
+                .orElseGet(() -> collegeRepository.findAll().stream().findFirst().orElseThrow(() -> new RuntimeException("College not found")));
+
+        int total = dto.getTotalQty() != null ? Math.max(1, dto.getTotalQty()) : 1;
+        int available = dto.getAvailableQty() != null ? Math.min(total, Math.max(0, dto.getAvailableQty())) : total;
+
+        Equipment eq = Equipment.builder()
+                .college(college)
+                .name(dto.getName().trim())
+                .category(dto.getCategory() != null && !dto.getCategory().trim().isEmpty() ? dto.getCategory().trim() : "General")
+                .totalQty(total)
+                .availableQty(available)
+                .lateFineRatePerDay(dto.getLateFineRatePerDay() != null ? dto.getLateFineRatePerDay() : new BigDecimal("5.00"))
+                .isActive(dto.getIsActive() != null ? dto.getIsActive() : true)
+                .build();
+
+        equipmentRepository.save(eq);
+        return ResponseEntity.ok(Map.of(
+                "message", "Equipment '" + eq.getName() + "' added successfully",
+                "equipment", mapToEquipmentDTO(eq)
+        ));
+    }
+
+    @PutMapping("/staff/equipment/{id}")
+    @PreAuthorize("hasAuthority('SPORTS_MANAGE_EQUIPMENT') or hasAuthority('ROLE_SPORTS_STAFF') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
+    public ResponseEntity<?> updateEquipment(@PathVariable Long id, @RequestBody SportsDTOs.EquipmentDTO dto) {
+        Equipment eq = equipmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Equipment not found"));
+
+        if (dto.getName() != null && !dto.getName().trim().isEmpty()) {
+            eq.setName(dto.getName().trim());
+        }
+        if (dto.getCategory() != null && !dto.getCategory().trim().isEmpty()) {
+            eq.setCategory(dto.getCategory().trim());
+        }
+        if (dto.getTotalQty() != null) {
+            int newTotal = Math.max(1, dto.getTotalQty());
+            int diff = newTotal - eq.getTotalQty();
+            eq.setTotalQty(newTotal);
+            eq.setAvailableQty(Math.max(0, eq.getAvailableQty() + diff));
+        }
+        if (dto.getAvailableQty() != null) {
+            eq.setAvailableQty(Math.max(0, Math.min(eq.getTotalQty(), dto.getAvailableQty())));
+        }
+        if (dto.getLateFineRatePerDay() != null) {
+            eq.setLateFineRatePerDay(dto.getLateFineRatePerDay());
+        }
+        if (dto.getIsActive() != null) {
+            eq.setIsActive(dto.getIsActive());
+        }
+
+        equipmentRepository.save(eq);
+        return ResponseEntity.ok(Map.of(
+                "message", "Equipment '" + eq.getName() + "' updated successfully",
+                "equipment", mapToEquipmentDTO(eq)
+        ));
+    }
+
+    @PatchMapping("/staff/equipment/{id}/status")
+    @PreAuthorize("hasAuthority('SPORTS_MANAGE_EQUIPMENT') or hasAuthority('ROLE_SPORTS_STAFF') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
+    public ResponseEntity<?> toggleEquipmentStatus(@PathVariable Long id) {
+        Equipment eq = equipmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Equipment not found"));
+
+        boolean newStatus = !Boolean.TRUE.equals(eq.getIsActive());
+        eq.setIsActive(newStatus);
+        equipmentRepository.save(eq);
+
+        return ResponseEntity.ok(Map.of(
+                "message", "Equipment " + (newStatus ? "activated" : "deactivated") + " successfully",
+                "isActive", newStatus,
+                "equipment", mapToEquipmentDTO(eq)
+        ));
+    }
+
+    @DeleteMapping("/staff/equipment/{id}")
+    @PreAuthorize("hasAuthority('SPORTS_MANAGE_EQUIPMENT') or hasAuthority('ROLE_SPORTS_STAFF') or hasAuthority('ROLE_COLLEGE_ADMIN') or hasAuthority('ROLE_PLATFORM_ADMIN')")
+    public ResponseEntity<?> deleteEquipment(@PathVariable Long id) {
+        Equipment eq = equipmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Equipment not found"));
+
+        eq.setIsActive(false);
+        equipmentRepository.save(eq);
+        return ResponseEntity.ok(Map.of("message", "Equipment deactivated successfully"));
     }
 
     @PostMapping("/borrow-request")

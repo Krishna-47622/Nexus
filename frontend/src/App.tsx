@@ -34,6 +34,7 @@ import { NotificationsPage } from './pages/student/NotificationsPage';
 import { CanteenStaffOrders } from './pages/staff/CanteenStaffOrders';
 import { SportsStaffPending } from './pages/staff/SportsStaffPending';
 import { SportsStaffCurrent } from './pages/staff/SportsStaffCurrent';
+import { SportsStaffInventory } from './pages/staff/SportsStaffInventory';
 import { PrintStaffQueue } from './pages/staff/PrintStaffQueue';
 import { WardenApprovals } from './pages/staff/WardenApprovals';
 import { WardenStudentRecords } from './pages/staff/WardenStudentRecords';
@@ -118,6 +119,7 @@ export const App: React.FC = () => {
             <Route path="canteen/orders" element={<CanteenStaffOrders />} />
             <Route path="sports/pending" element={<SportsStaffPending />} />
             <Route path="sports/current" element={<SportsStaffCurrent />} />
+            <Route path="sports/inventory" element={<SportsStaffInventory />} />
             <Route path="print/queue" element={<PrintStaffQueue />} />
             <Route path="warden/approvals" element={<WardenApprovals />} />
             <Route path="warden/records" element={<WardenStudentRecords />} />
