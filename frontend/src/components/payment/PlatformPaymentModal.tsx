@@ -14,7 +14,8 @@ import {
   X,
   CreditCard,
   Receipt,
-  ArrowRight
+  ArrowRight,
+  Sparkles
 } from 'lucide-react';
 
 export interface PlatformPaymentModalProps {
@@ -42,9 +43,16 @@ export const PlatformPaymentModal: React.FC<PlatformPaymentModalProps> = ({
   onPaymentSuccess,
 }) => {
   const targetUpiVpa = '9398979155-1@superyes';
+  const targetBeneficiary = 'Veeram Reddy';
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState<'QR' | 'UPI_ID' | 'APPS'>('QR');
+  // Ensure amount is a strictly valid number
+  const safeAmount =
+    typeof amount === 'number' && !isNaN(amount)
+      ? amount
+      : parseFloat(amount as any) || 0;
+
+  const [activeTab, setActiveTab] = useState<'QR' | 'APPS' | 'UPI_ID'>('QR');
   const [payerUtr, setPayerUtr] = useState('');
   const [payerMarkedPaid, setPayerMarkedPaid] = useState(false);
   const [copiedVpa, setCopiedVpa] = useState(false);
@@ -52,19 +60,19 @@ export const PlatformPaymentModal: React.FC<PlatformPaymentModalProps> = ({
   const [isVerifying, setIsVerifying] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [receiptData, setReceiptData] = useState<any>(null);
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes session
   const [error, setError] = useState('');
 
-  // Exact UPI URL pointing to 9398979155-1@superyes
+  // Exact UPI Intent URL pointing to 9398979155-1@superyes
   const effectiveUpiUrl = `upi://pay?pa=${encodeURIComponent(
     targetUpiVpa
   )}&pn=${encodeURIComponent(
-    'Veeram Reddy'
-  )}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent(
+    targetBeneficiary
+  )}&am=${safeAmount.toFixed(2)}&cu=INR&tn=${encodeURIComponent(
     `Order-${orderNumber}`
   )}`;
 
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=10&data=${encodeURIComponent(
+  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=10&data=${encodeURIComponent(
     effectiveUpiUrl
   )}`;
 
@@ -106,8 +114,8 @@ export const PlatformPaymentModal: React.FC<PlatformPaymentModalProps> = ({
   };
 
   // Step 1: Payer marks that they sent the payment
-  const handlePayerMarkedPayment = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handlePayerMarkedPayment = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setPayerMarkedPaid(true);
     setError('');
   };
@@ -121,9 +129,15 @@ export const PlatformPaymentModal: React.FC<PlatformPaymentModalProps> = ({
       const confirmedUtr = payerUtr.trim() || 'UTR' + Date.now().toString().slice(-9);
       let receiptPayload = {
         transactionId: confirmedUtr,
-        tokenNumber: module === 'CANTEEN' ? `MR-${100 + ((orderId || 1) % 900)}` : `PRNT-${orderId || 1}`,
-        pickupLocation: module === 'CANTEEN' ? 'MR Food Court - 1 (Counter #3)' : 'Engineering Block 2, Ground Floor (Print Center)',
-        amount,
+        tokenNumber:
+          module === 'CANTEEN'
+            ? `MR-${100 + ((orderId || 1) % 900)}`
+            : `PRNT-${orderId || 1}`,
+        pickupLocation:
+          module === 'CANTEEN'
+            ? 'MR Food Court - 1 (Counter #3)'
+            : 'Engineering Block 2, Ground Floor (Print Center)',
+        amount: safeAmount,
         orderNumber,
       };
 
@@ -159,7 +173,7 @@ export const PlatformPaymentModal: React.FC<PlatformPaymentModalProps> = ({
         transactionId: fallbackUtr,
         tokenNumber: `MR-${100 + ((orderId || 1) % 900)}`,
         pickupLocation: 'MR Food Court - 1 (Counter #3)',
-        amount,
+        amount: safeAmount,
         orderNumber,
       };
       setReceiptData(fallbackReceipt);
@@ -200,144 +214,147 @@ export const PlatformPaymentModal: React.FC<PlatformPaymentModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-      <div className="clay-card bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden border border-white/60 animate-in fade-in zoom-in-95 duration-200 my-auto">
-        {/* Gateway Header */}
-        <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-4 sm:p-5 relative">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto text-zinc-900 dark:text-zinc-100">
+        {/* ─── MODAL HEADER (MINIMALIST) ─── */}
+        <div className="p-4 sm:p-5 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-indigo-300">
-                <CreditCard className="w-5 h-5" />
+              <div className="w-8 h-8 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 flex items-center justify-center">
+                <CreditCard className="w-4 h-4" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h3 className="font-extrabold text-sm tracking-tight text-white">
-                    Nexus Platform Payment
+                  <h3 className="font-semibold text-sm tracking-tight text-zinc-900 dark:text-zinc-100">
+                    Platform UPI Payment
                   </h3>
-                  <span className="text-[9px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold px-1.5 py-0.5 rounded-full flex items-center gap-0.5">
-                    <ShieldCheck className="w-2.5 h-2.5" /> Direct UPI
+                  <span className="text-[10px] font-medium bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 px-1.5 py-0.2 rounded-md flex items-center gap-0.5">
+                    <ShieldCheck className="w-2.5 h-2.5" /> Direct
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-300">
-                  Receiver UPI ID:{' '}
-                  <span className="font-mono font-bold text-amber-300">
-                    {targetUpiVpa}
-                  </span>
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                  Order #{orderNumber}
                 </p>
               </div>
             </div>
 
-            {!isSuccess && (
-              <button
-                onClick={onClose}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
-                title="Cancel payment"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-1 text-[11px] font-mono font-medium text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-md">
+                <Clock className="w-3 h-3 text-zinc-400" />
+                {formatTime(timeLeft)}
+              </div>
+
+              {!isSuccess && (
+                <button
+                  onClick={onClose}
+                  className="w-7 h-7 rounded-md text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center transition-colors"
+                  title="Close modal"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
           </div>
 
-          {/* Amount & Receiver Banner */}
-          <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+          {/* Amount & Beneficiary Banner */}
+          <div className="mt-4 pt-3 border-t border-zinc-200/70 dark:border-zinc-800 flex items-center justify-between">
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
-                Amount to Pay
+              <span className="text-[10px] uppercase font-semibold tracking-wider text-zinc-400 dark:text-zinc-500 block">
+                Total Amount Due
               </span>
-              <div className="text-2xl sm:text-3xl font-black text-amber-300">
-                ₹{amount.toFixed(2)}
+              <div className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                ₹{safeAmount.toFixed(2)}
               </div>
             </div>
 
             <div className="text-right">
-              <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block">
-                Session Expiry
+              <span className="text-[10px] uppercase font-semibold tracking-wider text-zinc-400 dark:text-zinc-500 block">
+                Beneficiary
               </span>
-              <div className="inline-flex items-center gap-1 text-xs font-mono font-bold text-amber-200 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-lg mt-0.5">
-                <Clock className="w-3 h-3 text-amber-300" />
-                {formatTime(timeLeft)}
-              </div>
+              <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">
+                {targetBeneficiary}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* ─── SUCCESS SCREEN (STAYS LOGGED IN) ─── */}
+        {/* ─── SUCCESS SCREEN ─── */}
         {isSuccess ? (
           <div className="p-6 text-center space-y-4">
-            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-3xl mx-auto flex items-center justify-center shadow-clay-card animate-bounce">
-              <CheckCircle2 className="w-9 h-9" />
+            <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/80 rounded-full mx-auto flex items-center justify-center">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
 
             <div className="space-y-1">
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                Payment Received & Confirmed
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/60">
+                Payment Confirmed
               </span>
-              <h4 className="text-xl font-black text-ink">
-                ₹{amount.toFixed(2)} Confirmed!
+              <h4 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                ₹{safeAmount.toFixed(2)} Credited Successfully
               </h4>
-              <p className="text-xs text-ink-soft">
-                Payment successfully credited to <span className="font-mono font-bold text-ink">{targetUpiVpa}</span>.
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                Payment verified for <span className="font-mono font-medium text-zinc-800 dark:text-zinc-200">{targetUpiVpa}</span>.
               </p>
             </div>
 
-            {/* Receipt Summary Card */}
+            {/* Receipt Card */}
             {receiptData && (
-              <div className="bg-clay-bg/60 border border-clay-bg rounded-2xl p-4 text-left space-y-2.5 text-xs">
-                <div className="flex justify-between items-center pb-2 border-b border-ink/10">
-                  <span className="text-ink-soft">Pickup Token No.</span>
-                  <span className="text-base font-black text-clay-indigo bg-clay-indigo/10 px-2.5 py-0.5 rounded-lg">
+              <div className="bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/80 dark:border-zinc-800 rounded-xl p-3.5 text-left space-y-2 text-xs">
+                <div className="flex justify-between items-center pb-2 border-b border-zinc-200/60 dark:border-zinc-700/60">
+                  <span className="text-zinc-500 dark:text-zinc-400">Pickup Token</span>
+                  <span className="text-sm font-bold font-mono text-zinc-900 dark:text-zinc-100 bg-white dark:bg-zinc-900 px-2 py-0.5 rounded border border-zinc-200 dark:border-zinc-700">
                     {receiptData.tokenNumber}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-ink-soft">Bank Transaction UTR</span>
-                  <span className="font-mono font-bold text-ink">{receiptData.transactionId}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">UTR Reference</span>
+                  <span className="font-mono text-zinc-800 dark:text-zinc-200">{receiptData.transactionId}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-ink-soft">Pickup Counter</span>
-                  <span className="font-semibold text-ink text-right max-w-[200px] truncate">
+                  <span className="text-zinc-500 dark:text-zinc-400">Counter</span>
+                  <span className="font-medium text-zinc-800 dark:text-zinc-200 text-right max-w-[200px] truncate">
                     {receiptData.pickupLocation}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-ink-soft">Receiver VPA</span>
-                  <span className="font-mono font-semibold text-emerald-700">{targetUpiVpa}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">Amount Paid</span>
+                  <span className="font-bold text-zinc-900 dark:text-zinc-100">₹{safeAmount.toFixed(2)}</span>
                 </div>
               </div>
             )}
 
             <button
               onClick={handleGoToOrders}
-              className="clay-btn w-full py-3.5 flex items-center justify-center gap-2 text-xs font-black shadow-clay-btn hover:brightness-110 active:scale-[0.99] transition-all"
+              className="w-full py-2.5 bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 rounded-lg text-xs font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors flex items-center justify-center gap-2 shadow-sm"
             >
               <Receipt className="w-4 h-4" /> View Live Order Tracking
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         ) : (
-          /* ─── ACTIVE PAYMENT & CONFIRMATION FLOW ─── */
+          /* ─── ACTIVE PAYMENT FLOW ─── */
           <div className="p-4 sm:p-5 space-y-4">
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-2xl flex items-center gap-2 font-medium">
-                <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
+              <div className="p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-400 text-xs rounded-lg flex items-center gap-2 font-medium">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
                 <span>{error}</span>
               </div>
             )}
 
             {/* Target UPI Banner */}
-            <div className="bg-indigo-50 border border-indigo-200/80 p-3 rounded-2xl flex items-center justify-between gap-2">
+            <div className="bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/60 p-2.5 rounded-xl flex items-center justify-between gap-2">
               <div className="min-w-0">
-                <span className="text-[10px] uppercase font-bold text-indigo-700 block">
-                  Pay Exactly to Receiver UPI:
+                <span className="text-[10px] uppercase font-semibold text-zinc-500 dark:text-zinc-400 block">
+                  Receiver UPI ID:
                 </span>
-                <span className="font-mono font-extrabold text-xs text-indigo-950 truncate block">
+                <span className="font-mono font-bold text-xs text-zinc-900 dark:text-zinc-100 truncate block">
                   {targetUpiVpa}
                 </span>
               </div>
               <button
                 type="button"
                 onClick={handleCopyVpa}
-                className="shrink-0 text-[11px] font-bold text-clay-indigo bg-white hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1.5 rounded-xl transition-all flex items-center gap-1 shadow-sm"
+                className="shrink-0 text-xs font-medium text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1 shadow-xs"
               >
                 {copiedVpa ? (
                   <>
@@ -345,81 +362,81 @@ export const PlatformPaymentModal: React.FC<PlatformPaymentModalProps> = ({
                   </>
                 ) : (
                   <>
-                    <Copy className="w-3.5 h-3.5" /> Copy UPI ID
+                    <Copy className="w-3.5 h-3.5" /> Copy ID
                   </>
                 )}
               </button>
             </div>
 
             {/* Tab Navigation */}
-            <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-2xl">
+            <div className="grid grid-cols-3 gap-1 p-1 bg-zinc-100 dark:bg-zinc-800 rounded-lg text-xs">
               <button
                 type="button"
                 onClick={() => setActiveTab('QR')}
-                className={`py-2 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+                className={`py-1.5 font-medium rounded-md transition-colors flex items-center justify-center gap-1.5 ${
                   activeTab === 'QR'
-                    ? 'bg-white text-clay-indigo shadow-clay-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 shadow-xs'
+                    : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200'
                 }`}
               >
                 <QrCode className="w-3.5 h-3.5" />
-                Scan QR Code
+                Scan QR
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('APPS')}
-                className={`py-2 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+                className={`py-1.5 font-medium rounded-md transition-colors flex items-center justify-center gap-1.5 ${
                   activeTab === 'APPS'
-                    ? 'bg-white text-clay-indigo shadow-clay-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 shadow-xs'
+                    : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200'
                 }`}
               >
                 <Smartphone className="w-3.5 h-3.5" />
-                Pay via Apps
+                UPI Apps
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('UPI_ID')}
-                className={`py-2 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+                className={`py-1.5 font-medium rounded-md transition-colors flex items-center justify-center gap-1.5 ${
                   activeTab === 'UPI_ID'
-                    ? 'bg-white text-clay-indigo shadow-clay-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 shadow-xs'
+                    : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200'
                 }`}
               >
                 <CreditCard className="w-3.5 h-3.5" />
-                UPI ID Details
+                Details
               </button>
             </div>
 
-            {/* TAB 1: DYNAMIC QR CODE FOR 9398979155-1@superyes */}
+            {/* TAB 1: DYNAMIC QR CODE */}
             {activeTab === 'QR' && (
-              <div className="space-y-3 text-center">
-                <div className="bg-gradient-to-b from-slate-50 to-indigo-50/50 p-4 rounded-3xl border border-slate-200 inline-block shadow-inner">
-                  <div className="relative mx-auto w-52 h-52 sm:w-56 sm:h-56 bg-white p-2.5 rounded-2xl shadow-clay-card flex items-center justify-center">
+              <div className="space-y-3 text-center py-1">
+                <div className="p-3 bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 inline-block shadow-xs">
+                  <div className="w-48 h-48 sm:w-52 sm:h-52 bg-white p-2 rounded-lg flex items-center justify-center mx-auto">
                     <img
                       src={qrCodeUrl}
                       alt={`UPI QR code for ${targetUpiVpa}`}
-                      className="w-full h-full object-contain rounded-xl"
+                      className="w-full h-full object-contain"
                     />
                   </div>
-                  <div className="mt-2 text-[11px] font-bold text-slate-700">
-                    Scan with PhonePe, Google Pay, Paytm, BHIM, or CRED
+                  <div className="mt-2 text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
+                    Scan with PhonePe, Google Pay, Paytm, or BHIM
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center gap-2">
+                <div>
                   <button
                     type="button"
                     onClick={handleCopyLink}
-                    className="text-[11px] font-bold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-xl transition-all flex items-center gap-1"
+                    className="text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-3 py-1.5 rounded-lg transition-colors inline-flex items-center gap-1"
                   >
                     {copiedLink ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-emerald-600" /> Link Copied!
+                        <Check className="w-3.5 h-3.5 text-emerald-600" /> Link Copied
                       </>
                     ) : (
                       <>
-                        <ExternalLink className="w-3.5 h-3.5 text-slate-500" /> Copy Intent Link
+                        <ExternalLink className="w-3.5 h-3.5 text-zinc-400" /> Copy UPI Payment URL
                       </>
                     )}
                   </button>
@@ -429,25 +446,27 @@ export const PlatformPaymentModal: React.FC<PlatformPaymentModalProps> = ({
 
             {/* TAB 2: APPS INTENT */}
             {activeTab === 'APPS' && (
-              <div className="space-y-2.5 py-1">
-                <p className="text-xs text-slate-600 text-center">
-                  Click to open installed UPI app and pay to <span className="font-bold">{targetUpiVpa}</span>:
+              <div className="space-y-2 py-1">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center">
+                  Select your UPI app to auto-open with ₹{safeAmount.toFixed(2)}:
                 </p>
                 <div className="grid grid-cols-2 gap-2">
                   {[
-                    { name: 'Google Pay', short: 'GPay', bg: 'hover:bg-blue-50 border-blue-200' },
-                    { name: 'PhonePe', short: 'PhonePe', bg: 'hover:bg-purple-50 border-purple-200' },
-                    { name: 'Paytm UPI', short: 'Paytm', bg: 'hover:bg-sky-50 border-sky-200' },
-                    { name: 'BHIM UPI', short: 'BHIM', bg: 'hover:bg-emerald-50 border-emerald-200' },
+                    { name: 'Google Pay', short: 'GPay' },
+                    { name: 'PhonePe', short: 'PhonePe' },
+                    { name: 'Paytm UPI', short: 'Paytm' },
+                    { name: 'BHIM UPI', short: 'BHIM' },
                   ].map((app) => (
                     <button
                       key={app.short}
                       type="button"
                       onClick={() => handleAppLaunch(app.short)}
-                      className={`p-3 rounded-2xl border text-left transition-all flex items-center justify-between shadow-clay-sm ${app.bg}`}
+                      className="p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-850 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-left transition-colors flex items-center justify-between"
                     >
-                      <span className="font-bold text-xs text-slate-900">{app.name}</span>
-                      <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                      <span className="font-semibold text-xs text-zinc-900 dark:text-zinc-100">
+                        {app.name}
+                      </span>
+                      <ExternalLink className="w-3.5 h-3.5 text-zinc-400" />
                     </button>
                   ))}
                 </div>
@@ -456,105 +475,101 @@ export const PlatformPaymentModal: React.FC<PlatformPaymentModalProps> = ({
 
             {/* TAB 3: UPI ID DETAILS */}
             {activeTab === 'UPI_ID' && (
-              <div className="p-3 bg-slate-50 rounded-2xl space-y-2 text-xs">
-                <div className="flex justify-between items-center py-1 border-b border-slate-200">
-                  <span className="text-slate-500">Receiver VPA</span>
-                  <span className="font-mono font-bold text-slate-900">{targetUpiVpa}</span>
+              <div className="p-3 bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/80 dark:border-zinc-800 rounded-xl space-y-2 text-xs">
+                <div className="flex justify-between items-center py-1 border-b border-zinc-200 dark:border-zinc-700/60">
+                  <span className="text-zinc-500 dark:text-zinc-400">Receiver VPA</span>
+                  <span className="font-mono font-semibold text-zinc-900 dark:text-zinc-100">{targetUpiVpa}</span>
                 </div>
-                <div className="flex justify-between items-center py-1 border-b border-slate-200">
-                  <span className="text-slate-500">Beneficiary Name</span>
-                  <span className="font-bold text-slate-900">Veeram Reddy</span>
+                <div className="flex justify-between items-center py-1 border-b border-zinc-200 dark:border-zinc-700/60">
+                  <span className="text-zinc-500 dark:text-zinc-400">Beneficiary Name</span>
+                  <span className="font-semibold text-zinc-900 dark:text-zinc-100">{targetBeneficiary}</span>
                 </div>
-                <div className="flex justify-between items-center py-1 border-b border-slate-200">
-                  <span className="text-slate-500">Order Reference</span>
-                  <span className="font-mono text-slate-900">{orderNumber}</span>
+                <div className="flex justify-between items-center py-1 border-b border-zinc-200 dark:border-zinc-700/60">
+                  <span className="text-zinc-500 dark:text-zinc-400">Order Reference</span>
+                  <span className="font-mono text-zinc-900 dark:text-zinc-100">{orderNumber}</span>
                 </div>
                 <div className="flex justify-between items-center py-1">
-                  <span className="text-slate-500">Amount</span>
-                  <span className="font-black text-slate-900 text-sm">₹{amount.toFixed(2)}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">Amount</span>
+                  <span className="font-bold text-zinc-900 dark:text-zinc-100 text-sm">₹{safeAmount.toFixed(2)}</span>
                 </div>
               </div>
             )}
 
-            {/* ─── CONFIRMATION WORKFLOW: ONLY ONCE RECEIVED ─── */}
-            <div className="pt-2 border-t border-slate-200 space-y-3">
-              {/* Payer UTR / Status prompt */}
+            {/* ─── CONFIRMATION WORKFLOW ─── */}
+            <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 space-y-3">
               {!payerMarkedPaid ? (
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-bold text-slate-700">
-                      Step 1: Have you completed the UPI transfer?
-                    </label>
-                  </div>
-
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-semibold text-zinc-700 dark:text-zinc-300 block">
+                    Step 1: Have you completed the UPI transfer?
+                  </label>
                   <div className="flex gap-2">
                     <input
                       type="text"
                       value={payerUtr}
                       onChange={(e) => setPayerUtr(e.target.value)}
-                      placeholder="Enter 12-digit UPI UTR / Ref No. (Optional)"
-                      className="clay-input text-xs flex-1 py-2 px-3 rounded-xl border font-mono"
+                      placeholder="12-digit UPI UTR / Ref (Optional)"
+                      className="text-xs flex-1 py-2 px-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 font-mono text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-hidden focus:border-zinc-900 dark:focus:border-zinc-100"
                     />
                     <button
                       type="button"
-                      onClick={handlePayerMarkedPayment}
-                      className="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs rounded-xl shadow-clay-sm flex items-center gap-1 transition-all shrink-0"
+                      onClick={() => handlePayerMarkedPayment()}
+                      className="px-3 py-2 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-semibold text-xs rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-200 flex items-center gap-1 transition-colors shrink-0"
                     >
                       I Have Paid <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
               ) : (
-                <div className="p-3 bg-amber-50/80 border border-amber-200 rounded-2xl space-y-2">
+                <div className="p-3 bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-xl space-y-1">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-extrabold text-amber-900 flex items-center gap-1">
+                    <span className="font-semibold text-amber-900 dark:text-amber-300 flex items-center gap-1.5">
                       <Clock className="w-3.5 h-3.5 text-amber-600 animate-spin" />
-                      Payment Sent • Awaiting Receiver Confirmation
+                      Payment Marked • Awaiting Confirmation
                     </span>
                     <button
                       type="button"
                       onClick={() => setPayerMarkedPaid(false)}
-                      className="text-[10px] text-amber-700 hover:underline"
+                      className="text-[10px] text-amber-700 dark:text-amber-400 hover:underline"
                     >
                       Edit UTR
                     </button>
                   </div>
-                  <p className="text-[11px] text-amber-800 leading-snug">
-                    Transfer sent for ₹{amount.toFixed(2)}. The order confirms only once credit is verified by the recipient (<span className="font-mono font-bold text-amber-900">{targetUpiVpa}</span>).
+                  <p className="text-[11px] text-amber-800 dark:text-amber-400 leading-snug">
+                    Transfer sent for ₹{safeAmount.toFixed(2)}. Verify with recipient ({targetUpiVpa}).
                   </p>
                 </div>
               )}
 
-              {/* Step 2: Receiver Confirmation Button (Confirms only once received) */}
-              <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-3 space-y-2">
+              {/* Step 2: Receiver Confirmation Button */}
+              <div className="bg-zinc-50 dark:bg-zinc-850 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-slate-600 flex items-center gap-1">
+                  <span className="text-[10px] uppercase font-semibold tracking-wider text-zinc-600 dark:text-zinc-400 flex items-center gap-1">
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                     Receiver Verification ({targetUpiVpa})
                   </span>
-                  <span className="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded">
-                    Strict Check
+                  <span className="text-[9px] bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-medium px-1.5 py-0.2 rounded">
+                    Strict
                   </span>
                 </div>
-                <p className="text-[10px] text-slate-500">
-                  Confirm only once you see ₹{amount.toFixed(2)} credited in your UPI account. On confirmation, this order is officially placed and queued.
+                <p className="text-[10px] text-zinc-500 dark:text-zinc-400">
+                  Confirm only once you see ₹{safeAmount.toFixed(2)} credited in your UPI account.
                 </p>
 
                 <button
                   type="button"
                   onClick={handleReceiverConfirmPayment}
                   disabled={isVerifying}
-                  className="w-full py-3 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-clay-btn hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 shadow-sm"
                 >
                   {isVerifying ? (
                     <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Verifying Credit with Bank...</span>
+                      <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Verifying Credit...</span>
                     </>
                   ) : (
                     <>
                       <CheckCircle2 className="w-4 h-4 text-emerald-200" />
-                      <span>Confirm Payment Received (₹{amount.toFixed(2)})</span>
+                      <span>Confirm Payment Received (₹{safeAmount.toFixed(2)})</span>
                     </>
                   )}
                 </button>

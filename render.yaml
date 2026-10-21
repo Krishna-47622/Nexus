@@ -17,6 +17,12 @@ services:
         generateValue: true
       - key: SPRING_PROFILES_ACTIVE
         value: prod
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres?sslmode=require
+      - key: SPRING_DATASOURCE_USERNAME
+        value: postgres.qcsdqhzfkpbubtjlwoen
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: 8fH6MCdzOLKOlXKx
 
   # 2. Vite React Frontend Static Site
   - type: web
@@ -31,7 +37,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: nexus-backend
-          property: host
+        value: https://nexus-backend-p63s.onrender.com

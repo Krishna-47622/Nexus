@@ -105,7 +105,8 @@ public class CanteenController {
             MenuItem menuItem = menuItemRepository.findById(reqItem.getMenuItemId())
                     .orElseThrow(() -> new RuntimeException("Menu item not found: " + reqItem.getMenuItemId()));
 
-            BigDecimal itemTotal = menuItem.getPrice().multiply(BigDecimal.valueOf(reqItem.getQuantity()));
+            BigDecimal unitPrice = menuItem.getSellingPrice() != null ? menuItem.getSellingPrice() : menuItem.getPrice();
+            BigDecimal itemTotal = unitPrice.multiply(BigDecimal.valueOf(reqItem.getQuantity()));
             total = total.add(itemTotal);
 
             orderItems.add(OrderItem.builder()
@@ -113,7 +114,7 @@ public class CanteenController {
                     .menuItem(menuItem)
                     .itemName(menuItem.getName())
                     .quantity(reqItem.getQuantity())
-                    .unitPrice(menuItem.getPrice())
+                    .unitPrice(unitPrice)
                     .build());
         }
 
@@ -401,7 +402,7 @@ public class CanteenController {
                 .categoryName(item.getCategory() != null ? item.getCategory().getName() : "General")
                 .name(item.getName())
                 .description(item.getDescription())
-                .price(item.getPrice())
+                .price(item.getSellingPrice() != null ? item.getSellingPrice() : item.getPrice())
                 .sellingPrice(item.getSellingPrice() != null ? item.getSellingPrice() : item.getPrice())
                 .basePrice(item.getBasePrice() != null ? item.getBasePrice() : item.getPrice())
                 .taxValue(item.getTaxValue() != null ? item.getTaxValue() : BigDecimal.ZERO)

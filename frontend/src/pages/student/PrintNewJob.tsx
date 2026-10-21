@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { api } from '../../api/client';
+import { useToast } from '../../context/ToastContext';
 import { PlatformPaymentModal } from '../../components/payment/PlatformPaymentModal';
 import {
   Upload,
@@ -147,6 +148,7 @@ export const PrintNewJob: React.FC = () => {
   const [estimating, setEstimating] = useState(false);
 
   const navigate = useNavigate();
+  const { success, error: showToastError } = useToast();
 
   // Fetch real printer shop guy pricing on mount
   useEffect(() => {
@@ -344,12 +346,16 @@ export const PrintNewJob: React.FC = () => {
           amount: res.data.totalCost,
           upiIntentUrl: res.data.upiIntentUrl,
         });
+        success('Print order created. Please complete UPI payment.');
         setShowPlatformPayment(true);
       } else {
+        success('Print job queued successfully! Direct tracking active.');
         navigate('/app/print/jobs');
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to submit print job.');
+      const msg = err.response?.data?.message || 'Failed to submit print job.';
+      setError(msg);
+      showToastError(msg);
     } finally {
       setLoading(false);
     }
@@ -358,49 +364,49 @@ export const PrintNewJob: React.FC = () => {
   const totalCost = breakdown?.totalCost ?? 0;
 
   return (
-    <div className="space-y-5 pb-24">
+    <div className="space-y-5 pb-24 animate-fade-in-up">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800">
         <div>
-          <h2 className="text-xl font-extrabold text-ink">New Document Print Job</h2>
-          <p className="text-[11px] text-ink-soft">
+          <h2 className="text-xl font-extrabold text-zinc-900 dark:text-zinc-100">New Document Print Job</h2>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">
             Direct queue to {pricing.printerShopName || 'Campus Reprographics'}
           </p>
         </div>
         <Link
           to="/app/print/jobs"
-          className="text-xs font-semibold text-clay-indigo hover:underline"
+          className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
         >
           My Print History →
         </Link>
       </div>
 
       {/* ─── Contact Printer Guy Banner ─── */}
-      <div className="clay-card p-3.5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/60 rounded-2xl flex items-center justify-between gap-3">
+      <div className="p-3.5 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40 border border-blue-200/60 dark:border-blue-900/40 rounded-2xl flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+          <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-xs">
             <Phone className="w-4 h-4" />
           </div>
           <div>
-            <div className="text-xs font-bold text-ink">
+            <div className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
               Need custom paper, posters, or urgent queries?
             </div>
-            <div className="text-[11px] text-ink-soft">
-              Contact operator: <span className="font-semibold text-blue-700">{pricing.printerContactPerson}</span>
+            <div className="text-[11px] text-zinc-500 dark:text-zinc-400">
+              Contact operator: <span className="font-semibold text-blue-700 dark:text-blue-400">{pricing.printerContactPerson}</span>
             </div>
           </div>
         </div>
         <button
           type="button"
           onClick={() => setShowContactModal(true)}
-          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all whitespace-nowrap"
+          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all whitespace-nowrap"
         >
           Contact Shop Guy
         </button>
       </div>
 
       {error && (
-        <div className="p-3 bg-clay-coral/10 border border-clay-coral/20 text-clay-coral text-xs rounded-2xl flex items-center gap-2">
+        <div className="p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-700 dark:text-rose-300 text-xs rounded-2xl flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           {error}
         </div>
@@ -409,23 +415,23 @@ export const PrintNewJob: React.FC = () => {
       <form onSubmit={handleSubmitPrintJob} className="space-y-4">
         {/* ─── Document Upload Dropzone with Page Analysis ─── */}
         <div
-          className={`bg-white border-2 border-dashed rounded-2xl p-6 text-center space-y-2 transition-all duration-300 ${
+          className={`border-2 border-dashed rounded-2xl p-6 text-center space-y-2 transition-all duration-300 ${
             analyzing
-              ? 'border-clay-indigo/60 bg-clay-indigo/5'
+              ? 'border-indigo-500 bg-indigo-50/20 dark:bg-indigo-950/20'
               : analysisComplete
-              ? 'border-emerald-400/50 bg-emerald-50/30'
-              : 'border-white/50 hover:border-clay-indigo'
+              ? 'border-emerald-400/50 bg-emerald-50/20 dark:bg-emerald-950/20'
+              : 'border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:border-indigo-500'
           }`}
         >
           {analyzing ? (
-            <Loader2 className="w-8 h-8 text-clay-indigo mx-auto animate-spin" />
+            <Loader2 className="w-8 h-8 text-indigo-600 dark:text-indigo-400 mx-auto animate-spin" />
           ) : analysisComplete ? (
             <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto" />
           ) : (
-            <Upload className="w-8 h-8 text-ink-muted mx-auto" />
+            <Upload className="w-8 h-8 text-zinc-400 dark:text-zinc-500 mx-auto" />
           )}
           <div>
-            <label className="text-xs font-bold text-clay-indigo cursor-pointer hover:underline block">
+            <label className="text-xs font-bold text-indigo-600 dark:text-indigo-400 cursor-pointer hover:underline block">
               {analyzing
                 ? 'Accurately scanning document pages...'
                 : fileName
@@ -463,21 +469,21 @@ export const PrintNewJob: React.FC = () => {
         </div>
 
         {/* ─── Page Selection & Range ─── */}
-        <div className="clay-card p-4 space-y-3">
-          <h3 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest flex items-center justify-between">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-4">
+          <h3 className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider flex items-center justify-between">
             <span>Pages & Copies</span>
-            <span className="text-emerald-700 font-bold lowercase text-[11px]">
+            <span className="text-emerald-600 dark:text-emerald-400 font-bold lowercase text-xs">
               {totalPages} page{totalPages !== 1 ? 's' : ''} targeted
             </span>
           </h3>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-bold text-ink block">Page Range Selection</label>
+              <label className="text-xs font-bold text-zinc-900 dark:text-zinc-100 block">Page Range Selection</label>
               <select
                 value={pageRangeMode}
                 onChange={(e) => setPageRangeMode(e.target.value as any)}
-                className="clay-input mt-1"
+                className="w-full mt-1 px-3 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 text-xs focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="ALL">All Pages ({docTotalPages} Pages)</option>
                 <option value="CUSTOM">Custom Page Range...</option>
@@ -485,21 +491,21 @@ export const PrintNewJob: React.FC = () => {
             </div>
 
             <div>
-              <label className="text-xs font-bold text-ink block">Number of Copies</label>
+              <label className="text-xs font-bold text-zinc-900 dark:text-zinc-100 block">Number of Copies</label>
               <input
                 type="number"
                 min={1}
                 max={100}
                 value={copies}
                 onChange={(e) => setCopies(Math.max(1, parseInt(e.target.value) || 1))}
-                className="clay-input mt-1"
+                className="w-full mt-1 px-3 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 text-xs focus:ring-2 focus:ring-indigo-500"
               />
             </div>
           </div>
 
           {pageRangeMode === 'CUSTOM' && (
-            <div className="p-3 bg-blue-50/60 rounded-xl border border-blue-200/50 space-y-1">
-              <label className="text-xs font-bold text-blue-900 block">
+            <div className="p-3 bg-blue-50/60 dark:bg-blue-950/30 rounded-xl border border-blue-200/50 dark:border-blue-900/40 space-y-1">
+              <label className="text-xs font-bold text-blue-900 dark:text-blue-300 block">
                 Specify pages (e.g. 1-5, 8, 11-{docTotalPages}):
               </label>
               <input
@@ -507,9 +513,9 @@ export const PrintNewJob: React.FC = () => {
                 placeholder={`e.g. 1-${Math.min(5, docTotalPages)} or 1,3,5`}
                 value={customRangeText}
                 onChange={(e) => setCustomRangeText(e.target.value)}
-                className="clay-input text-xs"
+                className="w-full px-3 py-1.5 bg-white dark:bg-zinc-900 border border-blue-200 dark:border-blue-800 rounded-lg text-xs text-zinc-900 dark:text-zinc-100"
               />
-              <p className="text-[10px] text-blue-700">
+              <p className="text-[10px] text-blue-700 dark:text-blue-400">
                 Accurately calculated: {totalPages} page{totalPages !== 1 ? 's' : ''} to print
               </p>
             </div>
@@ -517,19 +523,19 @@ export const PrintNewJob: React.FC = () => {
         </div>
 
         {/* ─── Print Conditions & Specifications ─── */}
-        <div className="clay-card p-4 space-y-3">
-          <h3 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-4">
+          <h3 className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
             Print Conditions & Paper Spec
           </h3>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Color vs B&W */}
             <div>
-              <label className="text-xs font-bold text-ink block">Print Mode</label>
+              <label className="text-xs font-bold text-zinc-900 dark:text-zinc-100 block">Print Mode</label>
               <select
                 value={isColor ? 'color' : 'bw'}
                 onChange={(e) => setIsColor(e.target.value === 'color')}
-                className="clay-input mt-1"
+                className="w-full mt-1 px-3 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 text-xs focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="bw">
                   Black & White (₹{pricing.bwPerPage.toFixed(2)}/pg)
@@ -542,11 +548,11 @@ export const PrintNewJob: React.FC = () => {
 
             {/* Paper Size */}
             <div>
-              <label className="text-xs font-bold text-ink block">Paper Size</label>
+              <label className="text-xs font-bold text-zinc-900 dark:text-zinc-100 block">Paper Size</label>
               <select
                 value={paperSize}
                 onChange={(e) => setPaperSize(e.target.value)}
-                className="clay-input mt-1"
+                className="w-full mt-1 px-3 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 text-xs focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="A4">A4 Standard ({pricing.a4Multiplier}×)</option>
                 <option value="A3">A3 Poster / Large ({pricing.a3Multiplier}×)</option>
@@ -556,11 +562,11 @@ export const PrintNewJob: React.FC = () => {
 
             {/* Paper Quality */}
             <div>
-              <label className="text-xs font-bold text-ink block">Paper Quality / GSM</label>
+              <label className="text-xs font-bold text-zinc-900 dark:text-zinc-100 block">Paper Quality / GSM</label>
               <select
                 value={paperQuality}
                 onChange={(e) => setPaperQuality(e.target.value)}
-                className="clay-input mt-1"
+                className="w-full mt-1 px-3 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 text-xs focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="STANDARD_75GSM">Standard (75 GSM) — Regular</option>
                 <option value="BOND_100GSM">Executive Bond (100 GSM) — +₹1/pg</option>
@@ -570,11 +576,11 @@ export const PrintNewJob: React.FC = () => {
 
             {/* Orientation */}
             <div>
-              <label className="text-xs font-bold text-ink block">Orientation</label>
+              <label className="text-xs font-bold text-zinc-900 dark:text-zinc-100 block">Orientation</label>
               <select
                 value={orientation}
                 onChange={(e) => setOrientation(e.target.value)}
-                className="clay-input mt-1"
+                className="w-full mt-1 px-3 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 text-xs focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="PORTRAIT">Portrait (Vertical)</option>
                 <option value="LANDSCAPE">Landscape (Horizontal)</option>
@@ -583,28 +589,28 @@ export const PrintNewJob: React.FC = () => {
           </div>
 
           {/* Duplex and Finishing options */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-clay-bg">
-            <label className="flex items-center gap-2 text-xs font-semibold text-ink cursor-pointer p-2 rounded-xl bg-clay-bg/50 hover:bg-clay-bg">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
+            <label className="flex items-center gap-2 text-xs font-semibold text-zinc-900 dark:text-zinc-100 cursor-pointer p-2 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
               <input
                 type="checkbox"
                 checked={isDoubleSided}
                 onChange={(e) => setIsDoubleSided(e.target.checked)}
-                className="rounded text-clay-indigo"
+                className="rounded text-indigo-600 focus:ring-indigo-500"
               />
               <span>
                 Double-Sided (Duplex){' '}
-                <span className="text-emerald-600 font-bold">
+                <span className="text-emerald-600 dark:text-emerald-400 font-bold">
                   ({pricing.doubleSidedDiscountPercent}% off)
                 </span>
               </span>
             </label>
 
-            <label className="flex items-center gap-2 text-xs font-semibold text-ink cursor-pointer p-2 rounded-xl bg-clay-bg/50 hover:bg-clay-bg">
+            <label className="flex items-center gap-2 text-xs font-semibold text-zinc-900 dark:text-zinc-100 cursor-pointer p-2 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
               <input
                 type="checkbox"
                 checked={isUrgent}
                 onChange={(e) => setIsUrgent(e.target.checked)}
-                className="rounded text-amber-500"
+                className="rounded text-amber-500 focus:ring-amber-500"
               />
               <span className="flex items-center gap-1">
                 <Zap className="w-3.5 h-3.5 text-amber-500" />
@@ -615,7 +621,7 @@ export const PrintNewJob: React.FC = () => {
 
           {/* Binding options */}
           <div className="pt-2">
-            <label className="text-xs font-bold text-ink block mb-1">
+            <label className="text-xs font-bold text-zinc-900 dark:text-zinc-100 block mb-1.5">
               Binding & Finishing
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -634,8 +640,8 @@ export const PrintNewJob: React.FC = () => {
                   onClick={() => setBindingType(opt.id as any)}
                   className={`p-2.5 rounded-xl text-left border transition-all ${
                     bindingType === opt.id
-                      ? 'bg-clay-indigo/10 border-clay-indigo text-clay-indigo shadow-sm font-bold'
-                      : 'bg-white border-white/60 text-ink-soft hover:bg-white'
+                      ? 'bg-indigo-50 dark:bg-indigo-950/40 border-indigo-600 dark:border-indigo-500 text-indigo-700 dark:text-indigo-300 font-bold shadow-xs'
+                      : 'bg-zinc-50 dark:bg-zinc-800/60 border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                   }`}
                 >
                   <div className="text-xs font-bold">{opt.label}</div>
@@ -647,9 +653,9 @@ export const PrintNewJob: React.FC = () => {
 
           {/* Custom instructions / unlisted conditions */}
           <div className="pt-2">
-            <label className="text-xs font-bold text-ink block mb-1 flex items-center justify-between">
+            <label className="text-xs font-bold text-zinc-900 dark:text-zinc-100 block mb-1 flex items-center justify-between">
               <span>Special Instructions for Printer Operator</span>
-              <span className="text-[10px] font-normal text-ink-soft">
+              <span className="text-[10px] font-normal text-zinc-400">
                 (if something you need isn't listed above)
               </span>
             </label>
@@ -658,36 +664,36 @@ export const PrintNewJob: React.FC = () => {
               value={specialInstructions}
               onChange={(e) => setSpecialInstructions(e.target.value)}
               placeholder="e.g. Please bind with plastic sheet cover, punch 2-holes on left margin, or print first page in color..."
-              className="clay-input text-xs"
+              className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 text-xs focus:ring-2 focus:ring-indigo-500"
             />
           </div>
         </div>
 
         {/* ─── Price Breakdown (Operator Set Rates) ─── */}
-        <div className="clay-card p-4 space-y-2.5">
-          <h3 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest flex items-center justify-between">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-3">
+          <h3 className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider flex items-center justify-between">
             <span className="flex items-center gap-1.5">
-              <Info className="w-3 h-3 text-clay-indigo" /> Live Price Calculation (Accurate)
+              <Info className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" /> Live Price Calculation (Accurate)
             </span>
-            <span className="text-[10px] text-blue-600 font-bold">
+            <span className="text-[11px] text-blue-600 dark:text-blue-400 font-semibold">
               Shop rates applied
             </span>
           </h3>
 
           {breakdown ? (
-            <div className="space-y-1.5 text-xs">
-              <div className="flex justify-between text-ink-soft">
+            <div className="space-y-2 text-xs">
+              <div className="flex justify-between text-zinc-500 dark:text-zinc-400">
                 <span>
                   Base: ₹{breakdown.perPageRate.toFixed(2)} × {breakdown.paperSizeMultiplier}×
                   ({paperSize}) × {breakdown.totalPages} pgs × {breakdown.copies} cop{breakdown.copies !== 1 ? 'ies' : 'y'}
                 </span>
-                <span className="font-semibold text-ink">
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                   ₹{breakdown.baseCost.toFixed(2)}
                 </span>
               </div>
 
               {breakdown.isDoubleSided && breakdown.doubleSidedDiscount > 0 && (
-                <div className="flex justify-between text-emerald-600">
+                <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
                   <span>Duplex Discount ({breakdown.doubleSidedDiscountPercent}%)</span>
                   <span className="font-semibold">
                     −₹{breakdown.doubleSidedDiscount.toFixed(2)}
@@ -696,7 +702,7 @@ export const PrintNewJob: React.FC = () => {
               )}
 
               {breakdown.isUrgent && breakdown.urgentSurcharge > 0 && (
-                <div className="flex justify-between text-amber-600">
+                <div className="flex justify-between text-amber-600 dark:text-amber-400">
                   <span>
                     <Zap className="w-3 h-3 inline mr-0.5" />
                     Urgent Surcharge ({breakdown.urgentSurchargePercent}%)
@@ -708,7 +714,7 @@ export const PrintNewJob: React.FC = () => {
               )}
 
               {breakdown.needsBinding && breakdown.bindingCharge > 0 && (
-                <div className="flex justify-between text-clay-indigo">
+                <div className="flex justify-between text-indigo-600 dark:text-indigo-400">
                   <span>
                     <BookOpen className="w-3 h-3 inline mr-0.5" />
                     Spiral Binding ({breakdown.copies} × ₹
@@ -720,23 +726,23 @@ export const PrintNewJob: React.FC = () => {
                 </div>
               )}
 
-              <div className="border-t border-clay-bg pt-2 mt-2 flex justify-between items-center">
-                <span className="text-sm font-bold text-ink">Total Calculated Cost</span>
-                <span className="text-xl font-extrabold text-ink">
+              <div className="border-t border-zinc-100 dark:border-zinc-800 pt-2.5 mt-2 flex justify-between items-center">
+                <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Total Calculated Cost</span>
+                <span className="text-xl font-extrabold text-zinc-900 dark:text-zinc-100">
                   ₹{breakdown.totalCost.toFixed(2)}
                 </span>
               </div>
             </div>
           ) : (
-            <div className="text-xs text-ink-soft text-center py-2">
+            <div className="text-xs text-zinc-400 dark:text-zinc-500 text-center py-2">
               Upload a document to see exact live pricing
             </div>
           )}
         </div>
 
         {/* ─── Payment Choice: Pay Now vs Pay Later ─── */}
-        <div className="clay-card p-4 space-y-3">
-          <h3 className="text-[10px] font-bold text-ink-soft uppercase tracking-widest flex items-center gap-1.5">
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-xs space-y-3">
+          <h3 className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
             <DollarSign className="w-3.5 h-3.5 text-emerald-600" /> Payment Option
           </h3>
 
@@ -746,15 +752,15 @@ export const PrintNewJob: React.FC = () => {
               onClick={() => setPaymentChoice('PAY_NOW')}
               className={`p-3.5 rounded-2xl cursor-pointer border transition-all flex items-start gap-3 ${
                 paymentChoice === 'PAY_NOW'
-                  ? 'bg-clay-indigo/10 border-clay-indigo shadow-clay-card'
-                  : 'bg-white border-white/60 hover:bg-white'
+                  ? 'bg-indigo-50/60 dark:bg-indigo-950/30 border-indigo-600 dark:border-indigo-500 shadow-xs'
+                  : 'bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800'
               }`}
             >
               <div
                 className={`w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center shrink-0 ${
                   paymentChoice === 'PAY_NOW'
-                    ? 'border-clay-indigo bg-clay-indigo text-white'
-                    : 'border-ink-soft/40'
+                    ? 'border-indigo-600 bg-indigo-600 text-white'
+                    : 'border-zinc-400'
                 }`}
               >
                 {paymentChoice === 'PAY_NOW' && (
@@ -762,10 +768,10 @@ export const PrintNewJob: React.FC = () => {
                 )}
               </div>
               <div className="space-y-1">
-                <span className="text-xs font-extrabold text-ink block">
+                <span className="text-xs font-extrabold text-zinc-900 dark:text-zinc-100 block">
                   Pay Now (Online UPI / Isthara)
                 </span>
-                <p className="text-[11px] text-ink-soft">
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
                   Instant cashless payment via UPI / QR. Pick up directly without waiting for payment.
                 </p>
               </div>
@@ -776,15 +782,15 @@ export const PrintNewJob: React.FC = () => {
               onClick={() => setPaymentChoice('PAY_ON_COLLECTION')}
               className={`p-3.5 rounded-2xl cursor-pointer border transition-all flex items-start gap-3 ${
                 paymentChoice === 'PAY_ON_COLLECTION'
-                  ? 'bg-emerald-50 border-emerald-500 shadow-clay-card'
-                  : 'bg-white border-white/60 hover:bg-white'
+                  ? 'bg-emerald-50/60 dark:bg-emerald-950/30 border-emerald-600 dark:border-emerald-500 shadow-xs'
+                  : 'bg-zinc-50 dark:bg-zinc-800/50 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800'
               }`}
             >
               <div
                 className={`w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center shrink-0 ${
                   paymentChoice === 'PAY_ON_COLLECTION'
                     ? 'border-emerald-600 bg-emerald-600 text-white'
-                    : 'border-ink-soft/40'
+                    : 'border-zinc-400'
                 }`}
               >
                 {paymentChoice === 'PAY_ON_COLLECTION' && (
@@ -792,10 +798,10 @@ export const PrintNewJob: React.FC = () => {
                 )}
               </div>
               <div className="space-y-1">
-                <span className="text-xs font-extrabold text-ink block">
+                <span className="text-xs font-extrabold text-zinc-900 dark:text-zinc-100 block">
                   Pay Later on Collection 💵
                 </span>
-                <p className="text-[11px] text-ink-soft">
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
                   Pay cash or UPI at the print shop counter when collecting your physical prints.
                 </p>
               </div>
@@ -804,13 +810,13 @@ export const PrintNewJob: React.FC = () => {
         </div>
 
         {/* ─── Submit Action Bar ─── */}
-        <div className="bg-clay-bg border border-white/60 p-4 rounded-2xl flex items-center justify-between gap-3">
+        <div className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-2xl flex items-center justify-between gap-3 shadow-xs">
           <div>
-            <div className="text-xs font-semibold text-ink-soft">
+            <div className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
               {estimating ? 'Calculating...' : 'Payable Amount'}
             </div>
-            <div className="text-lg font-extrabold text-ink">₹{totalCost.toFixed(2)}</div>
-            <div className="text-[10px] text-emerald-600 font-semibold">
+            <div className="text-lg font-extrabold text-zinc-900 dark:text-zinc-100">₹{totalCost.toFixed(2)}</div>
+            <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
               {paymentChoice === 'PAY_NOW'
                 ? 'Pay now via UPI / Isthara'
                 : 'Pay ₹' + totalCost.toFixed(2) + ' while collecting prints'}
@@ -820,10 +826,10 @@ export const PrintNewJob: React.FC = () => {
           <button
             type="submit"
             disabled={loading || !fileUrl}
-            className={`px-5 py-3 font-bold text-xs rounded-2xl disabled:opacity-50 flex items-center gap-1.5 transition-all shadow-clay-btn ${
+            className={`px-5 py-3 font-bold text-xs rounded-xl disabled:opacity-50 flex items-center gap-1.5 transition-all shadow-xs ${
               paymentChoice === 'PAY_NOW'
-                ? 'bg-clay-indigo text-white hover:brightness-110'
-                : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                : 'bg-emerald-600 hover:bg-emerald-700 text-white'
             }`}
           >
             {loading ? (
@@ -840,62 +846,60 @@ export const PrintNewJob: React.FC = () => {
 
       {/* ─── Contact Printer Guy Modal ─── */}
       {showContactModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="clay-card bg-white p-5 max-w-sm w-full rounded-3xl space-y-4 shadow-2xl animate-in fade-in duration-200">
-            <div className="flex items-center justify-between border-b pb-3">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 max-w-sm w-full rounded-3xl space-y-4 shadow-2xl animate-fade-in-up">
+            <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center text-blue-700">
+                <div className="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 flex items-center justify-center">
                   <Phone className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-sm text-ink">Contact Print Operator</h3>
-                  <p className="text-[10px] text-ink-soft">{pricing.printerShopName}</p>
+                  <h3 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-100">Contact Print Operator</h3>
+                  <p className="text-[10px] text-zinc-500 dark:text-zinc-400">{pricing.printerShopName}</p>
                 </div>
               </div>
               <button
                 onClick={() => setShowContactModal(false)}
-                className="text-ink-soft hover:text-ink text-xs font-bold p-1"
+                className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 text-xs font-bold p-1"
               >
                 ✕
               </button>
             </div>
 
             <div className="space-y-3 text-xs">
-              <div className="p-3 bg-clay-bg rounded-2xl space-y-2">
-                <div className="flex items-center gap-2 text-ink">
+              <div className="p-3 bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl space-y-2">
+                <div className="flex items-center gap-2 text-zinc-800 dark:text-zinc-200">
                   <span className="font-bold">Operator:</span>
                   <span>{pricing.printerContactPerson || 'Ramesh Kumar'}</span>
                 </div>
-                <div className="flex items-start gap-2 text-ink">
-                  <MapPin className="w-4 h-4 text-clay-indigo shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2 text-zinc-800 dark:text-zinc-200">
+                  <MapPin className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
                   <span>
                     {pricing.printerShopLocation ||
                       'Engineering Block 2, Ground Floor (Adjacent to MR Food Court)'}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-ink">
-                  <Clock className="w-4 h-4 text-emerald-600 shrink-0" />
+                <div className="flex items-center gap-2 text-zinc-800 dark:text-zinc-200">
+                  <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span>Working Hours: 8:30 AM – 7:30 PM (Mon–Sat)</span>
                 </div>
               </div>
 
               <div className="space-y-2">
-                {/* Phone Call */}
                 <a
                   href={`tel:${pricing.printerPhone || '+919849012345'}`}
-                  className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm"
+                  className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-xs"
                 >
                   <Phone className="w-4 h-4" /> Call {pricing.printerPhone || '+91 98490 12345'}
                 </a>
 
-                {/* WhatsApp Chat */}
                 <a
                   href={`https://wa.me/${
                     pricing.printerWhatsapp || '919849012345'
                   }?text=Hi%20Print%20Shop%2C%20I%20have%20a%20print%20job%20query%20for%20Malla%20Reddy%20University%20Campus%20Utility`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm"
+                  className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-xs"
                 >
                   <MessageCircle className="w-4 h-4" /> Chat on WhatsApp
                 </a>
@@ -904,7 +908,7 @@ export const PrintNewJob: React.FC = () => {
 
             <button
               onClick={() => setShowContactModal(false)}
-              className="w-full py-2 text-xs text-ink-soft hover:text-ink font-semibold"
+              className="w-full py-2 text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 font-semibold"
             >
               Close
             </button>

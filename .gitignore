@@ -46,6 +46,11 @@ mr1_details.json
 # IDE & Editor files
 .vscode/
 .idea/
+.claude/
+.kilo/
+.agents/
+Gravitas/
+skills-lock.json
 *.iml
 .classpath
 .project

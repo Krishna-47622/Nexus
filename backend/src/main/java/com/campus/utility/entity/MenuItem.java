@@ -24,9 +24,10 @@ public class MenuItem {
     @JoinColumn(name = "category_id")
     private CanteenCategory category;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String name;
 
+    @Column(length = 1000)
     private String description;
 
     @Column(nullable = false, precision = 10, scale = 2)
@@ -54,6 +55,7 @@ public class MenuItem {
     @Builder.Default
     private Boolean isAvailable = true;
 
+    @Column(length = 2000)
     private String imageUrl;
 
     private String vendorName;
