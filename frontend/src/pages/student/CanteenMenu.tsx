@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import { api } from '../../api/client';
 import { useToast } from '../../context/ToastContext';
@@ -359,9 +360,9 @@ export const CanteenMenu: React.FC = () => {
         </div>
       )}
 
-      {/* ──────── FLOATING CART FOOTER BAR ──────── */}
-      {totalCartCount > 0 && (
-        <div className="fixed bottom-16 md:bottom-6 left-0 right-0 z-30 px-4 pointer-events-none">
+      {/* ──────── FLOATING CART FOOTER BAR (Rendered in document.body) ──────── */}
+      {totalCartCount > 0 && typeof document !== 'undefined' && createPortal(
+        <div className="fixed bottom-20 md:bottom-6 left-0 right-0 z-50 px-4 pointer-events-none">
           <div className="max-w-xl mx-auto bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-xl shadow-2xl px-4 py-3 flex items-center justify-between pointer-events-auto border border-zinc-800 dark:border-zinc-200 animate-slide-in-bottom">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-lg bg-zinc-800 dark:bg-zinc-200 flex items-center justify-center font-bold text-xs text-white dark:text-zinc-900">
@@ -385,7 +386,8 @@ export const CanteenMenu: React.FC = () => {
               View Cart & Checkout →
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
